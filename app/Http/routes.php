@@ -58,7 +58,8 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/controlcompromisos', 'crmcontroller@controlcompromisosindex');
       Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
 
-
+      //Carga de clientes
+      Route::get('/cargaclientes', 'CargaclientesController@index');
 
 
       // Administracion de la herramienta

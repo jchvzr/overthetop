@@ -116,6 +116,23 @@ class DatabaseSeeder extends Seeder
                         'id_usuario' => 2,
 
                       ));
+               db::table('usuariosDetail')->insert(array(
+                        'nombre'     => 'Jonathan',
+                        'apellidoPaterno'  =>  'Gomez',
+                        'apellidoMaterno'  =>  'Garcia',
+                        'domicilioCalle' =>  'Texihuatla 1038',
+                        'domicilioColonia' =>  'Fracc. Revolucion',
+                        'domicilioCiudad' =>  'Tlaquepaque',
+                        'domicilioCP' =>  '45580',
+                        'fechaNacimiento' =>  '1983-12-26',
+                        'sexo' => 1,
+                        'curp' => 'CARJ831226HJCHZR08',
+                        'rfc' => 'CARJ831226JE4',
+                        'nss' => '04048373502',
+                        'fechaIngreso' =>  '2017-09-01',
+                        'id_usuario' => 3,
+
+                      ));
 
 
             }
@@ -229,6 +246,12 @@ class DatabaseSeeder extends Seeder
                    db::table('submenuIzquierda')->insert(array(
                             'opcion'     => 'Agendas / compromisos',
                             'route'     => '/controlcompromisos',
+                            'id_menuIzquierda' => 2
+                       ));
+
+                   db::table('submenuIzquierda')->insert(array(
+                            'opcion'     => 'Carga de clientes',
+                            'route'     => '/cargaclientes',
                             'id_menuIzquierda' => 2
                        ));
 
