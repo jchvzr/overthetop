@@ -62,6 +62,14 @@ class DatabaseSeeder extends Seeder
                   'id_usuariosPerfil' =>  2,
                   'id_usuariosPuesto' => 2,
                 ));
+          db::table('Users')->insert(array(
+                   'usuario'     => 'Jonathan the God',
+                   'email'     => 'jonathan.gomez@overthetop.com.mx',
+                   'password'    =>  Hash::make('jonathan'),
+                   'habilitado'  =>  1,
+                   'id_usuariosPerfil' =>  1,
+                   'id_usuariosPuesto' => 1,
+                 ));
 
 
         }
