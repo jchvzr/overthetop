@@ -298,13 +298,13 @@ class DatabaseSeeder extends Seeder
                                 'id_submenuIzquierda' => 6
                               ));
 
-                          db::table('permisosMenu')->insert(array(
+                          db::table('permisosSubmenu')->insert(array(
                                   'id_permisosMenu'     => 4,
                                   'id_perfil'     => 2,
                                   'id_submenuIzquierda' => 3
                                         ));
 
-                      db::table('permisosMenu')->insert(array(
+                      db::table('permisosSubmenu')->insert(array(
                               'id_permisosMenu'     => 2,
                               'id_perfil'     => 1,
                               'id_submenuIzquierda' => 7
