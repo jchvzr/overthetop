@@ -31,7 +31,7 @@ class Calendar
         'header' => [
             'left' => 'prev,next today',
             'center' => 'title',
-            'right' => 'month,agendaWeek,agendaDay,listMonth',
+            'right' => 'month,agendaWeek,agendaDay',
         ],
         'eventLimit' => true,
     ];

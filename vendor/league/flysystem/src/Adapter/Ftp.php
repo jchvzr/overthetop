@@ -117,7 +117,7 @@ class Ftp extends AbstractFtpAdapter
     /**
      * @param bool $utf8
      */
-    public function setUtf8($utf8) 
+    public function setUtf8($utf8)
     {
         $this->utf8 = (bool) $utf8;
     }
@@ -185,7 +185,7 @@ class Ftp extends AbstractFtpAdapter
         $root = $this->getRoot();
         $connection = $this->connection;
 
-        if (empty($root) === false && ! ftp_chdir($connection, $root)) {
+        if (isset($root) && ! ftp_chdir($connection, $root)) {
             throw new RuntimeException('Root is invalid or does not exist: ' . $this->getRoot());
         }
 
@@ -394,7 +394,7 @@ class Ftp extends AbstractFtpAdapter
 
         $listing = $this->ftpRawlist('-A', str_replace('*', '\\*', $path));
 
-        if (empty($listing)) {
+        if (empty($listing) || in_array('total 0', $listing, true)) {
             return false;
         }
 
@@ -560,7 +560,7 @@ class Ftp extends AbstractFtpAdapter
     protected function ftpRawlist($options, $path)
     {
         $connection = $this->getConnection();
-        
+
         if ($this->isPureFtpd) {
             $path = str_replace(' ', '\ ', $path);
         }
