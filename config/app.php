@@ -148,6 +148,8 @@ return [
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         //imagenes providers
         Intervention\Image\ImageServiceProvider::class,
+        // Excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -199,6 +201,7 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Calendar'  => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
+        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
         'Zipper'    => 'Chumper\Zipper\Zipper'
 
     ],

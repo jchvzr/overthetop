@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CargaclientesController extends Controller
 {
@@ -61,9 +62,16 @@ class CargaclientesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function subirclientes(Request $request)
     {
-        //
+      $file1 = $request->file('archivo');
+
+      Excel::load($file1, function($reader){
+        $result = $reader->get();
+        dd($result);
+        //\App\Models\Cargaclientes::insert($results->toArray());
+      });
+
     }
 
     /**
