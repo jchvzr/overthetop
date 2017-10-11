@@ -15,7 +15,7 @@ class Clientes extends Migration
         //
         Schema::create('clientes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('customerid');
+            $table->string('customerid')->nullable()->default('');
             $table->integer('idcampana');
             $table->integer('id_compania');
             $table->timestamps();

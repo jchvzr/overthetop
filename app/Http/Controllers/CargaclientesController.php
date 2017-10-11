@@ -82,14 +82,20 @@ class CargaclientesController extends Controller
       $campana = $request->input('campaña');
 
     //  ini_set ('auto_detect_line_endings', true);
-    //  Excel::filter('chunk')->load($file1)->chunk(250, function($results)
-    //  {
-    //          foreach($results as $row)
-    //          {
-                  // do stuff
-    //          }
-    //  });
 
+    $shouldQueue =false;
+      Excel::filter('chunk')->load($file1)->chunk(250, function($results)
+      {
+
+              foreach($results as $row)
+              {
+
+                  // do stuff
+                DB::table('clientesdetail')->insert($row->toArray());
+
+              }
+      },$shouldQueue);
+/*
       $id = DB::table('campanas')->insertGetId(['nombre' => $campana]);
 
       Excel::load($file1, function($reader) use ($id){
@@ -98,7 +104,7 @@ class CargaclientesController extends Controller
         DB::table('clientesdetail')->insert($result->toArray());
         DB::table('clientes')->insert($result2->toArray());
       });
-
+*/
       return redirect('cargaclientes');
     }
 
