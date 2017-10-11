@@ -79,13 +79,27 @@ class CargaclientesController extends Controller
     public function subirclientes(Request $request)
     {
       $file1 = $request->file('archivo');
+      $campana = $request->input('campaña');
 
-      Excel::load($file1, function($reader){
-        $result = $reader->get();
-        dd($result);
-        //\App\Models\Cargaclientes::insert($results->toArray());
+    //  ini_set ('auto_detect_line_endings', true);
+    //  Excel::filter('chunk')->load($file1)->chunk(250, function($results)
+    //  {
+    //          foreach($results as $row)
+    //          {
+                  // do stuff
+    //          }
+    //  });
+
+      $id = DB::table('campanas')->insertGetId(['nombre' => $campana]);
+
+      Excel::load($file1, function($reader) use ($id){
+        $result = $reader->all();
+        $result2 = $reader->select(array('customerid', $id))->get();
+        DB::table('clientesdetail')->insert($result->toArray());
+        DB::table('clientes')->insert($result2->toArray());
       });
 
+      return redirect('cargaclientes');
     }
 
     /**
