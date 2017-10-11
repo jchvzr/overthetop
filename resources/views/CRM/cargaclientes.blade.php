@@ -53,10 +53,12 @@
  <div class="ibox-content inspinia-timeline" id="compromisoslistado">
    <form class="" action="/subirclientes" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-       <h2><label for="Usuario" class="control-label col-md-12">Archivo:</label></h2>
-         <input class="form-control input-lg" id="archivo" type="file" placeholder="Elige el archivo" name="archivo" required>
-         <br>
-       <button type="submit" class="btn btn-success" id="subirclientes">Subir</button>
+     <h2><label for="Usuario" class="control-label col-md-12">Campaña:</label></h2>
+     <input class="form-control input-lg" id="campaña" type="text" placeholder="Nombre de campaña" name="campaña" required>
+     <h2><label for="Usuario" class="control-label col-md-12">Archivo:</label></h2>
+     <input class="" id="archivo" type="file" placeholder="Elige el archivo" name="archivo" required>
+     <br>
+     <button type="submit" class="btn btn-success" id="subirclientes">Subir</button>
    </form>
  </div>
 </div>
