@@ -45,7 +45,7 @@
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="row">
 <h2>Carga de clientes</h2>
-
+<a href="layout.xlsx" target="_blank" style='color:#FFF'><button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-cloud-download"></i></button></a>
 </div>
 </div>
 
