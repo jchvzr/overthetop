@@ -45,20 +45,21 @@
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="row">
 <h2>Carga de clientes</h2>
-<a href="layout.xlsx" target="_blank" style='color:#FFF'><button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-cloud-download"></i></button></a>
+<a href="layout.xlsx" style='color:#FFF'><button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-cloud-download"></i></button></a>
 </div>
 </div>
 
 <div class="wrapper wrapper-content">
  <div class="ibox-content inspinia-timeline" id="compromisoslistado">
-   <form class="" action="/subirclientes" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+   <form id="fileinfo" method="post">
+     <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
      <h2><label for="Usuario" class="control-label col-md-12">Campaña:</label></h2>
      <input class="form-control input-lg" id="campaña" type="text" placeholder="Nombre de campaña" name="campaña" required>
      <h2><label for="Usuario" class="control-label col-md-12">Archivo:</label></h2>
      <input class="" id="archivo" type="file" placeholder="Elige el archivo" name="archivo" required>
+     <progress id="progress" value="0"></progress>
      <br>
-     <button type="submit" class="btn btn-success" id="subirclientes">Subir</button>
+     <a class="btn btn-primary" id="subir" style="font-family: Arial;"><i class="glyphicon glyphicon-edit"></i><br>subir</a>
    </form>
  </div>
 </div>
