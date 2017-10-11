@@ -17,7 +17,6 @@ class Companias extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->integer('descripcion');
-            $table->integer('id_compania');
             $table->timestamps();
             });
     }

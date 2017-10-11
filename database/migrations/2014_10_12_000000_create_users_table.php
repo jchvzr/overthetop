@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->date('fechaParaInhabilitarUsuario');
             $table->integer('id_usuariosPerfil');
             $table->integer('id_usuariosPuesto');
+            $table->integer('id_compania');
             $table->timestamps();
 
         });

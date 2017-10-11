@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             $this->call('tipoInteraccion');
             $this->call('clientes');
             $this->call('clientesDetail');
+            $this->call('companias');
+
             $this->command->info('User table seeded');
 
         //Model::reguard();
@@ -52,6 +54,7 @@ class DatabaseSeeder extends Seeder
                    'habilitado'  =>  1,
                    'id_usuariosPerfil' =>  1,
                    'id_usuariosPuesto' => 1,
+                   'id_compania' => 1,
                  ));
 
          db::table('Users')->insert(array(
@@ -61,6 +64,7 @@ class DatabaseSeeder extends Seeder
                   'habilitado'  =>  1,
                   'id_usuariosPerfil' =>  2,
                   'id_usuariosPuesto' => 2,
+                  'id_compania' => 1,
                 ));
           db::table('Users')->insert(array(
                    'usuario'     => 'Jonathan the God',
@@ -69,6 +73,7 @@ class DatabaseSeeder extends Seeder
                    'habilitado'  =>  1,
                    'id_usuariosPerfil' =>  1,
                    'id_usuariosPuesto' => 1,
+                   'id_compania' => 1,
                  ));
 
 
@@ -148,10 +153,12 @@ class DatabaseSeeder extends Seeder
 
               db::table('usuariosPerfil')->insert(array(
                        'perfil'     => 'Super Admin',
+                       'id_compania' => '1',
                      ));
 
              db::table('usuariosPerfil')->insert(array(
                       'perfil'     => 'Ejecutivo Cobro',
+                      'id_compania' => '1',
                     ));
 
             }
@@ -162,13 +169,29 @@ class DatabaseSeeder extends Seeder
               public function run()
               {
                 db::table('usuariosPuesto')->insert(array(
+                         'parentId'     => '3',
                          'puesto'     => 'Director de Desarrollo',
+                         'id_compania' => '1',
+                         'cadenadescendencia' => '0,',
+                         'id_areas' => '1',
                        ));
 
                 db::table('usuariosPuesto')->insert(array(
+                         'parentId'     => '3',
                          'puesto'     => 'Ejecutivo Cobro',
+                         'id_compania' => '1',
+                         'cadenadescendencia' => '0,',
+                         'id_areas' => '1',
                        ));
 
+
+                 db::table('usuariosPuesto')->insert(array(
+                          'parentId'     => '0',
+                          'puesto'     => 'Over the top services',
+                          'id_compania' => '1',
+                          'cadenadescendencia' => '',
+                          'id_areas' => '1',
+                        ));
               }
             }
 
@@ -253,6 +276,30 @@ class DatabaseSeeder extends Seeder
                             'opcion'     => 'Carga de clientes',
                             'route'     => '/cargaclientes',
                             'id_menuIzquierda' => 2
+                       ));
+
+                   db::table('submenuIzquierda')->insert(array(
+                            'opcion'     => 'Crear empresa',
+                            'route'     => '/newcompany',
+                            'id_menuIzquierda' => 3
+                        ));
+
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Crear codigo',
+                             'route'     => '/newcode',
+                             'id_menuIzquierda' => 2
+                       ));
+
+                     db::table('submenuIzquierda')->insert(array(
+                              'opcion'     => 'Crear catalogo de codigos',
+                              'route'     => '/newcatalogo',
+                              'id_menuIzquierda' => 2
+                        ));
+
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Crear campaña',
+                             'route'     => '/newcampaign',
+                             'id_menuIzquierda' => 2
                        ));
 
                   }
@@ -372,7 +419,10 @@ class DatabaseSeeder extends Seeder
                                    'exito'  => 0,
                                    'compromiso'  => 0,
                                    'bloqueo'  => 0,
+                                   'id_compania'     => 1,
+                                   'id_dispositionTratamiento' => 1,
                                  ));
+
 
                            db::table('dispositions')->insert(array(
                                     'nombre'       => 'No vive ahi',
@@ -381,6 +431,8 @@ class DatabaseSeeder extends Seeder
                                     'exito'  => 0,
                                     'compromiso'  => 0,
                                     'bloqueo'  => 0,
+                                    'id_compania'     => 1,
+                                    'id_dispositionTratamiento' => 1,
                                   ));
 
                             db::table('dispositions')->insert(array(
@@ -390,6 +442,8 @@ class DatabaseSeeder extends Seeder
                                      'exito'  => 0,
                                      'compromiso'  => 0,
                                      'bloqueo'  => 0,
+                                     'id_compania'     => 1,
+                                     'id_dispositionTratamiento' => 1,
                                    ));
 
                              db::table('dispositions')->insert(array(
@@ -399,6 +453,8 @@ class DatabaseSeeder extends Seeder
                                       'exito'  => 0,
                                       'compromiso'  => 0,
                                       'bloqueo'  => 0,
+                                      'id_compania'     => 1,
+                                      'id_dispositionTratamiento' => 1,
                                     ));
 
                               db::table('dispositions')->insert(array(
@@ -408,6 +464,8 @@ class DatabaseSeeder extends Seeder
                                        'exito'  => 0,
                                        'compromiso'  => 1,
                                        'bloqueo'  => 0,
+                                       'id_compania'     => 1,
+                                       'id_dispositionTratamiento' => 1,
                                    ));
 
                                db::table('dispositions')->insert(array(
@@ -417,6 +475,8 @@ class DatabaseSeeder extends Seeder
                                         'exito'  => 1,
                                         'compromiso'  => 1,
                                         'bloqueo'  => 1,
+                                        'id_compania'     => 1,
+                                        'id_dispositionTratamiento' => 1,
                                     ));
                         }
                       }
@@ -497,51 +557,61 @@ class DatabaseSeeder extends Seeder
                               db::table('clientes')->insert(array(
                                        'customerid'     => 1,
                                        'idcampana'      => 1,
+                                       'id_compania'     => 1,
                                      ));
 
                              db::table('clientes')->insert(array(
                                       'customerid'     => 2,
                                       'idcampana'      => 1,
+                                      'id_compania'     => 1,
                                     ));
 
                             db::table('clientes')->insert(array(
                                      'customerid'     => 3,
                                      'idcampana'      => 1,
+                                     'id_compania'     => 1,
                                    ));
 
                            db::table('clientes')->insert(array(
                                     'customerid'     => 4,
                                     'idcampana'      => 1,
+                                    'id_compania'     => 1,
                                   ));
 
                             db::table('clientes')->insert(array(
                                      'customerid'     => 5,
                                      'idcampana'      => 1,
+                                     'id_compania'     => 1,
                                    ));
 
                              db::table('clientes')->insert(array(
                                       'customerid'     => 6,
-                                        'idcampana'    => 1,
+                                      'idcampana'    => 1,
+                                      'id_compania'     => 1,
                                     ));
 
                             db::table('clientes')->insert(array(
                                      'customerid'     => 7,
-                                       'idcampana'    => 1,
+                                      'idcampana'    => 1,
+                                      'id_compania'     => 1,
                                    ));
 
                              db::table('clientes')->insert(array(
                                       'customerid'     => 8,
-                                        'idcampana'    => 1,
+                                      'idcampana'    => 1,
+                                      'id_compania'     => 1,
                                     ));
 
                               db::table('clientes')->insert(array(
                                        'customerid'     => 9,
-                                         'idcampana'    => 1,
+                                       'idcampana'    => 1,
+                                       'id_compania'     => 1,
                                      ));
 
                              db::table('clientes')->insert(array(
                                       'customerid'     => 10,
-                                        'idcampana'    => 1,
+                                      'idcampana'    => 1,
+                                      'id_compania'     => 1,
                                     ));
 
                             }
@@ -826,3 +896,16 @@ class DatabaseSeeder extends Seeder
                                       ));
                                 }
                               }
+
+
+                              class companias extends Seeder {
+
+                                  public function run()
+                                  {
+                                    db::table('dispositionplan')->insert(array(
+                                             'nombre'       => 'Over the top services',
+                                             'descripcion'  => 'Over the top BI services',
+                                           ));
+
+                                  }
+                                }

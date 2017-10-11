@@ -21,6 +21,8 @@ class Dispositions extends Migration
             $table->integer('exito');
             $table->integer('compromiso');
             $table->integer('bloqueo');
+            $table->integer('id_compania');
+            $table->integer('id_dispositionTratamiento');
             $table->timestamps();
             });
     }

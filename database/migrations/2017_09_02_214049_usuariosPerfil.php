@@ -16,6 +16,7 @@ class UsuariosPerfil extends Migration
         Schema::create('usuariosPerfil', function (Blueprint $table) {
             $table->increments('id');
             $table->string('perfil',60);
+            $table->integer('id_compania');
             $table->timestamps();
 
         });

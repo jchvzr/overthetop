@@ -17,6 +17,7 @@ class Clientes extends Migration
             $table->increments('id');
             $table->string('customerid');
             $table->integer('idcampana');
+            $table->integer('id_compania');
             $table->timestamps();
 
         });
