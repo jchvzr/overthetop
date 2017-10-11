@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             $this->call('clientes');
             $this->call('clientesDetail');
             $this->call('companias');
+            $this->call('dispositionTratamiento');
 
             $this->command->info('User table seeded');
 
@@ -285,7 +286,7 @@ class DatabaseSeeder extends Seeder
                         ));
 
                     db::table('submenuIzquierda')->insert(array(
-                             'opcion'     => 'Crear codigo',
+                             'opcion'     => 'Crear o editar codigos',
                              'route'     => '/newcode',
                              'id_menuIzquierda' => 2
                        ));
@@ -909,3 +910,24 @@ class DatabaseSeeder extends Seeder
 
                                   }
                                 }
+
+                                class dispositionTratamiento extends Seeder {
+
+                                    public function run()
+                                    {
+                                      db::table('dispositionTratamiento')->insert(array(
+                                               'nombre'       => 'Ya no marcar / bloqueo',
+                                               'descripcion'  => 'El registro queda bloqueado y no se encola de nuevo para marcacion.',
+                                             ));
+
+                                     db::table('dispositionTratamiento')->insert(array(
+                                              'nombre'       => 'Agenda o Promesa de pago',
+                                              'descripcion'  => 'El registro queda bloqueado y se encola a marcacion cuando se cumple la fecha que ingrese el ejecutivo.',
+                                            ));
+
+                                     db::table('dispositionTratamiento')->insert(array(
+                                              'nombre'       => 'Seguir con marcacion',
+                                              'descripcion'  => 'El registro queda en cola de marcacion.',
+                                            ));
+                                    }
+                                  }

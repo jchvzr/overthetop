@@ -57,6 +57,9 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/buscaclienteinteraccionresumen/{cuenta}','crmcontroller@buscaclienteinteraccionresumen');
       Route::get('/controlcompromisos', 'crmcontroller@controlcompromisosindex');
       Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
+      Route::get('/newcode', 'crmcontroller@newcode');
+
+
 
       //Carga de clientes
       Route::get('/cargaclientes', 'CargaclientesController@index');

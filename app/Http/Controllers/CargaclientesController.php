@@ -18,12 +18,26 @@ class CargaclientesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+     public function index(Request $request)
      {
 
       $user = Auth::user();
 
       $userid = $user->id;
+
+      // validando si el usuario esta donde debe de estar si no se regresa a inicio
+      //return(dd( "/".$request->path()));
+     $validapermiso = DB::table('users')
+                                ->join('permisosSubmenu','users.id_usuariosPerfil','=','permisosSubmenu.id_perfil')
+                                ->join('submenuIzquierda','submenuIzquierda.id','=','permisosSubmenu.id_submenuIzquierda')
+                                ->where('users.id','=',$userid)
+                                ->where('submenuIzquierda.route','=',"/".$request->path())
+                                ->count();
+     //return(dd($validapermiso));
+     if ($validapermiso == 0) {
+      // si no debe de estar aqui se regresa a la bienvenida
+       return  redirect('/bienvenida');
+     }
 
       $datauser = DB::table('users')
                           ->join('usuariosPuesto','users.id_usuariosPuesto','=','usuariosPuesto.id')
