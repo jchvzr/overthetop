@@ -368,6 +368,7 @@ return(response()->json($prueba));
 
       $userid = $user->id;
 
+      $companiaid = $user->id_compania;
       // validando si el usuario esta donde debe de estar si no se regresa a inicio
       //return(dd( "/".$request->path()));
      $validapermiso = DB::table('users')
@@ -420,9 +421,14 @@ return(response()->json($prueba));
                                     ->select('*')
                                     ->get();
 
+      $dispositions = DB::table('dispositions')
+                                    ->select('*')
+                                    ->where('id_compania','=',$companiaid)
+                                    ->get();
+
 
 //return(dd($compromisos));
-  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos') );
+  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos','dispositions') );
 
 
     }

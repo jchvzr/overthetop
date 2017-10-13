@@ -51,29 +51,27 @@
 
 <div class="wrapper wrapper-content">
  <div class="ibox-content inspinia-timeline" id="paranuevocodigo">
-
+<form id="creacodigo" name="creacodigo"class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
 <div class="row">
 
-<div class="checkbox col-lg-4"></div>
-  <div class="form-group col-lg-4">
+<div class="checkbox col-lg-3"></div>
+  <div class="form-group col-lg-6">
     <label>Nombre del codigo: *</label>
     <input id="codigo" name="codigo" type="text" class="form-control required">
   </div>
-<div class="checkbox col-lg-4"></div>
+<div class="checkbox col-lg-3"></div>
 </div>
-
+<br>
 <div class="row">
-
 <div class="checkbox col-lg-6">
 <center><label > Reportar como: </label></center>
-<br>
+
 <center><label class="checkbox-inline"> <input type="checkbox" name="contacto"  id="contacto" value=""> Contacto </label>
 <label class="checkbox-inline"> <input type="checkbox" name="rpc"  id="rpc" value=""> RPC </label>
 <label class="checkbox-inline"> <input type="checkbox" name="exito"  id="exito" value=""> Exito </label></center>
 </div>
 
 <div class="checkbox col-lg-6">
-  <br>
   <div class="form-group">
       <label>Tratamiento *</label>
       <br>
@@ -87,6 +85,17 @@
   </div>
 </div>
 </div>
+<br>
+<div class="row">
+  <div class="checkbox col-lg-3"></div>
+<div class="form-group col-lg-6">
+  <center>
+    <button name="guardacodigo" type="button" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;">Guardar codigo</button>
+  </center>
+</div>
+<div class="checkbox col-lg-3"></div>
+</div>
+</form>
 </div>
 </div>
 
@@ -101,22 +110,27 @@
 
 <div class="wrapper wrapper-content">
  <div class="ibox-content inspinia-timeline" id="paranuevocodigo">
-
+<form id="creacodigo" name="creacodigo"class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
 <div class="row">
 
-<div class="checkbox col-lg-4"></div>
-  <div class="form-group col-lg-4">
-    <label>Nombre del codigo: *</label>
-    <input id="codigo" name="codigo" type="text" class="form-control required">
+<div class="checkbox col-lg-3"></div>
+  <div class="form-group col-lg-6">
+    <label>Elige el codigo *</label>
+    <br>
+    <select id="dispositionlist" name="dispositionlist" class="form-control required">
+      <option value="" ></option>
+     <?php foreach ($dispositions as $disposition): ?>
+      <option value=<?=$disposition->id ?> ><?=$disposition->nombre ?></option>
+     <?php endforeach ?>
+    </select>
   </div>
-<div class="checkbox col-lg-4"></div>
+<div class="checkbox col-lg-3"></div>
 </div>
 
 <div class="row">
 
 <div class="checkbox col-lg-6">
 <center><label > Reportar como: </label></center>
-<br>
 <center><label class="checkbox-inline"> <input type="checkbox" name="contacto"  id="contacto" value=""> Contacto </label>
 <label class="checkbox-inline"> <input type="checkbox" name="rpc"  id="rpc" value=""> RPC </label>
 <label class="checkbox-inline"> <input type="checkbox" name="exito"  id="exito" value=""> Exito </label></center>
@@ -137,6 +151,7 @@
   </div>
 </div>
 </div>
+</form>
 </div>
 </div>
 
