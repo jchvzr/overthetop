@@ -389,6 +389,18 @@ class DatabaseSeeder extends Seeder
                               'id_submenuIzquierda' => 7
                                     ));
 
+                      db::table('permisosSubmenu')->insert(array(
+                              'id_permisosMenu'     => 2,
+                              'id_perfil'     => 1,
+                              'id_submenuIzquierda' => 8
+                                    ));
+
+                      db::table('permisosSubmenu')->insert(array(
+                              'id_permisosMenu'     => 2,
+                              'id_perfil'     => 1,
+                              'id_submenuIzquierda' => 12
+                                    ));
+
                         }
                       }
 
