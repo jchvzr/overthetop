@@ -27,9 +27,10 @@
 <!-- Switchery -->
 <script src="js/plugins/switchery/switchery.js"></script>
 
-<!-- especificos -->
+<!-- especificos
 
-<script src="js/jsespecificos/CRM/Cargaclientes.js"></script>
+<script src="js/jsespecificos/CRM/newcampaign.js"></script>
+-->
 
 
 
@@ -45,10 +46,7 @@
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="row">
   <div class="col-lg-12 col-md-12">
-    <h2>Carga de clientes</h2>
-  </div>
-  <div class="col-lg-6 col-md-6">
-    <a href="layout.xlsx" style='color:#FFF'><button type="button" class="btn btn-warning">Layout: <i class="glyphicon glyphicon-cloud-download"></i> </button></a>
+    <h2>Subir Campaña</h2>
   </div>
 </div>
 </div>
@@ -56,25 +54,30 @@
 <div class="wrapper wrapper-content">
  <div class="ibox-content inspinia-timeline" id="compromisoslistado">
    <div class="row">
-     <form id="fileinfo" method="post" onsubmit="subir();">
+     <form class="" action="/newcampaignup" method="post">
        <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
        <div class="col-lg-6 col-md-6">
          <h2><label for="Usuario" class="control-label">Campaña:</label></h2>
-         <select class="form-control  input-lg" id="campaña" name="campaña" required>
+         <input class="form-control" id="campana" type="text" placeholder="Nombre de la campaña" name="campana" required>
+       </div>
+
+       <div class="col-lg-8 col-md-8">
+         <h2><label for="Usuario" class="control-label">Descripcion:</label></h2>
+         <textarea class="form-control" rows="3" id="descripcion" name="descripcion" placeholder="Máximo 500 caracteres" maxlength="500" required></textarea>
+       </div>
+
+       <div class="col-lg-8 col-md-8">
+         <h2><label for="Usuario" class="control-label">Disposition Plan:</label></h2>
+         <select class="form-control  input-lg" id="disposition" name="disposition" required>
            <option value=""></option>
-           <?php foreach ($campana as $campanas): ?>
-             <option value="<?=$campanas->id?>"><?=$campanas->nombre?></option>
+           <?php foreach ($dispositionplan as $dispositionplans): ?>
+             <option value="<?=$dispositionplans->id?>"><?=$dispositionplans->nombre?></option>
            <?php endforeach ?>
          </select>
        </div>
-       <div class="col-lg-8 col-md-8">
-         <h2><label for="Usuario" class="control-label col-md-12">Archivo:</label></h2>
-         <input class="" id="archivo" type="file" placeholder="Elige el archivo" name="archivo" required>
-         <progress id="progress" value="0"></progress>
-       </div>
-       <br>
-       <div class="col-lg-6 col-md-6">
-         <button class="btn btn-success" type="submit" name="button">subir</button>
+
+       <div class="col-lg-12 col-md-12">
+         <button type="submit" class="btn btn-success" id="button">Subir</button>
        </div>
      </form>
    </div>

@@ -64,6 +64,8 @@ Route::group( ['middleware' => 'auth'],
       //Carga de clientes
       Route::get('/cargaclientes', 'CargaclientesController@index');
       Route::post('/subirclientes', 'CargaclientesController@subirclientes');
+      Route::get('/newcampaign', 'CargaclientesController@newcampaign');
+      Route::post('/newcampaignup', 'CargaclientesController@newcampaignup');
 
 
       // Administracion de la herramienta
