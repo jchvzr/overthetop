@@ -127,7 +127,7 @@ else
       });*/
     });
 
- 
+
     var route3 = "/buscaclienteinteraccionresumen/"+idcliente;
     $.get(route3, function(res){
       //Flot Bar Chart
@@ -291,6 +291,7 @@ else {
     $("#datos").show();
     $("#bitacora").show();
     $("#graficocodificaciones").show();
+    document.getElementById("elementobuscado").click();
   }
 
   function limpiamodalcarga()
