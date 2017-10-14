@@ -23,7 +23,7 @@
 
 
 <!-- jscript especifico -->
-<script src="js/jsespecificos/CRM/CRMInicio.js"></script>
+<script src="js/jsespecificos/CRM/CRMCrearcodigo.js"></script>
 
 
 <!-- Flot -->

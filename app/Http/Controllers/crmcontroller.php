@@ -13,8 +13,7 @@ use Mail;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-
-
+use Illuminate\Support\Facades\Input;
 
 
 class crmcontroller extends Controller
@@ -422,7 +421,8 @@ return(response()->json($prueba));
                                     ->get();
 
       $dispositions = DB::table('dispositions')
-                                    ->select('*')
+                                    ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
+                                    ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
                                     ->where('id_compania','=',$companiaid)
                                     ->get();
 
@@ -432,6 +432,93 @@ return(response()->json($prueba));
 
 
     }
+
+
+
+    public function newcodestore(Request $request)
+    {
+
+
+      $user = Auth::user();
+
+      $userid = $user->id;
+
+      $companiaid = $user->id_compania;
+
+      $today = Carbon::now(-5);
+
+      if(isset($request->contacto)) {
+        $contacto = 1;
+      }
+      else {
+        $contacto = 0;
+      }
+
+      if(isset($request->rpc)) {
+        $rpc = 1;
+      }
+      else {
+        $rpc = 0;
+      }
+
+
+      if(isset($request->exito)) {
+        $exito = 1;
+      }
+      else {
+        $exito = 0;
+      }
+
+      if($request->input('dispositionTratamiento') == 2) {
+        $compromiso = 1;
+      }
+      else{
+        $compromiso = 2;
+      }
+
+      if($request->input('dispositionTratamiento') == 1) {
+        $bloqueo = 1;
+      }
+      else{
+        $bloqueo = 0;
+      }
+
+      DB::table('dispositions')->insert(
+      ['nombre'=> $request->input('codigo'),
+       'contacto' => $contacto,
+       'rpc' => $rpc,
+       'exito' => $exito,
+       'id_dispositionTratamiento' => $request->input('dispositionTratamiento'),
+       'id_compania' =>  $companiaid,
+       'compromiso' => $compromiso,
+       'bloqueo' => $bloqueo,
+       'created_at' => $today,
+       'updated_at' => $today,
+       ]);
+
+}
+
+
+   public function mostrarcodigo($id)
+   {
+
+     $user = Auth::user();
+
+     $userid = $user->id;
+
+     $companiaid = $user->id_compania;
+
+     $today = Carbon::now(-5);
+
+     $dispositions = DB::table('dispositions')
+                                   ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
+                                   ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                   ->where('id_compania','=',$companiaid)
+                                   ->where('dispositions.id','=',$id)
+                                   ->first();
+
+     return(response()->json($dispositions));
+   }
 
 
 }

@@ -58,7 +58,8 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/controlcompromisos', 'crmcontroller@controlcompromisosindex');
       Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
       Route::get('/newcode', 'crmcontroller@newcode');
-
+      Route::post('/CRM/creacodigo/','crmcontroller@newcodestore');
+      Route::get('/newcode/mostrarcodigo/{id}','crmcontroller@mostrarcodigo');
 
 
       //Carga de clientes
