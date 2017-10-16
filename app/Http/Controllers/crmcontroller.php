@@ -190,6 +190,61 @@ class crmcontroller extends Controller
 
 
 
+        if (($dispcontroagenda->compromiso) == 1)
+        {
+
+
+                  DB::table('controlcompromisos')->insert(
+                  ['id_clientes'=> $request->input('customerid3'),
+                   'fechaInicio' => $today,
+                   'fechaFin'=> $request->input('fechapp'),
+                   'comentario'=>$request->input('comentario'),
+                   'monto'=>$request->input('monto'),
+                   'id_disposition'=>$request->input('dispositions'),
+                   'hecho'=>0,
+                   'id_users'=>$userid,
+                   ]);
+
+                   DB::table('clientesdetail')
+                   ->where('id', '=', 1)
+                   ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
+        }else {
+          DB::table('clientesdetail')
+          ->where('id', '=', 1)
+          ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+        }
+
+
+    return  redirect('/crmindex');
+
+    }
+
+    public function storeinteractionsmarcacion(Request $request)
+    {
+        //
+        $today = Carbon::now(-5)->subMonth();
+
+    //    return(dd($today));
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $idd = DB::table('clientesinteraccion')->insertGetId(
+                ['customerid'=> $request->input('customerid3'),
+                 'id_tipoInteraccion' => $request->input('tipoInte'),
+                 'id_disposition'=>$request->input('dispositions'),
+                 'comentario'=>$request->input('comentario'),
+                 'id_users'=>$userid,
+                 'fechaInteraccion'=> $today,
+                 ]);
+
+       $dispcontroagenda = DB::table('dispositions')
+                                ->select('compromiso','id_dispositionTratamiento')
+                                ->where('id','=',$request->input('dispositions'))
+                                ->first();
+
+
+
        if (($dispcontroagenda->compromiso) == 1)
        {
 
@@ -205,10 +260,16 @@ class crmcontroller extends Controller
                   'id_users'=>$userid,
                   ]);
 
+                  DB::table('clientesdetail')
+                  ->where('id', '=', 1)
+                  ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+       }else {
+         DB::table('clientesdetail')
+         ->where('id', '=', 1)
+         ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
        }
 
-
-    return  redirect('/crmindex');
+    return  redirect('/Marcacion');
 
     }
 
@@ -857,6 +918,74 @@ return(response()->json($prueba));
 
 
 
+
+
+        public function Marcacionshow(Request $request)
+        {
+
+         $user = Auth::user();
+
+         $userid = $user->id;
+
+         $today = Carbon::now(-5)->subMonth();
+
+         // validando si el usuario esta donde debe de estar si no se regresa a inicio
+         //return(dd( "/".$request->path()));
+        $validapermiso = DB::table('users')
+                                   ->join('permisosSubmenu','users.id_usuariosPerfil','=','permisosSubmenu.id_perfil')
+                                   ->join('submenuIzquierda','submenuIzquierda.id','=','permisosSubmenu.id_submenuIzquierda')
+                                   ->where('users.id','=',$userid)
+                                   ->where('submenuIzquierda.route','=',"/".$request->path())
+                                   ->count();
+        //return(dd($validapermiso));
+        if ($validapermiso == 0) {
+         // si no debe de estar aqui se regresa a la bienvenida
+          return  redirect('/bienvenida');
+        }
+
+       // obligatorios en cualquier vista para el menu
+       DB::table('clientesdetail')
+       ->where('usuarioenuso', '=', $userid)
+       ->update(['enuso' => 0]);
+
+       $cliente = DB::table('clientes')
+                      ->join('clientesDetail','clientes.customerid','=','clientesDetail.customerid')
+                      ->select('*')
+                      ->where('clientesDetail.ultimocodigo','=',2)
+                      ->where('clientesDetail.enuso','=',0)
+                      ->where('clientesDetail.fecha','<=',$today)
+                      ->orderby('fecha', 'asc')
+                      ->first();
+                      //dd($cliente);
+      if(!$cliente){
+        $cliente = DB::table('clientes')
+                       ->join('clientesDetail','clientes.customerid','=','clientesDetail.customerid')
+                       ->select('*')
+                       ->where('clientesDetail.ultimocodigo','=',3)
+                       ->where('clientesDetail.enuso','=',0)
+                       ->orderby('fecha', 'asc')
+                       ->first();
+      }
+
+
+      if($cliente){
+        DB::table('clientesdetail')
+        ->where('id', '=', $cliente->id)
+        ->update(['enuso' => 1, 'usuarioenuso' => $userid]);
+      }
+
+      $tipoint = DB::table('tipointeraccion')
+                             ->select('*')
+                             ->orderby('id')
+                             ->get();
+
+       $dispositions = DB::table('dispositions')
+                            ->select('*')
+                            ->orderby('id')
+                            ->get();
+                      //dd($cliente);
+         return View('CRM/marcacion',compact('cliente','tipoint','dispositions'));
+       }
 
 
 }

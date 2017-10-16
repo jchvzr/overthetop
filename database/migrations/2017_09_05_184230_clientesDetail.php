@@ -39,6 +39,11 @@ class ClientesDetail extends Migration
             $table->string('custom8')->nullable()->default('');
             $table->string('custom9')->nullable()->default('');
             $table->string('custom10')->nullable()->default('');
+            $table->string('ultimocodigo')->nullable()->default('');
+            $table->string('fecha')->nullable()->default('');
+            $table->string('usuariocodigo')->nullable()->default('');
+            $table->integer('enuso')->nullable()->default('0');
+            $table->string('usuarioenuso')->nullable()->default('');
             $table->timestamps();
             });
     }
