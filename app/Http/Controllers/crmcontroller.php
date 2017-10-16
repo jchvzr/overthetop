@@ -321,7 +321,7 @@ return(response()->json($prueba));
 
       $compromisos = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesDetail','controlcompromisos.id_clientes','=','clientesDetail.customerid')
+                               ->join('clientesDetail','controlcompromisos.id_clientes','=','clientesDetail.id')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesDetail.nombreCliente','clientesDetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
