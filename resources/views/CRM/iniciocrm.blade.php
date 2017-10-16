@@ -23,7 +23,7 @@
 
 
 <!-- jscript especifico -->
-<script src="js/jsespecificos/CRM/CRMCrearcodigo.js"></script>
+<script src="js/jsespecificos/CRM/CRMInicio.js"></script>
 
 
 <!-- Flot -->
@@ -34,6 +34,9 @@
 <script src="js/plugins/flot/jquery.flot.time.js"></script>
 <script src="js/plugins/flot/jquery.flot.categories.js"></script>
 
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+<link href="css/plugins/chosen/chosen.css" rel="stylesheet">
 
 
 @if($errors->has())
@@ -254,14 +257,14 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
 
-                                    <button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;" data-toggle="modal" data-target="#agregaIntModal">Agregar Interaccion</button>
+                                    <button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;" data-toggle="modal" data-target="#agregaIntModal" onclick="chosechido()">Agregar Interaccion</button>
                                 </div>
                             </div>
                         </center>
                         </div>
 
 
-                        <table class="table table-striped table-bordered table-hover dataTables-example"  >
+                        <table class="table table-striped table-bordered table-hover dataTables-example"  id="interactiontable">
                                             <thead>
                                             <tr>
 
@@ -471,10 +474,6 @@
 
 
 
-
-
-
-
 <!-- modal agrega interaccion -->
 
 
@@ -509,7 +508,7 @@
               <div class="col-lg-6">
                   <div class="form-group">
                       <label>Tipo de interaccion *</label>
-                      <select id="tipoInte" name="tipoInte" class="form-control required">
+                      <select id="tipoInte" name="tipoInte" class="chosen-select form-control required">
                         <option value="" ></option>
                       <?php foreach($tipoint as $tipoi): ?>
                         <option value=<?=$tipoi->id?> ><?=$tipoi->tipo?>" - "<?=$tipoi->descripcion?></option>
@@ -521,7 +520,7 @@
               <div class="col-lg-6">
                   <div class="form-group">
                       <label>Codigo *</label>
-                      <select id="dispositions" name="dispositions" class="form-control required">
+                      <select id="dispositions" name="dispositions" class="chosen-select form-control required" tabindex="2">
                         <option value="" ></option>
                       <?php foreach($dispositions as $disp): ?>
                         <option value=<?=$disp->id?> ><?=$disp->nombre?></option>
@@ -529,6 +528,9 @@
                       </select>
                   </div>
               </div>
+
+
+
               <div class="col-lg-12">
                   <div class="form-group">
                       <label>Comentario: *</label>
@@ -574,5 +576,35 @@
 
 
 
+<style>
+    body.DTTT_Print {
+        background: #fff;
+
+    }
+    .DTTT_Print #page-wrapper {
+        margin: 0;
+        background:#fff;
+    }
+
+    button.DTTT_button, div.DTTT_button, a.DTTT_button {
+        border: 1px solid #e7eaec;
+        background: #fff;
+        color: #676a6c;
+        box-shadow: none;
+        padding: 6px 8px;
+    }
+    button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
+        border: 1px solid #d2d2d2;
+        background: #fff;
+        color: #676a6c;
+        box-shadow: none;
+        padding: 6px 8px;
+    }
+
+    .dataTables_filter label {
+        margin-right: 5px;
+
+    }
+</style>
 
 @endsection

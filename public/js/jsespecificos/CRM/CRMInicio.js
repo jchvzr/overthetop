@@ -1,5 +1,17 @@
 $(document).ready(function(){
 
+/*
+  $('.dataTables-example').dataTable({
+      responsive: true,
+      "dom": 'T<"clear">lfrtip',
+      "tableTools": {
+          "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+      }
+  });
+*/
+
+chosechido();
+
   $('#monto').keypress(function(tecla) {
       if(tecla.charCode < 48 || tecla.charCode > 57) return false;
       //((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode != 45))
@@ -181,6 +193,7 @@ else
 
    });
 }
+chosechido();
  });
 
 
@@ -189,8 +202,7 @@ else
 
 $("#tipoInte").change(function() {
 
-$('#monto').attr('disabled','disabled');
-  $("#tipoInte option[value='']").remove();
+  //$("#tipoInte option[value='']").remove();
 
             });
 
@@ -199,7 +211,7 @@ $("#dispositions").change(function() {
 
   //  borra el valor vacio
 
-  $("#dispositions option[value='']").remove();
+  //$("#dispositions option[value='']").remove();
   var dispid = $("#dispositions").val();
   var route3 = "/liberadiv/"+dispid;
   $.get(route3, function(res){
@@ -208,12 +220,10 @@ $("#dispositions").change(function() {
     {
       $("#compromiso").show();
       $("#divmonto").hide();
-
-      if(res.nombre == 'Promesa de pago')
-      {
       $("#divmonto").show();
       $('#monto').removeAttr('disabled');
-      }
+
+
     }
     else
     {
@@ -224,6 +234,7 @@ $("#dispositions").change(function() {
 
 
       });
+
 
             });
 
@@ -299,7 +310,7 @@ else {
     $("#customeridmodal").val("");
     $("#nombreClienteModalmodal").val("");
     $("#comentario").val("");
-    $("#monto").val("");
+    $("#monto").val("0");
 
     var select = document.getElementById('tipoInte');
     o = select.options[0];
@@ -309,4 +320,10 @@ else {
     o = select.options[0];
         o.selected = true;
 
+  }
+
+  function chosechido()
+  {
+
+        $(".chosen-select").chosen({width: "100%"});
   }

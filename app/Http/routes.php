@@ -57,9 +57,16 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/buscaclienteinteraccionresumen/{cuenta}','crmcontroller@buscaclienteinteraccionresumen');
       Route::get('/controlcompromisos', 'crmcontroller@controlcompromisosindex');
       Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
-      Route::get('/newcode', 'crmcontroller@newcode');
-      Route::post('/CRM/creacodigo/','crmcontroller@newcodestore');
-      Route::get('/newcode/mostrarcodigo/{id}','crmcontroller@mostrarcodigo');
+       // pertenecen a /newcode
+          Route::get('/newcode', 'crmcontroller@newcode');
+          Route::post('/newcode/creacodigo/','crmcontroller@newcodestore');
+          Route::get('/newcode/mostrarcodigo/{id}','crmcontroller@newcodemostrarcodigo');
+          Route::get('/newcode/mostrartratamiento/{id}','crmcontroller@newcodemostrartratamiento');
+          Route::post('/newcode/editacodigo/{id}','crmcontroller@newcodeeditacodigo');
+       // pertenecen a /newcode
+          Route::get('/newcatalogo', 'crmcontroller@newcatalogo');
+          Route::post('/newcatalogo/creacatalogo/','crmcontroller@newcatalogostore');
+
 
 
       //Carga de clientes

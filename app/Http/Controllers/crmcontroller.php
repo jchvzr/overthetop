@@ -85,6 +85,7 @@ class crmcontroller extends Controller
                                     ->get();
 
         // obligatorios en cualquier vista para el menu
+
         return View('CRM/iniciocrm',compact('datauser','menuIzquierda','submenuIzquierda','tipoint','dispositions') );
 
     }
@@ -358,7 +359,7 @@ return(response()->json($prueba));
 
     }
 
-
+   /* corresponden a menu crear o editar codigos */
     public function newcode(Request $request)
     {
 
@@ -473,7 +474,7 @@ return(response()->json($prueba));
         $compromiso = 1;
       }
       else{
-        $compromiso = 2;
+        $compromiso = 0;
       }
 
       if($request->input('dispositionTratamiento') == 1) {
@@ -499,7 +500,7 @@ return(response()->json($prueba));
 }
 
 
-   public function mostrarcodigo($id)
+   public function newcodemostrarcodigo($id)
    {
 
      $user = Auth::user();
@@ -520,5 +521,213 @@ return(response()->json($prueba));
      return(response()->json($dispositions));
    }
 
+
+   public function newcodemostrartratamiento($id)
+   {
+
+     $user = Auth::user();
+
+     $userid = $user->id;
+
+     $companiaid = $user->id_compania;
+
+     $today = Carbon::now(-5);
+
+     $dispositionTratamiento = DB::table('dispositionTratamiento')
+                                   ->select('dispositionTratamiento.id','dispositionTratamiento.nombre as tratamiento')
+                                   ->get();
+
+     return(response()->json($dispositionTratamiento));
+   }
+
+
+
+      public function newcodeeditacodigo($id,Request $request)
+      {
+
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $companiaid = $user->id_compania;
+
+        $today = Carbon::now(-5);
+
+
+        if(isset($request->modalcontacto)) {
+          $contacto = 1;
+        }
+        else {
+          $contacto = 0;
+        }
+
+        if(isset($request->modalrpc)) {
+          $rpc = 1;
+        }
+        else {
+          $rpc = 0;
+        }
+
+
+        if(isset($request->modalexito)) {
+          $exito = 1;
+        }
+        else {
+          $exito = 0;
+        }
+
+        if($request->input('modaldispositionTratamiento') == 2) {
+          $compromiso = 1;
+        }
+        else{
+          $compromiso = 0;
+        }
+
+        if($request->input('modaldispositionTratamiento') == 1) {
+          $bloqueo = 1;
+        }
+        else{
+          $bloqueo = 0;
+        }
+
+
+
+        DB::table('dispositions')
+                    ->where('id', $id)
+                    ->update([
+                      'nombre'=> $request->input('codigomodal'),
+                       'contacto' => $contacto,
+                       'rpc' => $rpc,
+                       'exito' => $exito,
+                       'id_dispositionTratamiento' => $request->input('modaldispositionTratamiento'),
+                       'id_compania' =>  $companiaid,
+                       'compromiso' => $compromiso,
+                       'bloqueo' => $bloqueo,
+                       'updated_at' => $today,
+                    ]);
+
+
+        return(response()->json($request));
+      }
+
+
+/* corresponden a menu crear o editar codigos */
+
+/* corresponden a menu crear o editar catalogo de codigos */
+
+      public function newcatalogo(Request $request)
+      {
+
+
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $companiaid = $user->id_compania;
+        // validando si el usuario esta donde debe de estar si no se regresa a inicio
+        //return(dd( "/".$request->path()));
+       $validapermiso = DB::table('users')
+                                  ->join('permisosSubmenu','users.id_usuariosPerfil','=','permisosSubmenu.id_perfil')
+                                  ->join('submenuIzquierda','submenuIzquierda.id','=','permisosSubmenu.id_submenuIzquierda')
+                                  ->where('users.id','=',$userid)
+                                  ->where('submenuIzquierda.route','=',"/".$request->path())
+                                  ->count();
+       //return(dd($validapermiso));
+       if ($validapermiso == 0) {
+        // si no debe de estar aqui se regresa a la bienvenida
+         return  redirect('/bienvenida');
+       }
+
+
+        $datauser = DB::table('users')
+                            ->join('usuariosPuesto','users.id_usuariosPuesto','=','usuariosPuesto.id')
+                            ->join('usuariosDetail','users.id','=','usuariosDetail.id_usuario')
+                            ->join('usuariosPerfil','users.id_usuariosPerfil','=','usuariosPerfil.id')
+                            ->select('users.id','users.usuario','users.email','users.id_usuariosPerfil','users.id_usuariosPuesto','usuariosPuesto.puesto','usuariosDetail.nombre','usuariosDetail.apellidoPaterno','usuariosDetail.apellidoMaterno')
+                            ->where('users.id','=',$userid)
+                            ->first();
+
+
+
+    // obligatorios en cualquier vista para el menu
+        $menuIzquierda = DB::table('permisosMenu')
+                                 ->join('usuariosPerfil','usuariosPerfil.id','=','permisosMenu.id_perfil')
+                                 ->join('menuIzquierda','menuIzquierda.id','=','permisosMenu.id_menuIzquierda')
+                                 ->join('users','users.id_usuariosPerfil','=','usuariosPerfil.id')
+                                 ->select('usuariosPerfil.perfil','menuIzquierda.opcion','menuIzquierda.icono','menuIzquierda.route','menuIzquierda.consubmenu','menuIzquierda.id')
+                                 ->where('users.id','=',$userid)
+                                 ->orderBy('menuIzquierda.id')
+                                 ->get();
+
+         $submenuIzquierda = DB::table('permisosMenu')
+                                  ->join('permisosSubmenu','permisosSubmenu.id_permisosMenu','=','permisosMenu.id')
+                                  ->join('usuariosPerfil','usuariosPerfil.id','=','permisosMenu.id_perfil')
+                                  ->join('submenuIzquierda','submenuIzquierda.id','=','permisosSubmenu.id_submenuIzquierda')
+                                  ->join('users','users.id_usuariosPerfil','=','usuariosPerfil.id')
+                                  ->join('usuariosPuesto','users.id_usuariosPuesto','=','usuariosPuesto.id')
+                                  ->select('submenuIzquierda.opcion','submenuIzquierda.route','submenuIzquierda.id_menuIzquierda')
+                                  ->where('users.id','=',$userid)
+                                  ->orderBy('submenuIzquierda.id')
+                                  ->get();
+
+      // obligatorios en cualquier vista para el menu
+
+        $dispositions = DB::table('dispositions')
+                                      ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
+                                      ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                      ->where('id_compania','=',$companiaid)
+                                      ->get();
+
+        $dispositionplans = DB::table('dispositionplan')
+                                      ->select('*')
+                                      ->where('id_compania','=',$companiaid)
+                                      ->get();
+
+
+  //return(dd($compromisos));
+    return View('CRM/catalogocodigos',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos','dispositions','dispositionplans') );
+
+
+      }
+
+/* corresponden a menu crear o editar catalogo de codigos */
+
+
+       public function newcatalogostore(Request $request)
+       {
+
+          $user = Auth::user();
+
+          $userid = $user->id;
+
+          $companiaid = $user->id_compania;
+
+          $today = Carbon::now(-5);
+
+          $idd = DB::table('dispositionplan')->insertGetId(
+                ['nombre'=> $request->input('catalogo'),
+                 'descripcion' => $request->input('catalogodescripcion'),
+                 'id_compania' =>  $companiaid,
+                 'created_at' => $today,
+                 'updated_at' => $today,
+                 ]);
+
+
+          $ins=$request->input('dispositionSeleccionados');
+
+
+          for ($i=0;$i<count($ins);$i++)
+          {
+
+            DB::table('dispositionplandetail')->insert(
+                  ['id_dispositionPlan'=> $idd,
+                   'id_disposition' => $ins[$i],
+                   'created_at' => $today,
+                   'updated_at' => $today,
+                   ]);
+
+          }
+
+        }
 
 }

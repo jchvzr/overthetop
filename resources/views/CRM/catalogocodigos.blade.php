@@ -27,7 +27,7 @@
 
 <!-- especificos -->
 
-<script src="js/jsespecificos/CRM/CRMCrearcodigo.js"></script>
+<script src="js/jsespecificos/CRM/CRMCatalogocodigos.js"></script>
 
 
 @if($errors->has())
@@ -41,47 +41,61 @@
 <div id="pruebasjquery"></div>
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="row">
-<h2>Crear un nuevo c&oacute;digo<small> Aqu&iacute; se crean los c&oacute;digos de resultado de las interacciones.</h2>
+<h2>Crear cat&aacute;logo de c&oacute;digos<small> Aqu&iacute; se genera un cat&aacute;logo de c&oacute;digos para asociarlo a la campaña.</h2>
 
 </div>
 </div>
 
-<div class="wrapper wrapper-content">
- <div class="ibox-content inspinia-timeline" id="paranuevocodigo">
-<form id="creacodigo" name="creacodigo" class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data" action="/CRM/creacodigo/">
+<div class="wrapper wrapper-content animated fadeInRight">
+ <div class="ibox float-e-margins">
+ <div class="ibox-title">
+     <h5>Nuevo cat&aacute;logo</h5>
+     <div class="ibox-tools">
+         <a class="collapse-link">
+             <i class="fa fa-chevron-up"></i>
+         </a>
+     </div>
+ </div>
+
+ <div class="ibox-content" id="paranuevocodigo">
+<form id="creacatalogo" name="creacodigo" class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data" action="/CRM/creacodigo/">
   <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
 <div class="row">
 
 <div class="checkbox col-lg-3"></div>
   <div class="form-group col-lg-6">
-    <label>Nombre del c&oacute;digo: *</label>
-    <input id="codigo" name="codigo" type="text" class="form-control required">
+    <label>Nombre del nuevo cat&aacute;logo: *</label>
+    <input id="catalogo" name="catalogo" type="text" class="form-control required">
+    <label>descripci&oacute;n: *</label>
+    <textarea id="catalogodescripcion" name="catalogodescripcion" class="form-control required"></textarea>
   </div>
 <div class="checkbox col-lg-3"></div>
 </div>
 <br>
 <div class="row">
-<div class="checkbox col-lg-6">
-<center><label > Reportar como: </label></center>
 
-<center><label class="checkbox-inline"> <input type="checkbox" name="contacto"  id="contacto" value=""> Contacto </label>
-<label class="checkbox-inline"> <input type="checkbox" name="rpc"  id="rpc" value=""> RPC </label>
-<label class="checkbox-inline"> <input type="checkbox" name="exito"  id="exito" value=""> Exito </label></center>
-</div>
-
-<div class="checkbox col-lg-6">
-  <div class="form-group">
-      <label>Tratamiento *</label>
-      <br>
-      <select id="dispositionTratamiento" name="dispositionTratamiento" class="form-control required">
-        <option value="" ></option>
-       <?php foreach ($dispositionTratamientos as $dispositionTratamiento): ?>
-        <option value=<?=$dispositionTratamiento->id ?> ><?=$dispositionTratamiento->nombre ?></option>
-       <?php endforeach ?>
-      </select>
-
+  <div class="col-lg-5 m-l-n">
+    <label>C&oacute;digos disponibles:</label>
+  <select class="form-control" multiple="" id="listaDisposition" onclick="agregaSeleccion('listaDisposition', 'dispositionSeleccionados');">
+    <?php foreach($dispositions as $disposition): ?>
+      <option value=<?=$disposition->id?> ><?=$disposition->nombre?></option>
+    <?php     endforeach ?>
+  </select>
   </div>
+<div class="col-lg-2 m-l-n">
+  <br>
+<center>   <input type="button" name="agregar todo" class="btn btn-primary btn-outline" value=">>>" title="agregar todo" onclick="agregaTodo('listaDisposition', 'dispositionSeleccionados');"> </center>
+<center>   <input type="button" name="quitar todas" class="btn btn-primary btn-outline" value="<<<" title="Quitar todo" onclick="agregaTodo('dispositionSeleccionados', 'listaDisposition');"> </center>
 </div>
+
+<div class="col-lg-5 m-l-n">
+  <label>C&oacute;digos seleccionados: *</label>
+<select class="form-control" multiple="" id="dispositionSeleccionados"  name="dispositionSeleccionados[]" onclick="agregaSeleccion('dispositionSeleccionados', 'listaDisposition');">
+
+</select>
+</div>
+
+
 </div>
 <br>
 <div class="row">
@@ -90,7 +104,7 @@
   <center>
   <!--  <button name="guardacodigo" type="submit" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;">Guardar codigo submit</button>-->
 
-    <button name="guardacodigo" type="button" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;" onclick="guardaformulariocodigo()">Guardar nuevo c&oacute;digo</button>
+    <button name="guardacodigo" type="button" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;" onclick="guardaformulariocatalogo()">Guardar nuevo cat&aacute;logo</button>
   </center>
 </div>
 <div class="checkbox col-lg-3"></div>
@@ -98,7 +112,7 @@
 </form>
 </div>
 </div>
-
+</div>
 
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="row">
