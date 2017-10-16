@@ -963,6 +963,10 @@ return(response()->json($prueba));
                        ->select('*')
                        ->where('clientesDetail.ultimocodigo','=',3)
                        ->where('clientesDetail.enuso','=',0)
+                       ->orWhere(function ($query2){
+                         $query2->where('clientesDetail.enuso' ,0)
+                         ->where('clientesDetail.ultimocodigo','');
+                       })
                        ->orderby('fecha', 'asc')
                        ->first();
       }
