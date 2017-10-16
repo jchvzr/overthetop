@@ -63,9 +63,13 @@ Route::group( ['middleware' => 'auth'],
           Route::get('/newcode/mostrarcodigo/{id}','crmcontroller@newcodemostrarcodigo');
           Route::get('/newcode/mostrartratamiento/{id}','crmcontroller@newcodemostrartratamiento');
           Route::post('/newcode/editacodigo/{id}','crmcontroller@newcodeeditacodigo');
-       // pertenecen a /newcode
+       // pertenecen a /newcatalogo
           Route::get('/newcatalogo', 'crmcontroller@newcatalogo');
           Route::post('/newcatalogo/creacatalogo/','crmcontroller@newcatalogostore');
+          Route::get('/newcatalogo/muestracatalogodisponibles/{id}','crmcontroller@newcatalogomostrardisponibles');
+          Route::get('/newcatalogo/muestracatalogoseleccionados/{id}','crmcontroller@newcatalogomostrarseleccionados');
+          Route::get('/newcatalogo/muestracatalogonombre/{id}','crmcontroller@newcatalogomuestracatalogonombre');
+          Route::post('/newcatalogo/editacatalogo/{id}','crmcontroller@newcatalogoeditacatalogo');
 
 
 

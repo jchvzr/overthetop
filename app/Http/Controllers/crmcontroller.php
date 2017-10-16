@@ -730,4 +730,133 @@ return(response()->json($prueba));
 
         }
 
+
+
+       public function newcatalogomostrardisponibles($id)
+       {
+
+          $user = Auth::user();
+
+          $userid = $user->id;
+
+          $companiaid = $user->id_compania;
+
+          $today = Carbon::now(-5);
+
+          $listadisp=DB::table('dispositions')
+                         ->wherenotIn('id',function ($query) use ($id) {
+                                                               $query->select('dispositions.id')->from('dispositions')
+                                                                     ->Join('dispositionplandetail','dispositions.id','=','dispositionplandetail.id_disposition')
+                                                                     ->where('id_dispositionPlan','=',$id);
+                                                                       })
+                          ->where('id_compania','=',$companiaid )
+                          ->select('dispositions.id','dispositions.nombre')
+                                                       ->get();
+
+
+                                   return response()->json(
+                                       $listadisp
+                                   );
+
+        }
+
+        public function newcatalogomostrarseleccionados($id)
+        {
+
+           $user = Auth::user();
+
+           $userid = $user->id;
+
+           $companiaid = $user->id_compania;
+
+           $today = Carbon::now(-5);
+
+           $listadisp=DB::table('dispositions')
+                           ->join('dispositionplandetail','dispositions.id','=','dispositionplandetail.id_disposition')
+                           ->where('dispositions.id_compania','=',$companiaid )
+                           ->where('dispositionplandetail.id_dispositionPlan','=',$id)
+                           ->select('dispositions.id','dispositions.nombre')
+                                                        ->get();
+
+
+                                    return response()->json(
+                                        $listadisp
+                                    );
+
+         }
+
+
+
+
+         public function newcatalogomuestracatalogonombre($id)
+         {
+
+            $user = Auth::user();
+
+            $userid = $user->id;
+
+            $companiaid = $user->id_compania;
+
+            $today = Carbon::now(-5);
+
+            $dispplannombre =  DB::table('dispositionplan')
+                                      ->where('id_compania','=',$companiaid)
+                                      ->where('id','=',$id)
+                                      ->select('dispositionplan.nombre','dispositionplan.descripcion')
+                                      ->first();
+
+            return response()->json(
+                $dispplannombre
+            );
+         }
+
+
+
+         public function newcatalogoeditacatalogo($id,Request $request)
+         {
+
+            $user = Auth::user();
+
+            $userid = $user->id;
+
+            $companiaid = $user->id_compania;
+
+            $today = Carbon::now(-5);
+
+            DB::table('dispositionplan')
+                        ->where('id', $id)
+                        ->update([
+                          'nombre'=> $request->input('catalogomodal'),
+                           'descripcion' => $request->input('catalogodescripcionmodal'),
+                           'updated_at' => $today,
+                        ]);
+
+
+            $ins=$request->input('dispositionSeleccionadosmodal');
+
+            DB::table('dispositionplandetail')->where('id_dispositionPlan','=',$id)->delete();
+
+            for ($i=0;$i<count($ins);$i++)
+            {
+
+              DB::table('dispositionplandetail')->insert(
+                    ['id_dispositionPlan'=> $id,
+                     'id_disposition' => $ins[$i],
+                     'created_at' => $today,
+                     'updated_at' => $today,
+                     ]);
+
+            }
+
+
+
+
+          }
+
+
+
+
+
+
+
 }

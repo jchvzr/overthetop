@@ -202,21 +202,21 @@ class DatabaseSeeder extends Seeder
                 {
 
                   db::table('menuIzquierda')->insert(array(
-                           'opcion'     => 'HRM (Administracion de recursos humanos)',
+                           'opcion'     => 'HRM (Administración de recursos humanos)',
                            'icono'     => 'fa fa-user',
                            'route'     => '#',
                            'consubmenu'     => '1',
                          ));
 
                  db::table('menuIzquierda')->insert(array(
-                          'opcion'     => 'CRM (Administracion de relacion con el cliente)',
+                          'opcion'     => 'CRM (Administración de relación con el cliente)',
                           'icono'     => 'fa fa-users',
                           'route'     => '#',
                           'consubmenu'     => '1',
                         ));
 
                 db::table('menuIzquierda')->insert(array(
-                         'opcion'     => 'Administracion de la Herramienta',
+                         'opcion'     => 'Administración de la Herramienta',
                          'icono'     => 'fa fa-gear',
                          'route'     => '#',
                          'consubmenu'     => '1',
@@ -292,7 +292,7 @@ class DatabaseSeeder extends Seeder
                        ));
 
                      db::table('submenuIzquierda')->insert(array(
-                              'opcion'     => 'Crear catalogo de codigos',
+                              'opcion'     => 'Crear catálogo de codigos',
                               'route'     => '/newcatalogo',
                               'id_menuIzquierda' => 2
                         ));

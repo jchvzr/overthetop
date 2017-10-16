@@ -27,6 +27,10 @@
 <!-- Switchery -->
 <script src="js/plugins/switchery/switchery.js"></script>
 
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+<link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
 <!-- especificos
 
 <script src="js/jsespecificos/CRM/newcampaign.js"></script>
@@ -57,31 +61,42 @@
      <form class="" action="/newcampaignup" method="post">
        <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
        <div class="col-lg-6 col-md-6">
-         <h2><label for="Usuario" class="control-label">Campaña:</label></h2>
+         <label for="Usuario" class="control-label">Campaña:</label>
          <input class="form-control" id="campana" type="text" placeholder="Nombre de la campaña" name="campana" required>
        </div>
 
        <div class="col-lg-8 col-md-8">
-         <h2><label for="Usuario" class="control-label">Descripcion:</label></h2>
+         <label for="Usuario" class="control-label">Descripci&oacute;n:</label>
          <textarea class="form-control" rows="3" id="descripcion" name="descripcion" placeholder="Máximo 500 caracteres" maxlength="500" required></textarea>
        </div>
 
        <div class="col-lg-8 col-md-8">
-         <h2><label for="Usuario" class="control-label">Disposition Plan:</label></h2>
-         <select class="form-control  input-lg" id="disposition" name="disposition" required>
+         <label for="Usuario" class="control-label">Cat&aacute;lgo de c&oacute;digos:</label>
+         <select class="chosen-select form-control required" id="disposition" name="disposition" required >
            <option value=""></option>
            <?php foreach ($dispositionplan as $dispositionplans): ?>
              <option value="<?=$dispositionplans->id?>"><?=$dispositionplans->nombre?></option>
            <?php endforeach ?>
          </select>
        </div>
-
+       </div>
+       <br>
+     <div class="row">
        <div class="col-lg-12 col-md-12">
-         <button type="submit" class="btn btn-success" id="button">Subir</button>
+         <button type="submit" class="btn btn-primary" id="button">Subir</button>
        </div>
      </form>
-   </div>
+     </div>
+
  </div>
 </div>
+
+<script>
+$(document).ready(function(){
+$(".chosen-select").chosen({width: "100%"});
+});
+
+</script>
+
 
 @endsection

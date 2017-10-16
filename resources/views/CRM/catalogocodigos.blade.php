@@ -25,6 +25,11 @@
 <!-- Switchery -->
 <script src="js/plugins/switchery/switchery.js"></script>
 
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+<link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+
 <!-- especificos -->
 
 <script src="js/jsespecificos/CRM/CRMCatalogocodigos.js"></script>
@@ -90,7 +95,7 @@
 
 <div class="col-lg-5 m-l-n">
   <label>C&oacute;digos seleccionados: *</label>
-<select class="form-control" multiple="" id="dispositionSeleccionados"  name="dispositionSeleccionados[]" onclick="agregaSeleccion('dispositionSeleccionados', 'listaDisposition');">
+<select class="form-control required" multiple="" id="dispositionSeleccionados"  name="dispositionSeleccionados[]" onclick="agregaSeleccion('dispositionSeleccionados', 'listaDisposition');">
 
 </select>
 </div>
@@ -116,49 +121,50 @@
 
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="row">
-<h2>Editar c&oacute;digos</h2>
+<h2>Editar cat&aacute;logos <small> Aqu&iacute; se pueden ver o editar cat&aacute;logos ya existentes. </small></h2>
 
 </div>
 </div>
 
 
 <div class="wrapper wrapper-content">
+ <div class="ibox float-e-margins">
+  <div class="ibox-title">
+      <h5>Ver o editar cat&aacute;logo</h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+      </div>
+  </div>
+
+
  <div class="ibox-content inspinia-timeline" id="paranuevocodigo">
 
    <table class="table table-striped table-bordered table-hover dataTables-example" >
    <thead>
    <tr>
      <th>Nombre</th>
-     <th>Contacto</th>
-     <th>RPC</th>
-     <th>Exito</th>
-     <th>Tramiento</th>
    </tr>
    </thead>
    <tbody id="tablacodigos">
-    <?php foreach ($dispositions as $disposition): ?>
-       <tr id="fila<?=$disposition->id ?>" class="gradeX" onclick="openmodal(<?=$disposition->id ?>)"><strong>
-         <td><?=$disposition->nombre ?></td>
-         <td><?=$disposition->contacto ?></td>
-         <td><?=$disposition->rpc ?></td>
-         <td><?=$disposition->exito ?></td>
-         <td><?=$disposition->tratamiento ?></td></a>
+    <?php foreach ($dispositionplans as $dispositionplan): ?>
+       <tr id="fila<?=$dispositionplan->id ?>" class="gradeX" onclick="openmodal(<?=$dispositionplan->id ?>)"><strong>
+         <td><?=$dispositionplan->nombre ?></td>
        </strong></tr>
     <?php endforeach ?>
      </tbody>
      <tfoot>
      <tr>
        <th>Nombre</th>
-       <th>Contacto</th>
-       <th>RPC</th>
-       <th>Exito</th>
-       <th>Tramiento</th>
      </tr>
      </tfoot>
      </table>
 
 </div>
 </div>
+</div>
+
 
 <!--modal para edicion -->
 
@@ -168,50 +174,71 @@
             <div class="modal-header">
 
                 <button type="button" class="close" onclick="cerrarmodal()" ><span aria-hidden="true">&times;</span><span class="sr-only" >Close</span></button>
-                <h4 class="modal-title">Editar codigo</h4>
+                <h4 class="modal-title">Editar cat&aacute;logo</h4>
             </div>
             <div class="modal-body">
 
-              <form id="editacodigomodal" name="editacodigomodal" class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data" action="">
+              <form id="editacatalogomodal" name="editacatalogomodal" class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data" action="/newcatalogo/editacatalogo/6">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                 <input type="hidden" name="hdnid" value="" id="hdnid">
-
               <div class="row">
 
               <div class="checkbox col-lg-3"></div>
-              <div class="form-group col-lg-6">
-                  <label>Codigo: </label>
-                  <input id="codigomodal" name="codigomodal" type="text" class="form-control" required>
-              </div>
-              <div class="checkbox col-lg-3"></div>
-              </div>
-
-              <div class="row">
-
-              <div class="checkbox col-lg-6">
-              <center><label > Reportar como: </label></center>
-              <center><label class="checkbox-inline"> <input type="checkbox" name="modalcontacto"  id="modalcontacto" value="1"> Contacto </label>
-              <label class="checkbox-inline"> <input type="checkbox" name="modalrpc"  id="modalrpc" value="1"> RPC </label>
-              <label class="checkbox-inline"> <input type="checkbox" name="modalexito"  id="modalexito" value="1"> Exito </label></center>
-              </div>
-
-              <div class="checkbox col-lg-6">
-                <br>
-                <div class="form-group">
-                    <label>Tratamiento *</label>
-                    <br>
-                    <select id="modaldispositionTratamiento" name="modaldispositionTratamiento" class="form-control required">
-
-                    </select>
+                <div class="form-group col-lg-6">
+                  <label>Nombre del nuevo cat&aacute;logo: *</label>
+                  <input id="catalogomodal" name="catalogomodal" type="text" class="form-control required">
+                  <label>descripci&oacute;n: *</label>
+                  <textarea id="catalogodescripcionmodal" name="catalogodescripcionmodal" class="form-control required"></textarea>
                 </div>
+              <div class="checkbox col-lg-3"></div>
               </div>
+              <br>
+              <div class="row">
+
+                <div class="col-lg-5 m-l-n">
+                  <label>C&oacute;digos disponibles:</label>
+                <select class="form-control" multiple="" id="listaDispositionmodal" onclick="agregaSeleccion('listaDispositionmodal', 'dispositionSeleccionadosmodal');">
+                  <?php foreach($dispositions as $disposition): ?>
+                    <option value=<?=$disposition->id?> ><?=$disposition->nombre?></option>
+                  <?php     endforeach ?>
+                </select>
+                </div>
+              <div class="col-lg-2 m-l-n">
+                <br>
+              <center>   <input type="button" name="agregar todo" class="btn btn-primary btn-outline" value=">>>" title="agregar todo" onclick="agregaTodo('listaDispositionmodal', 'dispositionSeleccionadosmodal');"> </center>
+              <center>   <input type="button" name="quitar todas" class="btn btn-primary btn-outline" value="<<<" title="Quitar todo" onclick="agregaTodo('dispositionSeleccionadosmodal', 'listaDispositionmodal');"> </center>
               </div>
-              <!--<button type="submit" class="btn btn-primary" id="guarda" name="guarda">Guardar interaccion submit</button> -->
+
+              <div class="col-lg-5 m-l-n">
+                <label>C&oacute;digos seleccionados: *</label>
+
+
+              <select class="form-control required" multiple="" id="dispositionSeleccionadosmodal"  name="dispositionSeleccionadosmodal[]" onclick="agregaSeleccion('dispositionSeleccionadosmodal', 'listaDispositionmodal');">
+
+              </select>
+              </div>
+
+
+              </div>
+              <br>
+              <div class="row">
+                <div class="checkbox col-lg-3"></div>
+              <div class="form-group col-lg-6">
+                <center>
+                <!--  <button name="guardacodigo" type="submit" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;">Guardar nuevo cat&aacute;logo submit</button>-->
+
+
+                </center>
+              </div>
+              <div class="checkbox col-lg-3"></div>
+              </div>
               </form>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white"  id="closeguarda" name="closeguarda" onclick="cerrarmodal() ">Close</button>
-                <button type="button" class="btn btn-primary" id="guardamodal" name="guardamodal" onclick="guardacambio()">Guardar interaccion</button>
+                <button name="guardacodigo" type="button" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;" onclick="guardacambio()">Guardar nuevo cat&aacute;logo</button>
+
 
             </div>
 
