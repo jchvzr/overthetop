@@ -306,6 +306,12 @@ class DatabaseSeeder extends Seeder
                         ));
 
 
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Marcacion',
+                             'route'     => '/Marcacion',
+                             'id_menuIzquierda' => 2
+                       ));
+
                   }
                 }
 
@@ -418,6 +424,12 @@ class DatabaseSeeder extends Seeder
                                   'id_submenuIzquierda' => 12
                                         ));
 
+
+                      db::table('permisosSubmenu')->insert(array(
+                              'id_permisosMenu'     => 2,
+                              'id_perfil'     => 1,
+                              'id_submenuIzquierda' => 13
+                                    ));
 
                         }
                       }

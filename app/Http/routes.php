@@ -79,6 +79,9 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/newcampaign', 'CargaclientesController@newcampaign');
       Route::post('/newcampaignup', 'CargaclientesController@newcampaignup');
 
+      //Marcacion
+      Route::get('/Marcacion', 'crmcontroller@Marcacionshow');
+      Route::post('/crm/Marcacion','crmcontroller@storeinteractionsmarcacion');
 
       // Administracion de la herramienta
       Route::get('/newuser','admintoolcontroller@newUser');
