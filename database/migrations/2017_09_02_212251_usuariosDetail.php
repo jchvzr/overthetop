@@ -22,6 +22,8 @@ class UsuariosDetail extends Migration
           $table->string('domicilioCiudad', 60);
           $table->string('domicilioCP', 60);
           $table->date('fechaNacimiento');
+          $table->string('telefonoCasa',13);
+          $table->string('telefonoCelular',13);
           $table->integer('sexo');
           $table->string('curp', 60);
           $table->string('rfc', 60);

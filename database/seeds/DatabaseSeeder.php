@@ -96,6 +96,8 @@ class DatabaseSeeder extends Seeder
                        'domicilioCiudad' =>  'Tlaquepaque',
                        'domicilioCP' =>  '45580',
                        'fechaNacimiento' =>  '1983-12-26',
+                       'telefonoCasa' => '3336668401',
+                       'telefonoCelular' => '3314175878',
                        'sexo' => 1,
                        'curp' => 'CARJ831226HJCHZR08',
                        'rfc' => 'CARJ831226JE4',
@@ -114,6 +116,8 @@ class DatabaseSeeder extends Seeder
                         'domicilioCiudad' =>  'Tlaquepaque',
                         'domicilioCP' =>  '45580',
                         'fechaNacimiento' =>  '1983-12-26',
+                        'telefonoCasa' => '3336668401',
+                        'telefonoCelular' => '3314175878',
                         'sexo' => 1,
                         'curp' => 'CARJ831226HJCHZR08',
                         'rfc' => 'CARJ831226JE4',
@@ -131,6 +135,8 @@ class DatabaseSeeder extends Seeder
                         'domicilioCiudad' =>  'Tlaquepaque',
                         'domicilioCP' =>  '45580',
                         'fechaNacimiento' =>  '1983-12-26',
+                        'telefonoCasa' => '3336668401',
+                        'telefonoCelular' => '3314175878',
                         'sexo' => 1,
                         'curp' => 'CARJ831226HJCHZR08',
                         'rfc' => 'CARJ831226JE4',
@@ -150,17 +156,10 @@ class DatabaseSeeder extends Seeder
             public function run()
             {
 
-
-
               db::table('usuariosPerfil')->insert(array(
                        'perfil'     => 'Super Admin',
                        'id_compania' => '1',
                      ));
-
-             db::table('usuariosPerfil')->insert(array(
-                      'perfil'     => 'Ejecutivo Cobro',
-                      'id_compania' => '1',
-                    ));
 
             }
           }
@@ -248,6 +247,38 @@ class DatabaseSeeder extends Seeder
                              'id_menuIzquierda' => 2
                        ));
 
+
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Agendas / compromisos',
+                             'route'     => '/controlcompromisos',
+                             'id_menuIzquierda' => 2
+                        ));
+
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Carga de clientes',
+                             'route'     => '/cargaclientes',
+                             'id_menuIzquierda' => 2
+                        ));
+
+
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Crear o editar codigos',
+                             'route'     => '/newcode',
+                             'id_menuIzquierda' => 2
+                       ));
+
+                     db::table('submenuIzquierda')->insert(array(
+                              'opcion'     => 'Crear catálogo de codigos',
+                              'route'     => '/newcatalogo',
+                              'id_menuIzquierda' => 2
+                        ));
+
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Crear campaña',
+                             'route'     => '/newcampaign',
+                             'id_menuIzquierda' => 2
+                       ));
+
                     db::table('submenuIzquierda')->insert(array(
                              'opcion'     => 'Crear usuario',
                              'route'     => '/newuser',
@@ -267,17 +298,6 @@ class DatabaseSeeder extends Seeder
                             'id_menuIzquierda' => 3
                         ));
 
-                   db::table('submenuIzquierda')->insert(array(
-                            'opcion'     => 'Agendas / compromisos',
-                            'route'     => '/controlcompromisos',
-                            'id_menuIzquierda' => 2
-                       ));
-
-                   db::table('submenuIzquierda')->insert(array(
-                            'opcion'     => 'Carga de clientes',
-                            'route'     => '/cargaclientes',
-                            'id_menuIzquierda' => 2
-                       ));
 
                    db::table('submenuIzquierda')->insert(array(
                             'opcion'     => 'Crear empresa',
@@ -285,23 +305,6 @@ class DatabaseSeeder extends Seeder
                             'id_menuIzquierda' => 3
                         ));
 
-                    db::table('submenuIzquierda')->insert(array(
-                             'opcion'     => 'Crear o editar codigos',
-                             'route'     => '/newcode',
-                             'id_menuIzquierda' => 2
-                       ));
-
-                     db::table('submenuIzquierda')->insert(array(
-                              'opcion'     => 'Crear catálogo de codigos',
-                              'route'     => '/newcatalogo',
-                              'id_menuIzquierda' => 2
-                        ));
-
-                    db::table('submenuIzquierda')->insert(array(
-                             'opcion'     => 'Crear campaña',
-                             'route'     => '/newcampaign',
-                             'id_menuIzquierda' => 2
-                       ));
 
                   }
                 }
@@ -327,10 +330,7 @@ class DatabaseSeeder extends Seeder
                                        'id_menuIzquierda' => 3
                                      ));
 
-                       db::table('permisosMenu')->insert(array(
-                                       'id_perfil'     => 2,
-                                       'id_menuIzquierda' => 2
-                                     ));
+
 
                     }
                   }
@@ -359,47 +359,65 @@ class DatabaseSeeder extends Seeder
                                  ));
 
                          db::table('permisosSubmenu')->insert(array(
-                                  'id_permisosMenu'     => 3,
+                                  'id_permisosMenu'     => 2,
                                   'id_perfil'     => 1,
                                   'id_submenuIzquierda' => 4
                                 ));
 
                         db::table('permisosSubmenu')->insert(array(
-                                 'id_permisosMenu'     => 3,
+                                 'id_permisosMenu'     => 2,
                                  'id_perfil'     => 1,
                                  'id_submenuIzquierda' => 5
                                ));
 
 
                        db::table('permisosSubmenu')->insert(array(
-                                'id_permisosMenu'     => 3,
+                                'id_permisosMenu'     => 2,
                                 'id_perfil'     => 1,
                                 'id_submenuIzquierda' => 6
                               ));
 
+                      db::table('permisosSubmenu')->insert(array(
+                               'id_permisosMenu'     => 2,
+                               'id_perfil'     => 1,
+                               'id_submenuIzquierda' => 7
+                             ));
+
+                       db::table('permisosSubmenu')->insert(array(
+                                'id_permisosMenu'     => 2,
+                                'id_perfil'     => 1,
+                                'id_submenuIzquierda' => 8
+                            ));
+
+
+                        db::table('permisosSubmenu')->insert(array(
+                                 'id_permisosMenu'     => 3,
+                                 'id_perfil'     => 1,
+                                 'id_submenuIzquierda' => 9
+                               ));
+
+                       db::table('permisosSubmenu')->insert(array(
+                                'id_permisosMenu'     => 3,
+                                'id_perfil'     => 1,
+                                'id_submenuIzquierda' => 10
+                              ));
+
+
+
+                        db::table('permisosSubmenu')->insert(array(
+                                 'id_permisosMenu'     => 3,
+                                 'id_perfil'     => 1,
+                                 'id_submenuIzquierda' => 11
+                               ));
+
+
+
                           db::table('permisosSubmenu')->insert(array(
-                                  'id_permisosMenu'     => 4,
-                                  'id_perfil'     => 2,
-                                  'id_submenuIzquierda' => 3
+                                  'id_permisosMenu'     => 3,
+                                  'id_perfil'     => 1,
+                                  'id_submenuIzquierda' => 12
                                         ));
 
-                      db::table('permisosSubmenu')->insert(array(
-                              'id_permisosMenu'     => 2,
-                              'id_perfil'     => 1,
-                              'id_submenuIzquierda' => 7
-                                    ));
-
-                      db::table('permisosSubmenu')->insert(array(
-                              'id_permisosMenu'     => 2,
-                              'id_perfil'     => 1,
-                              'id_submenuIzquierda' => 8
-                                    ));
-
-                      db::table('permisosSubmenu')->insert(array(
-                              'id_permisosMenu'     => 2,
-                              'id_perfil'     => 1,
-                              'id_submenuIzquierda' => 12
-                                    ));
 
                         }
                       }
