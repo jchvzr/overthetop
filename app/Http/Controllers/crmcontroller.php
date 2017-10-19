@@ -184,7 +184,7 @@ class crmcontroller extends Controller
                  ]);
 
        $dispcontroagenda = DB::table('dispositions')
-                                ->select('compromiso')
+                                ->select('compromiso','id_dispositionTratamiento')
                                 ->where('id','=',$request->input('dispositions'))
                                 ->first();
 
