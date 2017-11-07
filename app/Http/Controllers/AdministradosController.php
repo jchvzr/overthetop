@@ -427,7 +427,7 @@ class AdministradosController extends Controller
        $user = Auth::user();
        $Link= new LinksInteres;
         if($user->perfil != 4){
-          
+
           $Link->id_UsuarioCreo = $user->id;
           $Link->id_empresa = $user->id_compania;
           $Link->Nombrecorto = $request->input('NombreCorto');
@@ -456,6 +456,50 @@ class AdministradosController extends Controller
        \Storage::disk('imagenesusuarios')->put($nombreunicoarchivo1,  $imagen);
        return Redirect('/perfil');
       }
+
+
+      public function fileUserStore1(Request $request)
+      {
+        $usuarios = Auth::user();
+        $compañiaid = $usuarios->id_compania;
+
+        $filet = $request->file('fileusr');
+
+        if (count($filet[0]) == 0)
+        {
+          Session::flash('flash_message', 'No se envio ningun archivo');
+          return redirect('/perfil');
+
+        }
+        else {
+          // alta de archivos
+
+               foreach($request->file('fileusr') as $file1)
+               {
+
+             //   $file1                            = $request->file('archivo');
+                $extension1                       = strtolower($file1->getclientoriginalextension());
+                $nombreunicoarchivo1              = uniqid().'.'.$extension1;
+                $bytes                            = \File::size($file1);
+
+                DB::table('userfiles')->insert(
+                    ['nombre' =>  $file1->getClientOriginalName(),
+                     'archivo' =>  $file1->getClientOriginalName(),
+                     'nombreunico' => $nombreunicoarchivo1,
+                     'size' =>  $bytes,
+                     'id_user' => $usuarios->id,
+                     'id_compania' => $compañiaid,
+                     ]);
+
+
+                \Storage::disk('userfile')->put($nombreunicoarchivo1,  \File::get($file1));
+                }
+        }
+
+   Session::flash('flash_message', 'Se guardaronlos archivos');
+       return Redirect('/perfil');
+      }
+
 
 
 }
