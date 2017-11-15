@@ -20,7 +20,7 @@ $(document).ready(function(){
         usuario: "required",
         email: {required: true,email: true},
         password: "required",
-        confirm: {equalTo: "#password",required: true},
+        confirm: {equalTo: "#password"},
         perfilSeguridad: "required",
         puesto: "required"
       },

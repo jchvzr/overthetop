@@ -992,4 +992,30 @@ return(response()->json($prueba));
        }
 
 
+       /**
+        * Show the form for creating a new resource.
+        *
+        * @return \Illuminate\Http\Response
+        */
+       public function buscatelefono($id)
+       {
+           //
+
+           $user = Auth::user();
+
+           $clientes = DB::table('clientes')
+                                    ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
+                                    ->select('clientesdetail.customerid','clientesdetail.nombreCliente')
+                                    ->where( DB::raw('right( ltrim(rtrim(clientesDetail.telefono1)),10)'),$id)
+                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesDetail.telefono2)),10)'),$id)
+                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesDetail.telefono3)),10)'),$id)
+                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesDetail.telefono4)),10)'),$id)
+                                    ->groupby ('clientesdetail.customerid','clientesdetail.nombreCliente')
+                                    ->get();
+
+           return response()->json($clientes);
+
+       }
+
+
 }

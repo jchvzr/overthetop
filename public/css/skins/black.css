@@ -209,9 +209,7 @@ body .navbar-inverse .navbar-nav > .active > a:focus {
   background: #1f1f1f;
 }
 body .badge.badge-primary,
-body .label-primary {
-  background-color: #222222;
-}
+
 body .badge.badge-secondary,
 body .label-secondary {
   background-color: #ffba00;

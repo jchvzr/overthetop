@@ -41,7 +41,7 @@
 
 @if($errors->has())
     <div class="alert alert-warning" role="alert">
-       @foreach ($errors->all() as $error)
+      @foreach ($errors->all() as $error)
           <div>{{ $error }}</div>
       @endforeach
     </div>
@@ -56,6 +56,8 @@
       <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <input onkeypress="return pulsar(event)" type="text" placeholder="N&uacute;mero de cuenta..." class="form-control required" name="buscaclientetxt" id="buscaclientetxt">
           <button name="buscacliente" type="button" class="btn btn-primary" id="buscacliente" style="font-family: Arial;">Buscar cliente</button>
+          <input onkeypress="return pulsar(event)" type="number" min="0000000000" max="9999999999" placeholder="T&eacute;lefono a 10 digitos..." class="form-control required" name="buscatelinput" id="buscatelinput">
+          <button name="buscatelefonobtn" type="button" class="btn btn-primary" id="buscatelefonobtn" style="font-family: Arial;">Buscar telefono</button>
     </form>
 </div>
 </div>
@@ -420,6 +422,52 @@
     </div>
 </div>
 
+
+
+<!-- modal busqueda telefono -->
+
+
+<div class="modal inmodal" id="buscatelefonomodal" name="buscatelefono" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated flipInX">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="cierramodal();"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Lista de tel&eacute;fonos encontrados</h4>
+                <h5 class="modal-title">Elige el cliente a buscar</h5>
+            </div>
+            <div class="modal-body">
+
+              <table class="table table-striped table-bordered table-hover dataTables-example"  id="clientetable">
+                                  <thead>
+                                  <tr>
+
+                                    <th>Cuenta/numero cliente</th>
+                                    <th>Nombre cliente</th>
+
+                                  </tr>
+                                  </thead>
+                                  <tbody id="clientetablebody">
+
+
+
+                                  </tbody>
+                                  <tfoot>
+                                  <tr>
+
+                                    <th>Cuenta/numero cliente</th>
+                                    <th>Nombre cliente</th>
+
+                                  </tr>
+                                  </tfoot>
+                                  </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal" id="closebuscatelefono" name="closebuscatelefono" onclick="cierramodal();" >Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <style>

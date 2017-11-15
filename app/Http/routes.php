@@ -57,6 +57,7 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/buscaclienteinteraccionresumen/{cuenta}','crmcontroller@buscaclienteinteraccionresumen');
       Route::get('/controlcompromisos', 'crmcontroller@controlcompromisosindex');
       Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
+      Route::get('/buscatelefono/{telefono}','crmcontroller@buscatelefono');
        // pertenecen a /newcode
           Route::get('/newcode', 'crmcontroller@newcode');
           Route::post('/newcode/creacodigo/','crmcontroller@newcodestore');

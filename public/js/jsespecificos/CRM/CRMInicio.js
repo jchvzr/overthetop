@@ -197,6 +197,87 @@ chosechido();
  });
 
 
+// busqueda de telefonos
+
+$("#buscatelefonobtn").click(function(){
+
+
+
+  if($("#buscatelinput").val() == "" || $("#buscatelinput").val().length != 10)
+   {
+     setTimeout(function() {
+             toastr.options = {
+                 closeButton: true,
+                 progressBar: true,
+                 showMethod: 'slideDown',
+                 timeOut: 4000
+             };
+             toastr.error('Es necesario ingresar un número de teléfono a 10 digitos', 'Escribe teléfono');
+
+         }, 0);
+
+   }
+  // si tiene valor el input realiza la busqueda de datos
+  else{
+
+  // busqueda de datos generales y llena vista datos generales
+  var telcliente = $("#buscatelinput").val();
+  var route = "/buscatelefono/"+telcliente;
+  $.get(route, function(res){
+
+  $("#clientetablebody").empty();
+
+   if(res.length == 0)
+   {
+
+     //$('#buscatelefonomodal').modal('toggle');
+    // $('#buscatelefonomodal').modal('show');
+    // $('#myModal').modal('hide');
+
+    setTimeout(function() {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.error('No se encontró ningún resultado con ese teléfono', 'Teléfono no encontrado');
+
+            }, 0);
+
+   }
+   else{
+
+     $("#buscatelefonomodal").toggle();
+     $("#buscatelefonomodal").show();
+
+    for (var i = 0; i < res.length; i++) {
+
+
+    $("#clientetablebody").append('<tr class="gradeX" onclick="iracliente('+res[i].customerid+');"><strong><td>'+res[i].customerid+'</td><td>'+res[i].nombreCliente+'</td></strong></tr>');
+
+    }
+
+    setTimeout(function() {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.success('Da click en el cliente a buscar', 'Teléfono encontrado');
+
+            }, 0);
+}
+
+   });
+ }
+ });
+
+
+
+
+
 
 // cambio en combo de tipo de interacciones borra el valor vacio
 
@@ -279,10 +360,7 @@ else {
 
 
 
-  function pulsar(e) {
-    tecla = (document.all) ? e.keyCode :e.which;
-    return (tecla!=13);
-  }
+
 
   function hidediv()
   {
@@ -296,6 +374,13 @@ else {
 
   }
 
+
+  function pulsar(e) {
+    // averiguamos el código de la tecla pulsada (keyCode para IE y which para Firefox)
+    tecla = (document.all) ? e.keyCode :e.which;
+    // si la tecla no es 13 devuelve verdadero,  si es 13 devuelve false y la pulsación no se ejecuta
+    return (tecla!=13);
+  }
 
   function showdiv()
   {
@@ -327,3 +412,19 @@ else {
 
         $(".chosen-select").chosen({width: "100%"});
   }
+
+
+  function cierramodal()
+  {
+       $("#buscatelefonomodal").toggle();
+  }
+
+
+  // ir a cliente al dar click en tableInteraccion
+
+   function iracliente(id){
+     $("#buscatelefonomodal").toggle();
+     $("#buscatelinput").val("")
+     $("#buscaclientetxt").val(id);
+     $("#buscacliente").click();
+   }
