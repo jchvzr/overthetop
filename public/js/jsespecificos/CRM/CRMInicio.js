@@ -252,9 +252,8 @@ $("#buscatelefonobtn").click(function(){
      $("#buscatelefonomodal").show();
 
     for (var i = 0; i < res.length; i++) {
-
-
-    $("#clientetablebody").append('<tr class="gradeX" onclick="iracliente('+res[i].customerid+');"><strong><td>'+res[i].customerid+'</td><td>'+res[i].nombreCliente+'</td></strong></tr>');
+      
+    $("#clientetablebody").append('<tr class="gradeX" onclick="iracliente(\''+res[i].customerid+'\');"><strong><td>'+res[i].customerid+'</td><td>'+res[i].nombreCliente+'</td></strong></tr>');
 
     }
 
@@ -424,7 +423,7 @@ else {
 
    function iracliente(id){
      $("#buscatelefonomodal").toggle();
-     $("#buscatelinput").val("")
+     $("#buscatelinput").val("");
      $("#buscaclientetxt").val(id);
      $("#buscacliente").click();
    }

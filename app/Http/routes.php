@@ -93,6 +93,7 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/editperfilseguridadchecks/{id}','admintoolcontroller@editperfilseguridadchecks');
       Route::get('/editperfilseguridadcheckssub/{id}','admintoolcontroller@editperfilseguridadcheckssub');
       Route::post('/perfilstoreedit','admintoolcontroller@perfilstoreedit');
+      Route::get('/newcompany','admintoolcontroller@newcompany');
 
 
 

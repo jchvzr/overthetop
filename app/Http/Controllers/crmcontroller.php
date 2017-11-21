@@ -102,7 +102,7 @@ class crmcontroller extends Controller
         $user = Auth::user();
 
         $detalleCliente = DB::table('clientes')
-                                 ->join('clientesDetail','clientes.customerid','=','clientesDetail.customerid')
+                                 ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
                                  ->select('*')
                                  ->where('clientes.customerid','=',$id)
                                  ->first();
@@ -123,19 +123,19 @@ class crmcontroller extends Controller
     {
       $user = Auth::user();
 
-      $clientesInteraccion = DB::table('clientes')
-                               ->join('clientesInteraccion','clientes.customerid','=','clientesInteraccion.customerid')
-                               ->join('dispositions','clientesInteraccion.id_disposition','=','dispositions.id')
-                               ->join('tipointeraccion','clientesInteraccion.id_tipoInteraccion','=','tipointeraccion.id')
-                               ->join('users','clientesInteraccion.id_users','=','users.id')
+      $clientesinteraccion = DB::table('clientes')
+                               ->join('clientesinteraccion','clientes.customerid','=','clientesinteraccion.customerid')
+                               ->join('dispositions','clientesinteraccion.id_disposition','=','dispositions.id')
+                               ->join('tipointeraccion','clientesinteraccion.id_tipoInteraccion','=','tipointeraccion.id')
+                               ->join('users','clientesinteraccion.id_users','=','users.id')
                                ->select('*')
                                ->where('clientes.customerid','=',$id)
-                               ->orderby('clientesInteraccion.id','desc')
+                               ->orderby('clientesinteraccion.id','desc')
                                ->get();
 
 //return(dd($detalleCliente));
 
-      return response()->json($clientesInteraccion);
+      return response()->json($clientesinteraccion);
     }
 
     /**
@@ -286,18 +286,18 @@ class crmcontroller extends Controller
 
       $user = Auth::user();
 
-      $clientesInteraccion = DB::table('clientes')
-                               ->join('clientesInteraccion','clientes.customerid','=','clientesInteraccion.customerid')
-                               ->join('dispositions','clientesInteraccion.id_disposition','=','dispositions.id')
-                               ->join('tipointeraccion','clientesInteraccion.id_tipoInteraccion','=','tipointeraccion.id')
-                               ->join('users','clientesInteraccion.id_users','=','users.id')
+      $clientesinteraccion = DB::table('clientes')
+                               ->join('clientesinteraccion','clientes.customerid','=','clientesinteraccion.customerid')
+                               ->join('dispositions','clientesinteraccion.id_disposition','=','dispositions.id')
+                               ->join('tipointeraccion','clientesinteraccion.id_tipoInteraccion','=','tipointeraccion.id')
+                               ->join('users','clientesinteraccion.id_users','=','users.id')
                                ->selectRaw('dispositions.nombre,count(dispositions.nombre) as cuantos')
                                ->where('clientes.customerid','=',$id)
                                ->where('fechaInteraccion','>=',$carbon->todatestring())
                                ->groupby('dispositions.nombre')
                                ->get();
 
-  //return(dd($clientesInteraccion));
+  //return(dd($clientesinteraccion));
   /*   [1, 34],
      [2, 25],
      [3, 19],
@@ -306,7 +306,7 @@ class crmcontroller extends Controller
      [6, 44]*/
 $prueba[]= [];
 
-foreach($clientesInteraccion as $x => $x_value) {
+foreach($clientesinteraccion as $x => $x_value) {
 //$prueba = $prueba.'['.$x_value->nombre.','.(int)$x_value->cuantos.'],';
 $prueba[$x] =[$x_value->nombre,(int)$x_value->cuantos] ;
 }
@@ -382,8 +382,8 @@ return(response()->json($prueba));
 
       $compromisos = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesDetail','controlcompromisos.id_clientes','=','clientesDetail.id')
-                               ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesDetail.nombreCliente','clientesDetail.customerid','controlcompromisos.monto')
+                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                               ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
                                ->orderBy('controlcompromisos.fechaFin','desc')
@@ -949,23 +949,23 @@ return(response()->json($prueba));
        ->update(['enuso' => 0]);
 
        $cliente = DB::table('clientes')
-                      ->join('clientesDetail','clientes.customerid','=','clientesDetail.customerid')
+                      ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
                       ->select('*')
-                      ->where('clientesDetail.ultimocodigo','=',2)
-                      ->where('clientesDetail.enuso','=',0)
-                      ->where('clientesDetail.fecha','<=',$today)
+                      ->where('clientesdetail.ultimocodigo','=',2)
+                      ->where('clientesdetail.enuso','=',0)
+                      ->where('clientesdetail.fecha','<=',$today)
                       ->orderby('fecha', 'asc')
                       ->first();
                       //dd($cliente);
       if(!$cliente){
         $cliente = DB::table('clientes')
-                       ->join('clientesDetail','clientes.customerid','=','clientesDetail.customerid')
+                       ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
                        ->select('*')
-                       ->where('clientesDetail.ultimocodigo','=',3)
-                       ->where('clientesDetail.enuso','=',0)
+                       ->where('clientesdetail.ultimocodigo','=',3)
+                       ->where('clientesdetail.enuso','=',0)
                        ->orWhere(function ($query2){
-                         $query2->where('clientesDetail.enuso' ,0)
-                         ->where('clientesDetail.ultimocodigo','');
+                         $query2->where('clientesdetail.enuso' ,0)
+                         ->where('clientesdetail.ultimocodigo','');
                        })
                        ->orderby('fecha', 'asc')
                        ->first();
@@ -1006,10 +1006,10 @@ return(response()->json($prueba));
            $clientes = DB::table('clientes')
                                     ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
                                     ->select('clientesdetail.customerid','clientesdetail.nombreCliente')
-                                    ->where( DB::raw('right( ltrim(rtrim(clientesDetail.telefono1)),10)'),$id)
-                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesDetail.telefono2)),10)'),$id)
-                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesDetail.telefono3)),10)'),$id)
-                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesDetail.telefono4)),10)'),$id)
+                                    ->where( DB::raw('right( ltrim(rtrim(clientesdetail.telefono1)),10)'),$id)
+                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesdetail.telefono2)),10)'),$id)
+                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesdetail.telefono3)),10)'),$id)
+                                    ->orwhere( DB::raw('right( ltrim(rtrim(clientesdetail.telefono4)),10)'),$id)
                                     ->groupby ('clientesdetail.customerid','clientesdetail.nombreCliente')
                                     ->get();
 
