@@ -221,6 +221,14 @@ class DatabaseSeeder extends Seeder
                          'consubmenu'     => '1',
                        ));
 
+                 db::table('menuIzquierda')->insert(array(
+                          'opcion'     => 'Descarga de detalle',
+                          'icono'     => 'fa fa-download',
+                          'route'     => '#',
+                          'consubmenu'     => '1',
+                        ));
+
+
                 }
               }
 
@@ -311,6 +319,18 @@ class DatabaseSeeder extends Seeder
                              'route'     => '/Marcacion',
                              'id_menuIzquierda' => 2
                        ));
+
+                       db::table('submenuIzquierda')->insert(array(
+                                'opcion'     => 'Descarga detalle de codigos',
+                                'route'     => '/descargacodigos',
+                                'id_menuIzquierda' => 4
+                          ));
+
+                       db::table('submenuIzquierda')->insert(array(
+                                'opcion'     => 'Descarga detalle de compromisos',
+                                'route'     => '/descargacompromisos',
+                                'id_menuIzquierda' => 4
+                          ));
 
                   }
                 }

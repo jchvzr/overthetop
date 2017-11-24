@@ -73,7 +73,6 @@ Route::group( ['middleware' => 'auth'],
           Route::post('/newcatalogo/editacatalogo/{id}','crmcontroller@newcatalogoeditacatalogo');
 
 
-
       //Carga de clientes
       Route::get('/cargaclientes', 'CargaclientesController@index');
       Route::post('/subirclientes', 'CargaclientesController@subirclientes');
@@ -95,8 +94,11 @@ Route::group( ['middleware' => 'auth'],
       Route::post('/perfilstoreedit','admintoolcontroller@perfilstoreedit');
       Route::get('/newcompany','admintoolcontroller@newcompany');
 
-
-
+      // Descarga de detalles
+      Route::get('/descargacodigos','descargacontroller@descargacodigosindex');
+      Route::post('/descargacodigosshow','descargacontroller@descargacodigosshow');
+      Route::get('/descargacompromisos','descargacontroller@descargacompromisosindex');
+      Route::post('/descargacompromisosshow','descargacontroller@descargacompromisosshow');
     });
 
 

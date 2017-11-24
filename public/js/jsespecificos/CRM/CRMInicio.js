@@ -130,7 +130,19 @@ else
       $("#tableInteraccion").append('<tr class="gradeX"><strong><td>'+res[i].fechaInteraccion+'</td><td>'+res[i].tipo+
       '</td><td>'+res[i].usuario+'</td><td>'+res[i].nombre+'</td><td>'+res[i].comentario+'</td></strong></tr>');
 
+
       }
+
+      $("#interactiontable").dataTable({
+        retrieve: true,
+          responsive: true,
+          "dom": 'T<"clear">lfrtip',
+          "tableTools": {
+              "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+          }
+
+      });
+
 /*
       $('.dataTables-example').dataTable({
           responsive: true,
@@ -252,7 +264,7 @@ $("#buscatelefonobtn").click(function(){
      $("#buscatelefonomodal").show();
 
     for (var i = 0; i < res.length; i++) {
-      
+
     $("#clientetablebody").append('<tr class="gradeX" onclick="iracliente(\''+res[i].customerid+'\');"><strong><td>'+res[i].customerid+'</td><td>'+res[i].nombreCliente+'</td></strong></tr>');
 
     }

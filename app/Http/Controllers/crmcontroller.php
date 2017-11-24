@@ -166,8 +166,8 @@ class crmcontroller extends Controller
      */
     public function storeinteractions(Request $request)
     {
-        //
-        $today = Carbon::now(-5)->subMonth();
+
+        $today = Carbon::now(-5);
 
     //    return(dd($today));
         $user = Auth::user();
@@ -221,8 +221,8 @@ class crmcontroller extends Controller
 
     public function storeinteractionsmarcacion(Request $request)
     {
-        //
-        $today = Carbon::now(-5)->subMonth();
+    
+        $today = Carbon::now(-5);
 
     //    return(dd($today));
         $user = Auth::user();
