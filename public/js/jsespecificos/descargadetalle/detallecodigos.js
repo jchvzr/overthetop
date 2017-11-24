@@ -1,7 +1,6 @@
 
 $(document).ready(function(){
 
-
 hide();
 
  });
@@ -14,6 +13,7 @@ hide();
 function buscadetalleint(){
  // valida que se tenga algun valor en el input si no no hace nada mas que mostrar alerta
  $("#tableInteraccion").empty();
+ $("#progress").show();
 
 // busqueda de datos generales y llena vista datos generales
 
@@ -32,7 +32,26 @@ $.ajax({
  timeout:20000,
  processData: false,  // tell jQuery not to process the data
  contentType: false,
- error: function(){
+ async: true,
+xhr: function () {
+     var xhr = new window.XMLHttpRequest();
+     //Upload Progress
+     xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+       var percentComplete = (evt.loaded / evt.total) * 100; $('div.progress > div.progress-bar').css({ "width": percentComplete + "%" }); } }, false);
+
+//Download progress
+xhr.addEventListener("progress", function (evt)
+{
+if (evt.lengthComputable)
+ { var percentComplete = (evt.loaded / evt.total) *100;
+$("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
+false);
+return xhr;
+},
+ error: function(res){
+
+alert(res.length);
 
    setTimeout(function() {
            toastr.options = {
@@ -49,6 +68,7 @@ $.ajax({
  success: function(res){
 
     if(res.length == 0){
+
 
 
       setTimeout(function() {
@@ -68,8 +88,10 @@ $.ajax({
 
          for (var i = 0; i < res.length; i++) {
 
-         $("#tableInteraccion").append('<tr class="gradeX"><strong><td>'+res[i].fechaInteraccion+'</td><td>'+res[i].usuario+'</td><td>'+res[i].cuenta+
+         $("#tableInteraccion").append('<tr class="gradeX"><strong><td>'+res[i].fechaInteraccion+'</td><td>'+res[i].customerid+'</td><td>'+res[i].usuario+
          '</td><td>'+res[i].tipoInteraccion+'</td><td>'+res[i].nombre+'</td><td>'+res[i].comentario+'</td><td>'+res[i].idcampana+'</td></strong></tr>');
+         var percenttabla = (i / res.length) *100;
+         $("div.progress > div.progress-bar").css({ "width": percenttabla + "%" });
          }
 
 
@@ -82,7 +104,11 @@ $.ajax({
              }
 
          });
+
        show();
+
+       $("#progress").hide();
+
        setTimeout(function() {
                toastr.options = {
                    closeButton: true,
@@ -92,6 +118,7 @@ $.ajax({
                };
                toastr.success('Se encontraron: '+ res.length+ ' registros.', 'Registros encontrados');
            }, 0);
+
     }
 
          }
@@ -111,8 +138,9 @@ $.ajax({
 
  function hide()
  {
-
+   $("#interactiontable").hide()
    $("#mandaexcel").hide();
+   $("#progress").hide();
 
  }
 
@@ -120,5 +148,6 @@ $.ajax({
  {
 
    $("#mandaexcel").show();
-
+   $("#interactiontable").show();
+   $("#progress").show();
  }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class descargacontroller extends Controller
 {
@@ -93,22 +94,54 @@ return View('descargadetalle/descargadetallecodigos',compact('datauser','menuIzq
 
         $user = Auth::user();
 
-$inicio =   Carbon::createFromDate(substr ($request->fechainicio, 0,4 ), substr ($request->fechainicio, 5,2 ), substr ($request->fechainicio, 8,2 ))->startOfDay();
-$final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($request->fechafinal, 5,2 ), substr ($request->fechafinal, 8,2 ))->endOfDay();
+
+       $inicio =   Carbon::createFromDate(substr ($request->fechainicio, 0,4 ), substr ($request->fechainicio, 5,2 ), substr ($request->fechainicio, 8,2 ))->startOfDay();
+       $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($request->fechafinal, 5,2 ), substr ($request->fechafinal, 8,2 ))->endOfDay();
 
 
-        $clientesinteraccion = DB::table('clientes')
-                                 ->join('clientesinteraccion','clientes.customerid','=','clientesinteraccion.customerid')
-                                 ->join('dispositions','clientesinteraccion.id_disposition','=','dispositions.id')
-                                 ->join('tipointeraccion','clientesinteraccion.id_tipoInteraccion','=','tipointeraccion.id')
-                                 ->join('users','clientesinteraccion.id_users','=','users.id')
-                                 ->select('clientesinteraccion.fechaInteraccion','clientes.customerid','users.usuario','tipointeraccion.descripcion as tipoInteraccion','users.usuario','dispositions.nombre','clientesinteraccion.comentario','clientes.idcampana')
-                                 ->whereBetween('clientesinteraccion.fechaInteraccion',[$inicio,$final])
-                                 ->orderby('clientesinteraccion.id','desc')
-                                 ->orderby('clientes.idcampana','desc')
-                                 ->get();
+       $clientesinteraccion = DB::table('clientes')
+                                ->join('clientesinteraccion','clientes.customerid','=','clientesinteraccion.customerid')
+                                ->join('dispositions','clientesinteraccion.id_disposition','=','dispositions.id')
+                                ->join('tipointeraccion','clientesinteraccion.id_tipoInteraccion','=','tipointeraccion.id')
+                                ->join('users','clientesinteraccion.id_users','=','users.id')
+                                ->select('clientesinteraccion.fechaInteraccion','clientes.customerid','users.usuario','tipointeraccion.descripcion as tipoInteraccion','users.usuario','dispositions.nombre','clientesinteraccion.comentario','clientes.idcampana')
+                                ->whereBetween('clientesinteraccion.fechaInteraccion',[$inicio,$final])
+                                ->orderby('clientesinteraccion.id','desc')
+                                ->orderby('clientes.idcampana','desc')
+                                ->get();
 
-        return response()->json($clientesinteraccion);
+$clientesinteraccion = json_decode( json_encode($clientesinteraccion), true);
+
+
+                      \Excel::create('interacciones', function($excel) use($clientesinteraccion)  {
+
+                                    $excel->sheet('Detalleinteracciones', function($sheet) use($clientesinteraccion) {
+
+                                    $sheet->fromArray($clientesinteraccion);
+
+                                });
+                            })->export('xlsx');
+                            //  })->export('xlsx', storage_path('excel/exports'),true);
+
+
+
+return response()->json($clientesinteraccion);
+
+
+/*
+         Excel::create('Laravel Excel', function($excel)   {
+
+                    $excel->sheet('Productos', function($sheet){
+
+
+
+
+                        $sheet->fromArray($clientesinteraccion);
+
+                    });
+                })->download('xls');
+*/
+        //return response()->json($clientesinteraccion);
     }
 
 
@@ -214,11 +247,32 @@ $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($
                                     ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
                                     ->join('clientes','clientes.customerid','=','clientesdetail.customerid')
                                     ->join('users','controlcompromisos.id_users','=','users.id')
-                                    ->select('users.usuario','controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')
+                                    ->select('users.usuario','dispositions.nombre as codigo','controlcompromisos.comentario','controlcompromisos.fechaFin as fechacompromiso','controlcompromisos.hecho as revisado','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')
                                     ->wherebetween('controlcompromisos.fechaFin',[$inicio,$final])
                                     //->where('controlcompromisos.id_users','=',$userid)
                                     ->orderBy('controlcompromisos.fechaFin','desc')
                                     ->get();
+
+
+            $clientesinteraccion = json_decode( json_encode($clientesinteraccion), true);
+
+
+                                  \Excel::create('compromisos', function($excel) use($clientesinteraccion)  {
+
+                                                $excel->sheet('Detallecompromisos', function($sheet) use($clientesinteraccion) {
+
+                                                $sheet->fromArray($clientesinteraccion);
+
+                                            });
+                                        })->export('xlsx');
+                                        //  })->export('xlsx', storage_path('excel/exports'),true);
+
+
+
+            return response()->json($clientesinteraccion);
+
+
+
 
         return response()->json($clientesinteraccion);
 

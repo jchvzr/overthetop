@@ -14,6 +14,7 @@ hide();
 function buscadetalleint(){
  // valida que se tenga algun valor en el input si no no hace nada mas que mostrar alerta
  $("#tableInteraccion").empty();
+  $("#progress").show();
 
 // busqueda de datos generales y llena vista datos generales
 
@@ -32,6 +33,23 @@ $.ajax({
  timeout:20000,
  processData: false,  // tell jQuery not to process the data
  contentType: false,
+ async: true,
+xhr: function () {
+     var xhr = new window.XMLHttpRequest();
+     //Upload Progress
+     xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+       var percentComplete = (evt.loaded / evt.total) * 100; $('div.progress > div.progress-bar').css({ "width": percentComplete + "%" }); } }, false);
+
+//Download progress
+xhr.addEventListener("progress", function (evt)
+{
+if (evt.lengthComputable)
+ { var percentComplete = (evt.loaded / evt.total) *100;
+$("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
+false);
+return xhr;
+},
  error: function(){
 
    setTimeout(function() {
@@ -70,18 +88,22 @@ $.ajax({
 
          $("#tableInteraccion").append('<tr class="gradeX"><strong><td>'+res[i].fechaFin+'</td><td>'+res[i].usuario+'</td><td>'+res[i].cuenta+
          '</td><td>'+res[i].nombre+'</td><td>'+res[i].comentario+'</td><td>'+res[i].idcampana+'</td><td>'+res[i].monto+'</td><td>'+res[i].hecho+'</td></strong></tr>');
+         var percenttabla = (i / res.length) *100;
+         $("div.progress > div.progress-bar").css({ "width": percenttabla + "%" });
          }
 
 
-         $("#interactiontable").dataTable({
-           retrieve: true,
-             responsive: true,
-             "dom": 'T<"clear">lfrtip',
-             "tableTools": {
-                 "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
-             }
+                  $("#interactiontable").dataTable({
+                    retrieve: true,
+                      responsive: true,
+                      "dom": 'T<"clear">lfrtip',
+                      "tableTools": {
+                          "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+                      }
 
-         });
+                  });
+
+
        show();
        setTimeout(function() {
                toastr.options = {
@@ -92,6 +114,7 @@ $.ajax({
                };
                toastr.success('Se encontraron: '+ res.length+ ' registros.', 'Registros encontrados');
            }, 0);
+           $("#progress").hide();
     }
 
          }
@@ -111,8 +134,9 @@ $.ajax({
 
  function hide()
  {
-
+   $("#interactiontable").hide()
    $("#mandaexcel").hide();
+   $("#progress").hide();
 
  }
 
@@ -120,5 +144,6 @@ $.ajax({
  {
 
    $("#mandaexcel").show();
-
+   $("#interactiontable").show();
+   $("#progress").show();
  }

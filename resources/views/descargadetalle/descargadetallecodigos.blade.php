@@ -54,13 +54,15 @@
 <div class="row">
 <div class="col-lg-4">
 
-    <form id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form  action="/descargacodigosshow" id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
       <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <label class="col-lg-2 control-label">Fecha inicial:</label>
           <input class="form-control" id="fechainicio" type="date" placeholder="Fecha inicio" name="fechainicio" value="<?=$iniciostr?>" >
           <label class="col-lg-2 control-label">Fecha final:</label>
           <input class="form-control" id="fechafinal" type="date" placeholder="Fecha final" name="fechafinal" value="<?=$finalstr?>" >
-          <button name="buscadetalle" type="button" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" onclick="buscadetalleint();">Buscar detalle</button>
+          <!--<button name="buscadetalle" type="button" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" onclick="buscadetalleint();">Buscar detalle</button>-->
+          <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Buscar detalle</button>
+
       </form>
 </div>
 </div>
@@ -77,9 +79,15 @@
 
             <div class="panel-body">
 
+
                       <div id="detalleencontrado">
                         <div class="row">
+                          <div class="progress" id="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
 
+                            </div>
+                          </div>
 
 
                         <table class="table table-striped table-bordered table-hover dataTables-example"  id="interactiontable">
