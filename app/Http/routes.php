@@ -39,8 +39,6 @@ Route::group( ['middleware' => 'auth'],
       //layouts
       Route::get('/alertascompromisos', 'alertasarriba@index');
 
-
-
       // HRM
       Route::get('/newprofileuser','hrmcontroller@newprofileuser');
       Route::get('/editprofileuser','hrmcontroller@showprofileuser');
@@ -86,7 +84,10 @@ Route::group( ['middleware' => 'auth'],
 
       // Administracion de la herramienta
       Route::get('/newuser','admintoolcontroller@newUser');
+      Route::get('/edituser','admintoolcontroller@edituser');
+      Route::get('/muestraeditusuario/{id}','admintoolcontroller@showedituserid');
       Route::post('/userstore','admintoolcontroller@userStore');
+      Route::post('/edituserstore','admintoolcontroller@edituserstore');
       Route::get('/nuevoperfilseguridad','admintoolcontroller@newPerfil');
       Route::post('/perfilstore','admintoolcontroller@perfilstore');
       Route::get('/editperfilseguridadshow','admintoolcontroller@editperfilseguridadshow');
