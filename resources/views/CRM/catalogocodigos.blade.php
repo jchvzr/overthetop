@@ -63,7 +63,7 @@
  </div>
 
  <div class="ibox-content" id="paranuevocodigo">
-<form id="creacatalogo" name="creacodigo" class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data" action="/CRM/creacodigo/">
+<form id="creacatalogo" name="creacodigo" class="" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" >
   <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
 <div class="row">
 
@@ -107,7 +107,7 @@
   <div class="checkbox col-lg-3"></div>
 <div class="form-group col-lg-6">
   <center>
-  <!--  <button name="guardacodigo" type="submit" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;">Guardar codigo submit</button>-->
+    <!--<button name="guardacodigo" type="submit" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;">Guardar codigo submit</button>-->
 
     <button name="guardacodigo" type="button" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;" onclick="guardaformulariocatalogo()">Guardar nuevo cat&aacute;logo</button>
   </center>

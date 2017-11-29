@@ -58,6 +58,10 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/controlcompromisos', 'crmcontroller@controlcompromisosindex');
       Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
       Route::get('/buscatelefono/{telefono}','crmcontroller@buscatelefono');
+      Route::get('/buscacatalogocampaña/{id}','crmcontroller@buscacatalogocampaña');
+
+
+
        // pertenecen a /newcode
           Route::get('/newcode', 'crmcontroller@newcode');
           Route::post('/newcode/creacodigo/','crmcontroller@newcodestore');
@@ -66,7 +70,7 @@ Route::group( ['middleware' => 'auth'],
           Route::post('/newcode/editacodigo/{id}','crmcontroller@newcodeeditacodigo');
        // pertenecen a /newcatalogo
           Route::get('/newcatalogo', 'crmcontroller@newcatalogo');
-          Route::post('/newcatalogo/creacatalogo/','crmcontroller@newcatalogostore');
+          Route::post('/newcatalogo/creacatalogonew','crmcontroller@newcatalogostore');
           Route::get('/newcatalogo/muestracatalogodisponibles/{id}','crmcontroller@newcatalogomostrardisponibles');
           Route::get('/newcatalogo/muestracatalogoseleccionados/{id}','crmcontroller@newcatalogomostrarseleccionados');
           Route::get('/newcatalogo/muestracatalogonombre/{id}','crmcontroller@newcatalogomuestracatalogonombre');
@@ -78,6 +82,10 @@ Route::group( ['middleware' => 'auth'],
       Route::post('/subirclientes', 'CargaclientesController@subirclientes');
       Route::get('/newcampaign', 'CargaclientesController@newcampaign');
       Route::post('/newcampaignup', 'CargaclientesController@newcampaignup');
+      Route::get('/newcampaign/muestracampaign/{id}', 'CargaclientesController@newcampaignmuestracampaign');
+      Route::get('/newcampaign/muestracatalogos/', 'CargaclientesController@newcampaignmuestracatalogos');
+      Route::post('/newcampaign/editacampana/', 'CargaclientesController@newcampaigneditcampaign');
+
 
       //Marcacion
       Route::get('/Marcacion', 'crmcontroller@Marcacionshow');
@@ -93,6 +101,11 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/editperfilseguridadcheckssub/{id}','admintoolcontroller@editperfilseguridadcheckssub');
       Route::post('/perfilstoreedit','admintoolcontroller@perfilstoreedit');
       Route::get('/newcompany','admintoolcontroller@newcompany');
+      Route::post('/companystore','admintoolcontroller@companystore');
+      Route::post('/companyedit','admintoolcontroller@companyedit');
+      Route::get('/newcompany/muestracompany/{id}','admintoolcontroller@newcompanymuestracompany');
+
+
 
       // Descarga de detalles
       Route::get('/descargacodigos','descargacontroller@descargacodigosindex');

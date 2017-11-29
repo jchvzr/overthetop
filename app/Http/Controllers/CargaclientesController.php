@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class CargaclientesController extends Controller
 {
@@ -125,10 +126,60 @@ class CargaclientesController extends Controller
 
     // obligatorios en cualquier vista para el menu
 
-      $dispositionplan = DB::table('dispositionPlan')->where('id_compania',$user->id_compania)->get();
+      $dispositionplan = DB::table('dispositionplan')->where('id_compania',$user->id_compania)->get();
 
-      return View('CRM/newcampaign',compact('datauser','menuIzquierda','submenuIzquierda','dispositionplan'));
+      $campanas = DB::table('campanas')->where('id_compania',$user->id_compania)->get();
+
+      return View('CRM/newcampaign',compact('datauser','menuIzquierda','submenuIzquierda','dispositionplan','campanas'));
     }
+
+
+
+     public function newcampaignmuestracampaign($id)
+     {
+
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $companiaid = $user->id_compania;
+
+
+        $campana=DB::table('campanas')
+                                ->join('dispositionplan','campanas.id_dispositionPlan','=','dispositionplan.id')
+                                ->where('campanas.id','=',$id)
+                                ->where('campanas.id_compania','=',$companiaid)
+                                ->select('campanas.*','dispositionplan.nombre as dispositionplannombre')
+                                ->first();
+
+                                 return response()->json(
+                                     $campana
+                                 );
+
+      }
+
+      public function newcampaignmuestracatalogos()
+      {
+
+         $user = Auth::user();
+
+         $userid = $user->id;
+
+         $companiaid = $user->id_compania;
+
+
+         $catalogo=DB::table('dispositionplan')
+                                 ->where('id_compania','=',$companiaid)
+                                 ->select('*')
+                                 ->get();
+
+                                  return response()->json(
+                                      $catalogo
+                                  );
+
+       }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -177,10 +228,33 @@ class CargaclientesController extends Controller
         ['nombre' => $request->input('campana'),
          'descripcion' => $request->input('descripcion'),
          'id_compania' => $user->id_compania,
-         'id_dispositionPlan' => $request->input('disposition')]);
+         'id_dispositionplan' => $request->input('disposition')]);
 
       return redirect('newcampaign');
     }
+
+
+    public function newcampaigneditcampaign(Request $request)
+    {
+
+       $user = Auth::user();
+
+       $userid = $user->id;
+
+       $companiaid = $user->id_compania;
+
+       $today = Carbon::now(-5);
+
+       DB::table('campanas')
+                   ->where('id', $request->input('hdnid'))
+                   ->update([
+                     'nombre'=> $request->input('campanadescripcionmodal'),
+                      'descripcion' => $request->input('campanadescripcionmodal'),
+                      'id_dispositionPlan' => $request->input('dispositionplanmodal1'),
+                      'updated_at' => $today,
+                   ]);
+
+       }
 
     /**
      * Store a newly created resource in storage.

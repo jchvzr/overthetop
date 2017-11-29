@@ -5,9 +5,6 @@ $(document).ready(function(){
       //((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode != 45))
   });
 
-
-
-
   $('.dataTables-example').dataTable({
           responsive: true,
           "dom": 'T<"clear">lfrtip',
@@ -16,22 +13,16 @@ $(document).ready(function(){
           }
   });
 
-chosechido();
+//chosechido();
 
  });
 
-
-
  // termina documenta ready
-
-
 
   function pulsar(e) {
         tecla = (document.all) ? e.keyCode :e.which;
         return (tecla!=13);
   }
-
-
 
   // para select multiple
 
@@ -100,17 +91,12 @@ chosechido();
                 o.selected = true;
             }
 
-
   }
 
   // termina para select multiple
 
-
-
-
   // guardar formulario de nueva interaccion
  function guardaformulariocatalogo(){
-
 
        $("#creacatalogo").validate({
          rules: {
@@ -126,13 +112,11 @@ chosechido();
          }
        });
 
-
-
           if(   $("#creacatalogo").valid() == false )
-          { return $("#creacatalogo").valid();}
+          {
+            return $("#creacatalogo").valid();
+          }
        else {
-
-
          var route = "/newcatalogo/creacatalogonew";
          var token = $("#token").val();
          var fd = new FormData(document.getElementById("creacatalogo"));
@@ -147,6 +131,22 @@ chosechido();
            data: fd,
            processData: false,  // tell jQuery not to process the data
            contentType: false,
+           xhr: function () {
+                var xhr = new window.XMLHttpRequest();
+                //Upload Progress
+                xhr.upload.addEventListener("progress", function (evt) {
+                   if (evt.lengthComputable) {
+                  var percentComplete = (evt.loaded / evt.total) * 100; $('div.progress > div.progress-bar').css({ "width": percentComplete + "%" }); } }, false);
+
+           //Download progress
+           xhr.addEventListener("progress", function (evt)
+           {
+           if (evt.lengthComputable)
+            { var percentComplete = (evt.loaded / evt.total) *100;
+           $("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
+           false);
+           return xhr;
+           },
            success: function(){
              setTimeout(function() {
                      toastr.options = {
@@ -175,52 +175,41 @@ chosechido();
   }
 
 
-
-
-
   function openmodal(id) {
 
         $("#hdnid").val(id);
 
-        var route = "/newcatalogo/muestracatalogodisponibles/"+id;
+        var route = "/newcompany/muestracompany/"+id;
 
        $.get(route, function(res){
 
-        $("#listaDispositionmodal").empty();
+       $("#nombremodal").val(res.nombre);
+       $("#emailmodal").val(res.emailencargado);
+       $("#domiciliomodal").val(res.domicilio);
+       $("#telefonomodal").val(res.telefono);
 
-        for (var i = 0; i < res.length; i++) {
-          $("#listaDispositionmodal").append('<option value="'+res[i].id+'">'+res[i].nombre+'</option>');
-        }
+
+
+       $("#dispositionplanmodal1").append('<option selected="selected" value="'+res.id_dispositionPlan+'">'+res.dispositionplannombre+'</option>');
+
+        var route = "/newcampaign/muestracatalogos/";
+         $.get(route, function(res){
+          for (var i = 0; i < res.length; i++) {
+            $("#dispositionplanmodal1").append('<option value="'+res[i].id+'">'+res[i].nombre+'</option>');
+
+          }
+                    $("#dispositionplanmodal1").trigger("chosen:updated");
+         });
+
 
        });
-
-        var route = "/newcatalogo/muestracatalogoseleccionados/"+id;
-       $.get(route, function(res){
-           $("#dispositionSeleccionadosmodal").empty();
-
-        for (var i = 0; i < res.length; i++) {
-          $("#dispositionSeleccionadosmodal").append('<option selected="selected" value="'+res[i].id+'">'+res[i].nombre+'</option>');
-        }
-       });
-
-       var route = "/newcatalogo/muestracatalogonombre/"+id;
-
-       $.get(route, function(res){
-
-        $("#catalogomodal").val(res.nombre);
-        $("#catalogodescripcionmodal").val(res.descripcion);
-       });
-
-
+        chosechido();
         $("#modaledita").modal('toggle');
-
-
 
      }
 
 
-     function cerrarmodal() {
-
+ function cerrarmodal() {
 
        var x = confirm("Estas seguro de cerrar sin guardar cambios?");
 
@@ -234,19 +223,15 @@ chosechido();
  }
 
 
-
-
-
  function guardacambio() {
 
        var x = confirm("Estas seguro de guardar los cambios?");
 
        if (x){
 
-
-         var route = "/newcatalogo/editacatalogo/"+$("#hdnid").val();
+         var route = "/newcampaign/editacampana";
          var token = $("#token").val();
-         var fd = new FormData(document.getElementById("editacatalogomodal"));
+         var fd = new FormData(document.getElementById("editacampañamodal"));
 
          $.ajax({
            url: route,
@@ -255,7 +240,22 @@ chosechido();
            data: fd,
            processData: false,  // tell jQuery not to process the data
            contentType: false,
+           xhr: function () {
+                var xhr = new window.XMLHttpRequest();
+                //Upload Progress
+                xhr.upload.addEventListener("progress", function (evt) {
+                   if (evt.lengthComputable) {
+                  var percentComplete = (evt.loaded / evt.total) * 100; $('div.progress > div.progress-bar').css({ "width": percentComplete + "%" }); } }, false);
 
+           //Download progress
+           xhr.addEventListener("progress", function (evt)
+           {
+           if (evt.lengthComputable)
+            { var percentComplete = (evt.loaded / evt.total) *100;
+           $("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
+           false);
+           return xhr;
+           },
            success: function(result){
              setTimeout(function() {
                      toastr.options = {
@@ -264,19 +264,15 @@ chosechido();
                          showMethod: 'slideDown',
                          timeOut: 4000
                      };
-                     toastr.success('Se guardaron los cambios', 'Codigo guardado');
+                     toastr.success('Se guardaron los cambios', 'Campaña guardada');
 
                  }, 1300);
             location.reload();
            }
          });
 
-
-
        $("#modaledita").modal('hide');
      }
 
       return false;
-
-
  }

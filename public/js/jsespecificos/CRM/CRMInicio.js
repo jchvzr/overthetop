@@ -97,6 +97,21 @@ showdiv()
  $("#customeridmodal").val(res.customerid);
  $("#nombreClienteModal").val(res.nombreCliente);
 
+
+
+ var route3 = "/buscacatalogocampaña/"+res.idcampana;
+ $.get(route3, function(res){
+ $("#dispositions").empty();
+
+ for (var i = 0; i < res.length; i++) {
+
+ $("#dispositions").append('<option value="'+res[i].id+'">'+res[i].nombre+'</option>');
+
+ }
+$("#dispositions").trigger("chosen:updated");
+});
+
+
 // valida si la busqueda no tuvo resultados se manda alerta
  if($("#customerid").val() == "")
  {
@@ -198,12 +213,17 @@ else
 
     });
 
+
+
+
    }
 // Termina validacion de resultado
 
 //         $("#pruebasjquery").html(res);
 
    });
+
+
 }
 chosechido();
  });

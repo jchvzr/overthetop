@@ -370,9 +370,7 @@
                       <label>Codigo *</label>
                       <select id="dispositions" name="dispositions" class="chosen-select form-control required" tabindex="2">
                         <option value="" ></option>
-                      <?php foreach($dispositions as $disp): ?>
-                        <option value=<?=$disp->id?> ><?=$disp->nombre?></option>
-                      <?php     endforeach ?>
+
                       </select>
                   </div>
               </div>

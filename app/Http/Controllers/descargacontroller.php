@@ -244,7 +244,7 @@ $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($
 
            $clientesinteraccion = DB::table('controlcompromisos')
                                     ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                                    ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                                    ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                     ->join('clientes','clientes.customerid','=','clientesdetail.customerid')
                                     ->join('users','controlcompromisos.id_users','=','users.id')
                                     ->select('users.usuario','dispositions.nombre as codigo','controlcompromisos.comentario','controlcompromisos.fechaFin as fechacompromiso','controlcompromisos.hecho as revisado','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')

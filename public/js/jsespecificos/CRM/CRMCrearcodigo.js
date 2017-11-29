@@ -48,7 +48,9 @@ $("#creacodigo").validate({
 else {
 
 
-  var route = "/CRM/creacodigo/";
+
+
+  var route = "/newcode/creacodigo/";
   var token = $("#token").val();
   var fd = new FormData(document.getElementById("creacodigo"));
   var progressBar = document.getElementById("progress");
@@ -58,7 +60,7 @@ else {
   $.ajax({
     url: route,
     headers: {'X-CSRF_TOKEN': token},
-    type: 'post',
+    type: 'POST',
     data: fd,
     processData: false,  // tell jQuery not to process the data
     contentType: false,
@@ -136,11 +138,9 @@ if (this.name ==  "modalexito") {
 });
 
 
-
-
    $("#modaldispositionTratamiento").empty();
 
-   $("#modaldispositionTratamiento").append('<option selected="selected" value="'+res.id_dispositionTratamiento+'">'+res.tratamiento+'</option>');
+   $("#modaldispositionTratamiento").append('<option selected="selected" value="'+res.id_dispositionPlan+'">'+res.dispositionplannombre+'</option>');
 
    var route = "/newcode/mostrartratamiento/"+id;
   $.get(route, function(res){

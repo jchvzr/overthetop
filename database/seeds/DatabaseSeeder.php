@@ -965,9 +965,14 @@ class DatabaseSeeder extends Seeder
 
                                   public function run()
                                   {
-                                    db::table('dispositionplan')->insert(array(
+                                    db::table('companias')->insert(array(
                                              'nombre'       => 'Over the top services',
-                                             'descripcion'  => 'Over the top BI services',
+                                             'email'  => 'jorge.chavez@overthetop.com.mx',
+                                             'domicilio'  => 'Mariano Otero 3429 piso 4 ofna 3',
+                                             'telefono'  => '3314175878',
+                                             'status'  => '1',
+                                             'archivo'  => 'overthetop60.jpg',
+                                             'archivoid'  => 'overthetop60.jpg',
                                            ));
 
                                   }

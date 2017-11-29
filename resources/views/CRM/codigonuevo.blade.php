@@ -75,7 +75,7 @@
       <br>
       <select id="dispositionTratamiento" name="dispositionTratamiento" class="form-control required">
         <option value="" ></option>
-       <?php foreach ($dispositionTratamientos as $dispositionTratamiento): ?>
+       <?php foreach ($dispositiontratamientos as $dispositionTratamiento): ?>
         <option value=<?=$dispositionTratamiento->id ?> ><?=$dispositionTratamiento->nombre ?></option>
        <?php endforeach ?>
       </select>

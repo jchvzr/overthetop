@@ -139,6 +139,29 @@ class crmcontroller extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function buscacatalogocampaña($id)
+    {
+      $user = Auth::user();
+
+      $codigos = DB::table('campanas')
+                               ->join('dispositionplan','campanas.id_dispositionPlan','=','dispositionplan.id')
+                               ->join('dispositionplandetail','dispositionplan.id','=','dispositionplandetail.id_dispositionPlan')
+                               ->join('dispositions','dispositionplandetail.id_disposition','=','dispositions.id')
+                               ->select('dispositions.id','dispositions.nombre')
+                               ->where('campanas.id','=',$id)
+                               ->get();
+
+//return(dd($detalleCliente));
+
+      return response()->json($codigos);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -184,7 +207,7 @@ class crmcontroller extends Controller
                  ]);
 
        $dispcontroagenda = DB::table('dispositions')
-                                ->select('compromiso','id_dispositionTratamiento')
+                                ->select('compromiso','id_dispositiontratamiento')
                                 ->where('id','=',$request->input('dispositions'))
                                 ->first();
 
@@ -207,11 +230,11 @@ class crmcontroller extends Controller
 
                    DB::table('clientesdetail')
                    ->where('id', '=', 1)
-                   ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
+                   ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
         }else {
           DB::table('clientesdetail')
           ->where('id', '=', 1)
-          ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+          ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
         }
 
 
@@ -221,7 +244,7 @@ class crmcontroller extends Controller
 
     public function storeinteractionsmarcacion(Request $request)
     {
-    
+
         $today = Carbon::now(-5);
 
     //    return(dd($today));
@@ -239,7 +262,7 @@ class crmcontroller extends Controller
                  ]);
 
        $dispcontroagenda = DB::table('dispositions')
-                                ->select('compromiso','id_dispositionTratamiento')
+                                ->select('compromiso','id_dispositiontratamiento')
                                 ->where('id','=',$request->input('dispositions'))
                                 ->first();
 
@@ -262,11 +285,11 @@ class crmcontroller extends Controller
 
                   DB::table('clientesdetail')
                   ->where('id', '=', 1)
-                  ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+                  ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
        }else {
          DB::table('clientesdetail')
          ->where('id', '=', 1)
-         ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+         ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
        }
 
     return  redirect('/Marcacion');
@@ -382,7 +405,7 @@ return(response()->json($prueba));
 
       $compromisos = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
@@ -478,19 +501,19 @@ return(response()->json($prueba));
 
     // obligatorios en cualquier vista para el menu
 
-      $dispositionTratamientos = DB::table('dispositionTratamiento')
+      $dispositiontratamientos = DB::table('dispositiontratamiento')
                                     ->select('*')
                                     ->get();
 
       $dispositions = DB::table('dispositions')
-                                    ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
-                                    ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                    ->join('dispositiontratamiento','dispositions.id_dispositiontratamiento','=','dispositiontratamiento.id')
+                                    ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
                                     ->where('id_compania','=',$companiaid)
                                     ->get();
 
 
-//return(dd($compromisos));
-  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos','dispositions') );
+//return(dd($companiaid));
+  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositiontratamientos','dispositions') );
 
 
     }
@@ -550,7 +573,7 @@ return(response()->json($prueba));
        'contacto' => $contacto,
        'rpc' => $rpc,
        'exito' => $exito,
-       'id_dispositionTratamiento' => $request->input('dispositionTratamiento'),
+       'id_dispositiontratamiento' => $request->input('dispositionTratamiento'),
        'id_compania' =>  $companiaid,
        'compromiso' => $compromiso,
        'bloqueo' => $bloqueo,
@@ -573,8 +596,8 @@ return(response()->json($prueba));
      $today = Carbon::now(-5);
 
      $dispositions = DB::table('dispositions')
-                                   ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
-                                   ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                   ->join('dispositiontratamiento','dispositions.id_dispositiontratamiento','=','dispositiontratamiento.id')
+                                   ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
                                    ->where('id_compania','=',$companiaid)
                                    ->where('dispositions.id','=',$id)
                                    ->first();
@@ -594,11 +617,11 @@ return(response()->json($prueba));
 
      $today = Carbon::now(-5);
 
-     $dispositionTratamiento = DB::table('dispositionTratamiento')
-                                   ->select('dispositionTratamiento.id','dispositionTratamiento.nombre as tratamiento')
+     $dispositiontratamiento = DB::table('dispositiontratamiento')
+                                   ->select('dispositiontratamiento.id','dispositiontratamiento.nombre as tratamiento')
                                    ->get();
 
-     return(response()->json($dispositionTratamiento));
+     return(response()->json($dispositiontratamiento));
    }
 
 
@@ -660,7 +683,7 @@ return(response()->json($prueba));
                        'contacto' => $contacto,
                        'rpc' => $rpc,
                        'exito' => $exito,
-                       'id_dispositionTratamiento' => $request->input('modaldispositionTratamiento'),
+                       'id_dispositiontratamiento' => $request->input('modaldispositionTratamiento'),
                        'id_compania' =>  $companiaid,
                        'compromiso' => $compromiso,
                        'bloqueo' => $bloqueo,
@@ -734,8 +757,8 @@ return(response()->json($prueba));
       // obligatorios en cualquier vista para el menu
 
         $dispositions = DB::table('dispositions')
-                                      ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
-                                      ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                      ->join('dispositiontratamiento','dispositions.id_dispositiontratamiento','=','dispositiontratamiento.id')
+                                      ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
                                       ->where('id_compania','=',$companiaid)
                                       ->get();
 
@@ -746,7 +769,7 @@ return(response()->json($prueba));
 
 
   //return(dd($compromisos));
-    return View('CRM/catalogocodigos',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos','dispositions','dispositionplans') );
+    return View('CRM/catalogocodigos',compact('datauser','menuIzquierda','submenuIzquierda','dispositiontratamientos','dispositions','dispositionplans') );
 
 
       }

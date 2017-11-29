@@ -16,7 +16,12 @@ class Companias extends Migration
         Schema::create('companias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->integer('descripcion');
+            $table->string('email');
+            $table->string('domicilio');
+            $table->string('telefono');
+            $table->string('status');
+            $table->string('archivo');
+            $table->string('archivoid');
             $table->timestamps();
             });
     }
