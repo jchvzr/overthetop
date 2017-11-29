@@ -293,6 +293,12 @@ class DatabaseSeeder extends Seeder
                              'id_menuIzquierda' => 3
                          ));
 
+                    db::table('submenuIzquierda')->insert(array(
+                             'opcion'     => 'Editar usuario',
+                             'route'     => '/edituser',
+                             'id_menuIzquierda' => 3
+                         ));
+
 
                     db::table('submenuIzquierda')->insert(array(
                              'opcion'     => 'Crear perfil de seguridad',

@@ -39,8 +39,6 @@ Route::group( ['middleware' => 'auth'],
       //layouts
       Route::get('/alertascompromisos', 'alertasarriba@index');
 
-
-
       // HRM
       Route::get('/newprofileuser','hrmcontroller@newprofileuser');
       Route::get('/editprofileuser','hrmcontroller@showprofileuser');
@@ -80,6 +78,7 @@ Route::group( ['middleware' => 'auth'],
       //Carga de clientes
       Route::get('/cargaclientes', 'CargaclientesController@index');
       Route::post('/subirclientes', 'CargaclientesController@subirclientes');
+      Route::post('/depurarclientes', 'CargaclientesController@depurarclientes');
       Route::get('/newcampaign', 'CargaclientesController@newcampaign');
       Route::post('/newcampaignup', 'CargaclientesController@newcampaignup');
       Route::get('/newcampaign/muestracampaign/{id}', 'CargaclientesController@newcampaignmuestracampaign');
@@ -93,7 +92,10 @@ Route::group( ['middleware' => 'auth'],
 
       // Administracion de la herramienta
       Route::get('/newuser','admintoolcontroller@newUser');
+      Route::get('/edituser','admintoolcontroller@edituser');
+      Route::get('/muestraeditusuario/{id}','admintoolcontroller@showedituserid');
       Route::post('/userstore','admintoolcontroller@userStore');
+      Route::post('/edituserstore','admintoolcontroller@edituserstore');
       Route::get('/nuevoperfilseguridad','admintoolcontroller@newPerfil');
       Route::post('/perfilstore','admintoolcontroller@perfilstore');
       Route::get('/editperfilseguridadshow','admintoolcontroller@editperfilseguridadshow');

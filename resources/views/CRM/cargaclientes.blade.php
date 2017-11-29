@@ -56,29 +56,79 @@
 <div class="wrapper wrapper-content">
  <div class="ibox-content inspinia-timeline" id="compromisoslistado">
    <div class="row">
-     <form id="fileinfo" method="post" onsubmit="subir();">
-       <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
-       <div class="col-lg-6 col-md-6">
-         <h2><label for="Usuario" class="control-label">Campaña:</label></h2>
-         <select class="form-control  input-lg" id="campaña" name="campaña" required>
-           <option value=""></option>
-           <?php foreach ($campana as $campanas): ?>
-             <option value="<?=$campanas->id?>"><?=$campanas->nombre?></option>
-           <?php endforeach ?>
-         </select>
-       </div>
-       <div class="col-lg-8 col-md-8">
-         <h2><label for="Usuario" class="control-label col-md-12">Archivo:</label></h2>
-         <input class="" id="archivo" type="file" placeholder="Elige el archivo" name="archivo" required>
-         <progress id="progress" value="0"></progress>
-       </div>
-       <br>
-       <div class="col-lg-6 col-md-6">
-         <button class="btn btn-success" type="submit" name="button">subir</button>
-       </div>
-     </form>
+       <div class="col-lg-12">
+         <div class="panel blank-panel">
+             <div class="panel-heading">
+                 <div class="panel-options">
+                     <ul class="nav nav-tabs">
+                         <li class="active"><a id="elementobuscado" data-toggle="tab" href="#tab-1">Carga de clientes</a></li>
+                         <li class=""><a data-toggle="tab" href="#tab-2">Pase a productivo</a></li>
+                     </ul>
+                 </div>
+             </div>
+
+             <div class="panel-body">
+               <div class="tab-content">
+
+                <div id="tab-1" class="tab-pane active">
+                 <div id="datos">
+                   <div class="row">
+                     <form id="fileinfo" method="post" onsubmit="subir();">
+                       <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
+                       <div class="col-lg-6 col-md-6">
+                         <h2><label for="Usuario" class="control-label">Campaña:</label></h2>
+                         <select class="form-control  input-lg" id="campaña" name="campaña" required>
+                           <option value=""></option>
+                           <?php foreach ($campana as $campanas): ?>
+                             <option value="<?=$campanas->id?>"><?=$campanas->nombre?></option>
+                           <?php endforeach ?>
+                         </select>
+                       </div>
+                       <div class="col-lg-8 col-md-8">
+                         <h2><label for="Usuario" class="control-label col-md-12">Archivo:</label></h2>
+                         <input class="" id="archivo" type="file" placeholder="Elige el archivo" name="archivo" required>
+                         <progress id="progress" value="0"></progress>
+                       </div>
+                       <br>
+                       <div class="col-lg-6 col-md-6">
+                         <button class="btn btn-success" type="submit" name="button">subir</button>
+                       </div>
+                     </form>
+                   </div>
+                  </div>
+                 </div>
+
+                 <div id="tab-2" class="tab-pane">
+                   <div id="bitacora">
+                     <div class="row">
+                       <form id="fileinfopro" method="post" onsubmit="subirpro();">
+                         <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
+                         <div class="col-lg-6 col-md-6">
+                           <h2><label for="Usuario" class="control-label">Campaña pre-cargada:</label></h2>
+                           <select class="form-control  input-lg" id="campañapro" name="campañapro" required>
+                             <option value=""></option>
+                             <?php foreach ($campana_pre as $campanasp): ?>
+                               <option value="<?=$campanasp->id?>"><?=$campanasp->nombre?></option>
+                             <?php endforeach ?>
+                           </select>
+                         </div>
+                         <br>
+                         <div class="col-lg-12 col-md-12">
+                           <button class="btn btn-success" type="submit" name="button">Cargar</button>
+                         </div>
+                       </form>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+            </div>
+
+         </div>
+      </div>
    </div>
  </div>
 </div>
+
+
 
 @endsection
