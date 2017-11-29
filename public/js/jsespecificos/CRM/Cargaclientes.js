@@ -23,7 +23,29 @@ function subir() {
       return xhr;
     },
     success: function(){
-      alert("Cambios guardados correctamente");
+      alert("Los registros se subieron con excito favor de pasar al siguiente paso");
+      location.reload();
+    }
+  });
+
+}
+
+function subirpro() {
+  event.preventDefault();
+
+  var route = "/depurarclientes";
+  var token = $("#token").val();
+  var fd = new FormData(document.getElementById("fileinfopro"));
+  console.log(route);
+  $.ajax({
+    url: route,
+    headers: {'X-CSRF_TOKEN': token},
+    type: 'post',
+    data: fd,
+    processData: false,  // tell jQuery not to process the data
+    contentType: false,
+    success: function(){
+      alert("Campaña cargada y lista");
       location.reload();
     }
   });

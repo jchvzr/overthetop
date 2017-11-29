@@ -71,7 +71,14 @@ class CargaclientesController extends Controller
 
       $campana = DB::table('campanas')->where('id_compania',$user->id_compania)->get();
 
-      return View('CRM/cargaclientes',compact('datauser','menuIzquierda','submenuIzquierda','campana'));
+      $campana_pre = DB::table('campanas')
+                      ->join('clientestmps', 'campanas.id', '=', 'clientestmps.idcampana')
+                      ->where('clientestmps.id_compania',$user->id_compania)
+                      ->select('campanas.id','campanas.nombre')
+                      ->distinct()
+                      ->get();
+
+      return View('CRM/cargaclientes',compact('datauser','menuIzquierda','submenuIzquierda','campana','campana_pre'));
     }
 
      public function newcampaign(Request $request)
@@ -150,8 +157,8 @@ class CargaclientesController extends Controller
 
               foreach($results as $row)
               {
-                DB::table('clientes')->insert(['customerid' => $row->customerid, 'idcampana' => $campana, 'id_compania' => $usercampana]);
-                DB::table('clientesdetail')->insert($row->toArray());
+                DB::table('clientestmps')->insert(['customerid' => $row->customerid, 'idcampana' => $campana, 'id_compania' => $usercampana]);
+                DB::table('clientesdetailtmps')->insert($row->toArray());
 
               }
       },$shouldQueue);
@@ -166,6 +173,58 @@ class CargaclientesController extends Controller
       });
 */
       return redirect('cargaclientes');
+    }
+
+    public function depurarclientes(Request $request)
+    {
+      $user = Auth::user();
+      $campana = $request->input('campañapro');
+      $usercampana = $user->id_compania;
+
+      $campana_pre =  DB::table('clientes')
+                      ->join('clientestmps', function ($join) use ($campana) {
+                          $join->on('clientes.customerid', '=', 'clientestmps.customerid')
+                               ->where('clientestmps.idcampana', '=', $campana);
+                      })
+                      ->where('clientestmps.id_compania',$usercampana)
+                      ->delete();
+
+      $campana_pre =  DB::table('clientesdetail')
+                      ->join('clientestmps', function ($join) use ($campana) {
+                          $join->on('clientesdetail.customerid', '=', 'clientestmps.customerid')
+                               ->where('clientestmps.idcampana', '=', $campana);
+                      })
+                      ->where('clientestmps.id_compania',$usercampana)
+                      ->delete();
+
+            /**
+       * Wherever your Select may come from
+       **/
+
+        DB::insert('insert into clientes (customerid,idcampana,id_compania) select customerid,idcampana,id_compania from clientestmps
+        where clientestmps.id_compania = '. $usercampana.'
+        and clientestmps.idcampana = '.$campana);
+
+        DB::insert('insert into clientesdetail (customerid, nombreCliente, calleCasa, coloniaCasa, ciudadCasa, cpCasa, calleTrabajo, coloniaTrabajo, ciudadTrabajo, cpTrabajo, telefono1, telefono2, telefono3, telefono4, custom1, custom2, custom3, custom4, custom5, custom6, custom7, custom8, custom9, custom10, ultimocodigo, fecha, usuariocodigo, enuso, usuarioenuso,created_at,updated_at)
+        select distinct clientesdetailtmps.customerid, nombreCliente, calleCasa, coloniaCasa, ciudadCasa, cpCasa, calleTrabajo, coloniaTrabajo, ciudadTrabajo, cpTrabajo, telefono1, telefono2, telefono3, telefono4, custom1, custom2, custom3, custom4, custom5, custom6, custom7, custom8, custom9, custom10, ultimocodigo, fecha, usuariocodigo, enuso, usuarioenuso, clientesdetailtmps.created_at, clientesdetailtmps.updated_at
+        from clientesdetailtmps
+        join clientestmps on clientestmps.customerid = clientesdetailtmps.customerid and clientestmps.idcampana = '.$campana.'
+        where clientestmps.id_compania = '. $usercampana.'
+        and clientestmps.idcampana = '.$campana);
+
+        $campana_post = DB::table('clientesdetailtmps')
+                        ->join('clientestmps', function ($join) use ($campana) {
+                            $join->on('clientesdetailtmps.customerid', '=', 'clientestmps.customerid')
+                                 ->where('clientestmps.idcampana', '=', $campana);
+                        })
+                        ->where('clientestmps.id_compania',$usercampana)
+                        ->delete();
+
+        $campana_post = DB::table('clientestmps')
+                            ->where('clientestmps.idcampana', '=', $campana)
+                            ->where('clientestmps.id_compania', '=',$usercampana)
+                            ->delete();
+
     }
 
     public function newcampaignup(Request $request)

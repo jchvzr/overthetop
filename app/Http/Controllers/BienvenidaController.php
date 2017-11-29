@@ -38,10 +38,10 @@ class BienvenidaController extends Controller
     {
       Mail::send('emails.contact',$request->all(), function($msj){
         $msj->subject('Correo de contacto');
-        $msj->to('password.recovery@isolutionbusiness.com');
+        $msj->to('jonathan.gomez@overthetop.com.mx');
       });
       Session::flash('message','Enviado correctamente');
-      return Redirect::to('/');
+      
     }
 
     /**

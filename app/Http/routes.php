@@ -76,6 +76,7 @@ Route::group( ['middleware' => 'auth'],
       //Carga de clientes
       Route::get('/cargaclientes', 'CargaclientesController@index');
       Route::post('/subirclientes', 'CargaclientesController@subirclientes');
+      Route::post('/depurarclientes', 'CargaclientesController@depurarclientes');
       Route::get('/newcampaign', 'CargaclientesController@newcampaign');
       Route::post('/newcampaignup', 'CargaclientesController@newcampaignup');
 
