@@ -59,7 +59,6 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/buscacatalogocampaña/{id}','crmcontroller@buscacatalogocampaña');
 
 
-
        // pertenecen a /newcode
           Route::get('/newcode', 'crmcontroller@newcode');
           Route::post('/newcode/creacodigo/','crmcontroller@newcodestore');

@@ -334,23 +334,16 @@ $("#dispositions").change(function() {
       $("#divmonto").hide();
       $("#divmonto").show();
       $('#monto').removeAttr('disabled');
-
-
     }
     else
     {
       $("#compromiso").hide();
       $('#monto').attr('disabled','disabled');
-
     }
-
 
       });
 
-
             });
-
-
 
 
  //  OBSERVE TAB CHANGE
@@ -372,18 +365,14 @@ $("#dispositions").change(function() {
  // guardar formulario de nueva interaccion
  function guardainteraccion(){
 
-
 $("#formagregainteraccion").validate().settings.ignore = ":disabled";
-
-
 
    if(   $("#formagregainteraccion").valid() == false )
    { return $("#formagregainteraccion").valid();}
-else {
 
+   else {
 
-  $('#fechapp').val($('#datetimepicker12').data("DateTimePicker").date().format("YYYY/MM/DD hh:mm"));
-
+    $('#fechapp').val($('#datetimepicker12').data("DateTimePicker").date().format("YYYY/MM/DD hh:mm"));
 
   }
 

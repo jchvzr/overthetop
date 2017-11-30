@@ -182,28 +182,15 @@ $(document).ready(function(){
         var route = "/newcompany/muestracompany/"+id;
 
        $.get(route, function(res){
-
+       $("#hdnid").val(res.id);
        $("#nombremodal").val(res.nombre);
-       $("#emailmodal").val(res.emailencargado);
+       $("#emailmodal").val(res.email);
        $("#domiciliomodal").val(res.domicilio);
        $("#telefonomodal").val(res.telefono);
-
-
-
-       $("#dispositionplanmodal1").append('<option selected="selected" value="'+res.id_dispositionPlan+'">'+res.dispositionplannombre+'</option>');
-
-        var route = "/newcampaign/muestracatalogos/";
-         $.get(route, function(res){
-          for (var i = 0; i < res.length; i++) {
-            $("#dispositionplanmodal1").append('<option value="'+res[i].id+'">'+res[i].nombre+'</option>');
-
-          }
-                    $("#dispositionplanmodal1").trigger("chosen:updated");
-         });
-
+       $("#logoempresa").attr("src","/img/"+res.archivoid);
 
        });
-        chosechido();
+
         $("#modaledita").modal('toggle');
 
      }

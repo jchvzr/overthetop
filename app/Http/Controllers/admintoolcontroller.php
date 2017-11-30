@@ -196,6 +196,8 @@ class admintoolcontroller extends Controller
 
      $userid = $user->id;
 
+     $idcompania =  $user->id_compania;
+
      $usu = new User;
 
      $today = Carbon::now(-5);
@@ -223,6 +225,7 @@ class admintoolcontroller extends Controller
            'habilitado' => 1,
            'id_usuariosPerfil' => $request->input('perfilSeguridad'),
            'id_usuariosPuesto' => $request->input('puesto'),
+           'id_compania' => $idcompania,
            'created_at' => $today,
            'updated_at' => $today,
            ]);
@@ -713,11 +716,11 @@ return redirect('/nuevoperfilseguridad');
 
         $v = \Validator::make($request->all(), [
           'nombre'       => 'required|max:255',
-          'email'  => 'required|max:255|email_address',
+          'email'  => 'required|max:255|email',
           'domicilio'  => 'required|max:255',
           'telefono'  => 'required|max:255',
           'status'  => 'required|max:255',
-          'archivo'  => 'required|file|image',
+          'logo'  => 'required|image',
         ]);
 
   //return(dd($v->errors()));
@@ -729,34 +732,154 @@ return redirect('/nuevoperfilseguridad');
 
         }
 
-        DB::table('companias')->insertGetId(
+
+        $file = $request->file('logo');
+
+        if($file != null)
+        {
+            $extension = strtolower($file->getclientoriginalextension());
+            $nombreunicoarchivo = uniqid('logo_').'.'.$extension;
+            $nombre = $file->getClientOriginalName();
+            \Storage::disk('img')->put($nombreunicoarchivo,  \File::get($file));
+        }
+
+        $today = Carbon::now(-5);
+
+        $start = Carbon::parse($today)->startOfDay();
+        $end = Carbon::parse($today)->endOfDay();
+
+$idcompania =  DB::table('companias')->insertGetId(
                 ['nombre'=> $request->input('nombre'),
                  'email' => $request->input('email'),
-                 'password' =>   bcrypt($request->input('password')),
-                 'habilitado' => 1,
-                 'id_usuariosPerfil' => $request->input('perfilSeguridad'),
-                 'id_usuariosPuesto' => $request->input('puesto'),
+                 'domicilio' =>  $request->input('domicilio'),
+                 'telefono' => $request->input('telefono'),
+                 'status' => 1,
+                 'archivo' => $nombre,
+                 'archivoid' => $nombreunicoarchivo,
                  'created_at' => $today,
                  'updated_at' => $today,
                  ]);
 
 
 
-        DB::table('users')->insertGetId(
-                ['usuario'=> $request->input('usuario'),
+$idd =         DB::table('users')->insertGetId(
+                ['usuario'=> $request->input('nombre'),
                  'email' => $request->input('email'),
-                 'password' =>   bcrypt($request->input('password')),
+                 'password' =>   bcrypt($request->input('email')),
                  'habilitado' => 1,
-                 'id_usuariosPerfil' => $request->input('perfilSeguridad'),
-                 'id_usuariosPuesto' => $request->input('puesto'),
+                 'id_usuariosPerfil' => 1,
+                 'id_usuariosPuesto' => 0,
+                 'id_compania' => $idcompania,
                  'created_at' => $today,
                  'updated_at' => $today,
                  ]);
 
-
+                DB::table('usuariosdetail')->insert(
+                         ['nombre'=> $request->input('nombre'),
+                          'apellidoPaterno'=> '',
+                          'apellidoMaterno'=> '',
+                          'domicilioCalle'=> '',
+                          'domicilioColonia' => '',
+                          'domicilioCiudad' => '',
+                          'domicilioCP' =>'',
+                          'telefonoCasa' => '',
+                          'telefonoCelular' => '',
+                          'fechaNacimiento' => $today,
+                          'sexo' => '',
+                          'curp' => '',
+                          'rfc' => '',
+                          'nss' => '',
+                          'fechaIngreso' => $today,
+                          'id_usuario' => $idd,
+                          'created_at' => $today,
+                          'updated_at' => $today,
+                         ]);
 
 
     }
+
+
+
+        /**
+         * Display a listing of the resource.
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function companyedit(Request $request)
+        {
+
+            $user = Auth::user();
+
+            $userid = $user->id;
+
+            $v = \Validator::make($request->all(), [
+              'nombremodal'       => 'required|max:255',
+              'emailmodal'  => 'required|max:255|email',
+              'domiciliomodal'  => 'required|max:255',
+              'telefonomodal'  => 'required|max:255',
+              'statusmodal'  => 'required|max:255',
+              'logomodal'  => 'image',
+            ]);
+
+      //return(dd($v->errors()));
+
+           if ($v->fails())
+            {
+
+              return redirect()->back()->withInput()->withErrors($v->errors());
+
+            }
+
+            $file = $request->file('logo');
+
+            if($file != null)
+            {
+                $extension = strtolower($file->getclientoriginalextension());
+                $nombreunicoarchivo = uniqid('logo_').'.'.$extension;
+                $nombre = $file->getClientOriginalName();
+                \Storage::disk('img')->put($nombreunicoarchivo,  \File::get($file));
+
+                $today = Carbon::now(-5);
+
+                $start = Carbon::parse($today)->startOfDay();
+                $end = Carbon::parse($today)->endOfDay();
+
+
+                DB::table('users')
+                            ->where('id', 1)
+                            ->update(['options->enabled' => true]);
+
+        $idcompania =  DB::table('companias')->where('id', $request->input('hdnid'))
+                ->update(['nombre'=> $request->input('nombremodal'),
+                         'email' => $request->input('emailmodal'),
+                         'domicilio' =>  $request->input('domiciliomodal'),
+                         'telefono' => $request->input('telefonomodal'),
+                         'status' => 1,
+                         'archivo' => $nombre,
+                         'archivoid' => $nombreunicoarchivo,
+                         'updated_at' => $today,
+                         ]);
+
+            }
+            else {
+              $today = Carbon::now(-5);
+
+              $start = Carbon::parse($today)->startOfDay();
+              $end = Carbon::parse($today)->endOfDay();
+
+              $idcompania =  DB::table('companias')->where('id', $request->input('hdnid'))
+                      ->update(['nombre'=> $request->input('nombremodal'),
+                                'email' => $request->input('emailmodal'),
+                                'domicilio' =>  $request->input('domiciliomodal'),
+                                'telefono' => $request->input('telefonomodal'),
+                               'status' => 1,
+                               'updated_at' => $today,
+                               ]);
+            }
+
+
+        }
+
 
     /**
      * Get the error messages for the defined validation rules.

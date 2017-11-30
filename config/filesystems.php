@@ -43,9 +43,9 @@ return [
 
     'disks' => [
 
-        'imagenesusuarios' => [
+        'img' => [
             'driver' => 'local',
-            'root'   => public_path().'/storage/imagenesusuarios',
+            'root'   => public_path().'/img',
         ],
 
 

@@ -247,7 +247,7 @@ $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($
                                     ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                     ->join('clientes','clientes.customerid','=','clientesdetail.customerid')
                                     ->join('users','controlcompromisos.id_users','=','users.id')
-                                    ->select('users.usuario','dispositions.nombre as codigo','controlcompromisos.comentario','controlcompromisos.fechaFin as fechacompromiso','controlcompromisos.hecho as revisado','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')
+                                    ->select('users.usuario','dispositions.nombre as codigo','controlcompromisos.comentario','controlcompromisos.fechaInicio as fecha','controlcompromisos.fechaFin as fechacompromiso','controlcompromisos.hecho as revisado','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')
                                     ->wherebetween('controlcompromisos.fechaFin',[$inicio,$final])
                                     //->where('controlcompromisos.id_users','=',$userid)
                                     ->orderBy('controlcompromisos.fechaFin','desc')

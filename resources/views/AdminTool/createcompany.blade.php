@@ -211,9 +211,9 @@ alert ('{{Session::get('flash_message')}}')
                 <h4 class="modal-title">Editar compañ&iacute;a</h4>
             </div>
             <div class="modal-body">
-              <form id="form" action="/companyedit" class="wizard-big"method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-
+              <form id="formmodal" action="/companyedit" class="wizard-big"method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                <input type="hidden" name="hdnid" id="hdnid" value="">
                   <h1>Datos de compañ&iacute;a</h1>
                   <fieldset class="form-group">
                       <div class="row">
@@ -263,9 +263,15 @@ alert ('{{Session::get('flash_message')}}')
                           <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Logo *</label>
-                                <input id="logomodal" name="logomodal" type="file" class="form-control required" value="{{ old('logo') }}" required>
+                                <input id="logomodal" name="logomodal" type="file" class="form-control required" value="{{ old('logo') }}">
                             </div>
                           </div>
+                        </div>
+
+                        <div class="row">
+                          <center>
+                           <img id="logoempresa" alt="image" class="img-circle" src="">
+                         </center>
                         </div>
 
                   </div>
@@ -273,19 +279,15 @@ alert ('{{Session::get('flash_message')}}')
                             <center>
                                        <div class="form-group">
                                            <div class="col-sm-12">
-                                               <button class="btn btn-primary" type="submit" onclick="validar()">Guardar</button>
+                                               <button class="btn btn-primary" type="submit" onclick="validar()">Guardar cambios</button>
                                            </div>
                                        </div>
-                          </center>
-
-
+                           </center>
                   </fieldset>
-
               </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white"  id="closeguarda" name="closeguarda" onclick="cerrarmodal() ">Close</button>
-                <button name="guardacodigo" type="button" class="btn btn-primary" id="guardacodigo" style="font-family: Arial;" onclick="guardacambio()">Guardar nuevo cat&aacute;logo</button>
                 <div class="progress" id="progress">
                   <div class="progress-bar progress-bar-striped active" role="progressbar"
                   aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
