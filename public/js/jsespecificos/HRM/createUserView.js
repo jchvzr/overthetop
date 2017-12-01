@@ -1,0 +1,182 @@
+$(document).ready(function(){
+
+    $("#form").steps({
+        bodyTag: "fieldset",
+        onStepChanging: function (event, currentIndex, newIndex)
+        {
+            // Always allow going backward even if the current step contains invalid fields!
+            if (currentIndex > newIndex)
+            {
+                return true;
+            }
+
+            // Forbid suppressing "Warning" step if the user is to young
+            if (newIndex === 3 && Number($("#age").val()) < 18)
+            {
+                return false;
+            }
+
+            var form = $(this);
+
+            // Clean up if user went backward before
+            if (currentIndex < newIndex)
+            {
+                // To remove error styles
+                $(".body:eq(" + newIndex + ") label.error", form).remove();
+                $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+            }
+
+            // Disable validation on fields that are disabled or hidden.
+            form.validate().settings.ignore = ":disabled,:hidden";
+
+            // Start validation; Prevent going forward if false
+            return form.valid();
+        },
+        onStepChanged: function (event, currentIndex, priorIndex)
+        {
+            // Suppress (skip) "Warning" step if the user is old enough.
+            if (currentIndex === 2 && Number($("#age").val()) >= 18)
+            {
+                $(this).steps("next");
+            }
+
+            // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+            if (currentIndex === 2 && priorIndex === 3)
+            {
+                $(this).steps("previous");
+            }
+        },
+        onFinishing: function (event, currentIndex)
+        {
+            var form = $(this);
+
+            // Disable validation on fields that are disabled.
+            // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+            form.validate().settings.ignore = ":disabled";
+
+            // Start validation; Prevent form submission if false
+            return form.valid();
+
+
+        },
+        onFinished: function (event, currentIndex)
+        {
+            var form = $(this);
+
+            // Submit form input
+            form.submit();
+        }
+    }).validate({
+                errorPlacement: function (error, element)
+                {
+                    element.before(error);
+                },
+                rules: {
+                    confirm: {
+                        equalTo: "#password"
+                    }
+                }
+            });
+
+
+
+   $("#eligeusuario").change(function() {
+
+
+
+     $("#id_usuario").val();
+     $("#nombre").val();
+     $("#apellidoPaterno").val();
+     $("#apellidoMaterno").val();
+     $("#domicilioCalle").val();
+     $("#domicilioColonia").val();
+     $("#domicilisCiudad").val();
+     $("#domicilioCP").val();
+     $("#telefonoCasa").val();
+     $("#telefonoCelular").val();
+     $("#fechaNacimiento").val();
+     $('#sexo').val();
+     $('#curp').val();
+     $('#rfc').val();
+     $('#nss').val();
+     $('#fechaIngreso').val();
+
+
+        var id = $("#eligeusuario").val();
+        var route = "/muestraperfildeusuario/"+id;
+        $.get(route, function(res){
+          $('#id_usuario').val($('#eligeusuario').val());
+          $("#nombre").val(res.nombre);
+          $("#apellidoPaterno").val(res.apellidoPaterno);
+          $("#apellidoMaterno").val(res.apellidoMaterno);
+          $("#domicilioCalle").val(res.domicilioCalle);
+          $("#domicilioColonia").val(res.domicilioColonia);
+          $("#domicilioCiudad").val(res.domicilioCiudad);
+          $("#domicilioCP").val(res.domicilioCP);
+          $("#telefonoCasa").val(res.telefonoCasa);
+          $("#telefonoCelular").val(res.telefonoCelular);
+          $("#fechaNacimiento").val(res.fechaNacimiento);
+          $('#sexo').val(res.sexo);
+          $('#curp').val(res.curp);
+          $('#rfc').val(res.rfc);
+          $('#nss').val(res.nss);
+          $('#fechaIngreso').val(res.fechaIngreso);
+
+           $("#list").empty();
+           if(res.nombreunicoimagenperfil != "")
+           {
+           document.getElementById("list").innerHTML = ['<img class="thumb" src="/storage/imagenesusuarios/', res.nombreunicoimagenperfil,'" title="', escape(res.nombreunicoimagenperfil), '"/>'].join('');
+           }
+           });
+
+           var route = "/muestraarchivosdeusuario/"+id;
+           $.get(route, function(res){
+
+
+             $("#sistemaarchivo").empty();
+
+             for (var i = 0; i < res.length; i++) {
+
+             $("#sistemaarchivo").append('<div class="file-box"><div class="file"><a href="/storage/archivoshrm/'+res[i].nombreunico+'" target="_blank"><span class="corner"></span><div class="icon"><i class="'+res[i].icono+'"></i></div><div class="file-name">'+res[i].nombrearchivo+'<br/><small>Agregado: '+res[i].created_at+'</small></div></a></div></div>');
+
+             }
+
+
+
+              });
+
+
+   });
+
+
+
+    document.getElementById('fotoperfil').addEventListener('change', archivo, false);
+
+$(".chosen-select").chosen({width: "100%"});
+
+});
+
+
+
+  function archivo(evt) {
+        var fotoperfil = evt.target.files; // FileList object
+
+        // Obtenemos la imagen del campo "file".
+        for (var i = 0, f; f = fotoperfil[i]; i++) {
+          //Solo admitimos imágenes.
+          if (!f.type.match('image.*')) {
+              continue;
+          }
+
+          var reader = new FileReader();
+
+          reader.onload = (function(theFile) {
+              return function(e) {
+                // Insertamos la imagen
+               document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+              };
+          })(f);
+
+          reader.readAsDataURL(f);
+        }
+    }

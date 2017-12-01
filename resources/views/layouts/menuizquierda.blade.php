@@ -10,7 +10,7 @@
                     <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?=$datauser->nombre ?> <?=$datauser->apellidoPaterno ?> <?=$datauser->apellidoMaterno ?></strong>
                     </span> <span class="text-muted text-xs block"><?=$datauser->puesto ?> <b class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="profile.html">Perfil</a></li>
+                        <li><a href="/editprofileuser">Perfil</a></li>
                   <!--      <li><a href="contacts.html">Contactos</a></li>
                         <li><a href="mailbox.html">Correo</a></li> -->
                         <li class="divider"></li>

@@ -43,9 +43,14 @@ return [
 
     'disks' => [
 
-        'img' => [
+        'imagenesusuarios' => [
             'driver' => 'local',
-            'root'   => public_path().'/img',
+            'root'   => public_path().'/storage/imagenesusuarios',
+        ],
+
+        'archivoshrm' => [
+            'driver' => 'local',
+            'root'   => public_path().'/storage/archivoshrm',
         ],
 
 

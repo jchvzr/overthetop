@@ -82,6 +82,8 @@ class admintoolcontroller extends Controller
                                   ->where('users.id','=',$userid)
                                   ->orderBy('submenuIzquierda.id')
                                   ->get();
+
+
     // obligatorios en cualquier vista para el menu
 
     $perfilesSeguridad = DB::table('usuariosPerfil')

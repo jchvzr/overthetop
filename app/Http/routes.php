@@ -41,7 +41,9 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/newprofileuser','hrmcontroller@newprofileuser');
       Route::get('/editprofileuser','hrmcontroller@showprofileuser');
       Route::get('/muestraperfildeusuario/{id}','hrmcontroller@showprofileuserid');
-      Route::get('/guardaperfildeusuario','hrmcontroller@guardaprofileuser');
+      Route::post('/guardaperfildeusuario','hrmcontroller@guardaprofileuser');
+      Route::get('/muestraarchivosdeusuario/{id}','hrmcontroller@muestraarchivosdeusuario');
+
 
       // CRM
       Route::get('/crmindex','crmcontroller@index');

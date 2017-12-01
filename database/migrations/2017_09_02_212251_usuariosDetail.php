@@ -29,6 +29,9 @@ class UsuariosDetail extends Migration
           $table->string('rfc', 60);
           $table->string('nss', 60);
           $table->date('fechaIngreso');
+          $table->string('nombreimagenperfil');
+          $table->string('nombreunicoimagenperfil');
+          $table->integer('size');
           $table->integer('id_usuario');
           $table->timestamps();
 

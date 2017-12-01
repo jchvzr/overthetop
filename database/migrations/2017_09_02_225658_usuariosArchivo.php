@@ -18,6 +18,7 @@ class UsuariosArchivo extends Migration
             $table->integer('id_usuario');
             $table->string('nombrearchivo');
             $table->string('nombreunico');
+            $table->string('icono');
             $table->integer('size');
             $table->timestamps();
 

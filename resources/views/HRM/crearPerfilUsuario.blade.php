@@ -11,6 +11,12 @@
 <!-- Jquery Validate -->
 <script src="js/plugins/validate/jquery.validate.min.js"></script>
 
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+<link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+<!-- jscript especifico -->
+<script src="js/jsespecificos/HRM/createUserView.js"></script>
 
 <style>
 .thumb {
@@ -44,28 +50,28 @@ margin: 10px 5px 0 0;
                 <p>
                     Es necesario llenar todos los que llevan (*).
                 </p>
-
-                <form id="form" action="/guardaperfildeusuario" class="wizard-big">
+                <div class="row">
+                  <center>
+                    <div class="col-lg-3"></div>
+                     <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>Elige usuario a modificar</label>
+                        <select id="eligeusuario" name="eligeusuario" class="chosen-select form-control required">
+                          <option value="" ></option>
+                         <?php foreach ($usuarios as $user): ?>
+                          <option value=<?=$user->id ?> ><?=$user->email ?></option>
+                         <?php endforeach ?>
+                        </select>
+                      </div>
+                    </div>
+                </center>
+                </div>
+                <form id="form" method="post" accept-charset="UTF-8" action="/guardaperfildeusuario" class="wizard-big" enctype="multipart/form-data" >
                  <input type="hidden" id="_token" name="_token" value="<?php echo csrf_token(); ?>">
                   <input type="hidden" id="id_usuario" name="id_usuario" value="">
                     <h1>Datos generales</h1>
                     <fieldset class="form-group">
-                      <div class="row">
-                        <center>
-                          <div class="col-lg-3"></div>
-                           <div class="col-lg-6">
-                            <div class="form-group">
-                              <label>Elige usuario *</label>
-                              <select id="eligeusuario" name="eligeusuario" class="form-control required">
-                                <option value="" ></option>
-                               <?php foreach ($usuarios as $user): ?>
-                                <option value=<?=$user->id ?> ><?=$user->email ?></option>
-                               <?php endforeach ?>
-                              </select>
-                            </div>
-                          </div>
-                      </center>
-                      </div>
+
                         <div class="row">
                           <div class="row">
                             <div class="col-lg-6">
@@ -168,9 +174,12 @@ margin: 10px 5px 0 0;
 
                     <h1>Foto de perfil</h1>
                     <fieldset>
-                        <div class="text-center" style="margin-top: 120px">
-                            <h2>Carga la foto de perfil</h2>
-                          <center><input type="file" id="fotoperfil" name="fotoperfil" class="form-control" accept="image/png, .jpeg, .jpg, image/gif"/> </center>
+                        <div class="text-center" style="margin-top: 20px">
+                            <h2>Carga/cambia la foto de perfil</h2>
+                            <p>
+                                Es necesario terminar con el formulario una vez elegida la imagen.
+                            </p>
+                          <center><input type="file" id="fotoperfil" name="fotoperfil" class="form-control" accept="image/png, .jpeg, .jpg, image/gif" placeholder="Elige el archivo"> </center>
                           <br />
                           <output id="list"></output>
                         </div>
@@ -178,9 +187,30 @@ margin: 10px 5px 0 0;
 
                       <h1>Documentos</h1>
                       <fieldset>
-                        <div class="text-center" style="margin-top: 120px">
-                            <h2>Area de carga de documentos</h2>
-                            <div class="dropzone-previews"></div>
+
+                        <div class="text-center" style="margin-top: 0px">
+                          <h2>Agregar archivos</h2>
+                          <p>
+                              Es necesario terminar con el formulario para cargar y ver los archivos elegidos.
+                          </p>
+                        <input type="file" multiple="multiple" id="usuariosarchivos" name="usuariosarchivos[]" class="form-control" accept="image/png, .jpeg, .jpg, image/gif, .doc, .pdf, .docx, .xls, .xlsx"/>
+                       </br>
+                       <h2>Ver archivos</h2>
+                          <div class="file-manager">
+                          <div class="clearfix"></div>
+                          </div>
+                          <div class="col-lg-12 animated fadeInRight">
+                                              <div class="row">
+                                                  <div class="col-lg-12" id="sistemaarchivo">
+
+    
+
+                                                  </div>
+                                              </div>
+                                      </div>
+
+
+
                         </div>
                       </fieldset>
 
@@ -215,189 +245,5 @@ margin: 10px 5px 0 0;
 </div>
 
 
-<script>
-    $(document).ready(function(){
-        $("#wizard").steps();
-        $("#form").steps({
-            bodyTag: "fieldset",
-            onStepChanging: function (event, currentIndex, newIndex)
-            {
-                // Always allow going backward even if the current step contains invalid fields!
-                if (currentIndex > newIndex)
-                {
-                    return true;
-                }
-
-                // Forbid suppressing "Warning" step if the user is to young
-                if (newIndex === 3 && Number($("#age").val()) < 18)
-                {
-                    return false;
-                }
-
-                var form = $(this);
-
-                // Clean up if user went backward before
-                if (currentIndex < newIndex)
-                {
-                    // To remove error styles
-                    $(".body:eq(" + newIndex + ") label.error", form).remove();
-                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
-                }
-
-                // Disable validation on fields that are disabled or hidden.
-                form.validate().settings.ignore = ":disabled,:hidden";
-
-                // Start validation; Prevent going forward if false
-                return form.valid();
-            },
-            onStepChanged: function (event, currentIndex, priorIndex)
-            {
-                // Suppress (skip) "Warning" step if the user is old enough.
-                if (currentIndex === 2 && Number($("#age").val()) >= 18)
-                {
-                    $(this).steps("next");
-                }
-
-                // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
-                if (currentIndex === 2 && priorIndex === 3)
-                {
-                    $(this).steps("previous");
-                }
-            },
-            onFinishing: function (event, currentIndex)
-            {
-                var form = $(this);
-
-                // Disable validation on fields that are disabled.
-                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
-                form.validate().settings.ignore = ":disabled";
-
-                // Start validation; Prevent form submission if false
-                return form.valid();
-
-
-            },
-            onFinished: function (event, currentIndex)
-            {
-                var form = $(this);
-
-                // Submit form input
-                form.submit();
-            }
-        }).validate({
-                    errorPlacement: function (error, element)
-                    {
-                        element.before(error);
-                    },
-                    rules: {
-                        confirm: {
-                            equalTo: "#password"
-                        }
-                    }
-                });
-
-
-
-       $("#eligeusuario").change(function() {
-
-         $("#id_usuario").val();
-         $("#nombre").val();
-         $("#apellidoPaterno").val();
-         $("#apellidoMaterno").val();
-         $("#domicilioCalle").val();
-         $("#domicilioColonia").val();
-         $("#domicilisCiudad").val();
-         $("#domicilioCP").val();
-         $("#telefonoCasa").val();
-         $("#telefonoCelular").val();
-         $("#fechaNacimiento").val();
-         $('#sexo').val();
-         $('#curp').val();
-         $('#rfc').val();
-         $('#nss').val();
-         $('#fechaIngreso').val();
-
-
-         $("#eligeusuario option[value='']").remove();
-            var id = $("#eligeusuario").val();
-            var route = "/muestraperfildeusuario/"+id;
-            $.get(route, function(res){
-              $('#id_usuario').val($('#eligeusuario').val());
-              $("#nombre").val(res.nombre);
-              $("#apellidoPaterno").val(res.apellidoPaterno);
-              $("#apellidoMaterno").val(res.apellidoMaterno);
-              $("#domicilioCalle").val(res.domicilioCalle);
-              $("#domicilioColonia").val(res.domicilioColonia);
-              $("#domicilioCiudad").val(res.domicilioCiudad);
-              $("#domicilioCP").val(res.domicilioCP);
-              $("#telefonoCasa").val(res.telefonoCasa);
-              $("#telefonoCelular").val(res.telefonoCelular);
-              $("#fechaNacimiento").val(res.fechaNacimiento);
-              $('#sexo').val(res.sexo);
-              $('#curp').val(res.curp);
-              $('#rfc').val(res.rfc);
-              $('#nss').val(res.nss);
-              $('#fechaIngreso').val(res.fechaIngreso);
-
-
-               });
-       });
-
-
-       Dropzone.options.myAwesomeDropzone = {
-
-                  autoProcessQueue: false,
-                  uploadMultiple: true,
-                  parallelUploads: 100,
-                  maxFiles: 100,
-
-                  // Dropzone settings
-                  init: function() {
-                      var myDropzone = this;
-
-                      this.element.querySelector("").addEventListener("click", function(e) {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          myDropzone.processQueue();
-                      });
-                      this.on("sendingmultiple", function() {
-                      });
-                      this.on("successmultiple", function(files, response) {
-                      });
-                      this.on("errormultiple", function(files, response) {
-                      });
-                  }
-
-              }
-
-
-      function archivo(evt) {
-            var fotoperfil = evt.target.files; // FileList object
-
-            // Obtenemos la imagen del campo "file".
-            for (var i = 0, f; f = fotoperfil[i]; i++) {
-              //Solo admitimos imágenes.
-              if (!f.type.match('image.*')) {
-                  continue;
-              }
-
-              var reader = new FileReader();
-
-              reader.onload = (function(theFile) {
-                  return function(e) {
-                    // Insertamos la imagen
-                   document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
-                  };
-              })(f);
-
-              reader.readAsDataURL(f);
-            }
-        }
-
-        document.getElementById('fotoperfil').addEventListener('change', archivo, false);
-
-
-   });
-</script>
 
 @endsection
