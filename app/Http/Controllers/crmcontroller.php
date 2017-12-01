@@ -289,8 +289,7 @@ class crmcontroller extends Controller
         $user = Auth::user();
 
         $userid = $user->id;
-        $customer = $request->input('customeridmodal');
-        //return dd($customer);
+        $customer = $request->input('customerid3');
         $idd = DB::table('clientesinteraccion')->insertGetId(
                 ['customerid'=> $request->input('customerid3'),
                  'id_tipoInteraccion' => $request->input('tipoInte'),

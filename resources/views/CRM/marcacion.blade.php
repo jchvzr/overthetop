@@ -307,7 +307,7 @@
                 <div class="modal-body">
                 <form id="formagregainteraccion" action="/crm/Marcacion" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                  <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                 <input id="customerid3" name="customerid3" type="hidden" class="form-control">
+                 <input id="customerid3" name="customerid3" type="hidden" class="form-control" value="<?=$cliente->customerid?>">
 
                   <div class="row">
                    <div class="row">
@@ -336,7 +336,6 @@
                           </select>
                       </div>
                   </div>
-
                   <div class="col-lg-6">
                       <div class="form-group">
                           <label>Codigo *</label>
