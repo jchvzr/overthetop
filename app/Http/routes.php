@@ -49,9 +49,11 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/buscaclienteinteraccion/{cuenta}','crmcontroller@buscaclienteinteraccion');
       Route::get('/liberadiv/{id}','crmcontroller@liberadiv');
       Route::post('/crm/guardainteraccion','crmcontroller@storeinteractions');
+      Route::post('/crm/guardainteraccion2','crmcontroller@storeinteractions2');
       Route::get('/buscaclienteinteraccionresumen/{cuenta}','crmcontroller@buscaclienteinteraccionresumen');
       Route::get('/controlcompromisos', 'crmcontroller@controlcompromisosindex');
-      Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
+      Route::get('/compromisoscambiostatus/{id}/', 'crmcontroller@compromisoscambiostatus');
+      Route::get('/compromisoscambiostatus/{id}/{dispotition}', 'crmcontroller@compromisoscambiostatus2');
       Route::get('/buscatelefono/{telefono}','crmcontroller@buscatelefono');
       Route::get('/buscacatalogocampaña/{id}','crmcontroller@buscacatalogocampaña');
 

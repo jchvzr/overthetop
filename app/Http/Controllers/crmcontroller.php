@@ -139,29 +139,6 @@ class crmcontroller extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function buscacatalogocampaña($id)
-    {
-      $user = Auth::user();
-
-      $codigos = DB::table('campanas')
-                               ->join('dispositionplan','campanas.id_dispositionPlan','=','dispositionplan.id')
-                               ->join('dispositionplandetail','dispositionplan.id','=','dispositionplandetail.id_dispositionPlan')
-                               ->join('dispositions','dispositionplandetail.id_disposition','=','dispositions.id')
-                               ->select('dispositions.id','dispositions.nombre')
-                               ->where('campanas.id','=',$id)
-                               ->get();
-
-//return(dd($detalleCliente));
-
-      return response()->json($codigos);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -207,7 +184,68 @@ class crmcontroller extends Controller
                  ]);
 
        $dispcontroagenda = DB::table('dispositions')
-                                ->select('compromiso','id_dispositiontratamiento')
+                                ->select('compromiso','id_dispositionTratamiento')
+                                ->where('id','=',$request->input('dispositions'))
+                                ->first();
+
+      if ($dispcontroagenda->id_dispositionTratamiento == '1' || $dispcontroagenda->id_dispositionTratamiento == '2') {
+          $cambio = 1;
+
+          DB::table('controlcompromisos')
+                      ->where('id_clientes', $request->input('customerid3'))
+                      ->update(['hecho' => $cambio]);
+      }
+
+        if (($dispcontroagenda->compromiso) == 1)
+        {
+
+
+                  DB::table('controlcompromisos')->insert(
+                  ['id_clientes'=> $request->input('customerid3'),
+                   'fechaInicio' => $today,
+                   'fechaFin'=> $request->input('fechapp'),
+                   'comentario'=>$request->input('comentario'),
+                   'monto'=>$request->input('monto'),
+                   'id_disposition'=>$request->input('dispositions'),
+                   'hecho'=>0,
+                   'id_users'=>$userid,
+                   ]);
+
+                   DB::table('clientesdetail')
+                   ->where('id', '=', 1)
+                   ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
+        }else {
+          DB::table('clientesdetail')
+          ->where('id', '=', 1)
+          ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+        }
+
+
+    return  redirect('/crmindex');
+
+    }
+
+    public function storeinteractions2(Request $request)
+    {
+
+        $today = Carbon::now(-5);
+
+    //    return(dd($today));
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $idd = DB::table('clientesinteraccion')->insertGetId(
+                ['customerid'=> $request->input('customerid3'),
+                 'id_tipoInteraccion' => $request->input('tipoInte'),
+                 'id_disposition'=>$request->input('dispositions'),
+                 'comentario'=>$request->input('comentario'),
+                 'id_users'=>$userid,
+                 'fechaInteraccion'=> $today,
+                 ]);
+
+       $dispcontroagenda = DB::table('dispositions')
+                                ->select('compromiso','id_dispositionTratamiento')
                                 ->where('id','=',$request->input('dispositions'))
                                 ->first();
 
@@ -230,15 +268,15 @@ class crmcontroller extends Controller
 
                    DB::table('clientesdetail')
                    ->where('id', '=', 1)
-                   ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
+                   ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
         }else {
           DB::table('clientesdetail')
           ->where('id', '=', 1)
-          ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+          ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
         }
 
 
-    return  redirect('/crmindex');
+    return  redirect('/controlcompromisos');
 
     }
 
@@ -251,7 +289,8 @@ class crmcontroller extends Controller
         $user = Auth::user();
 
         $userid = $user->id;
-
+        $customer = $request->input('customeridmodal');
+        //return dd($customer);
         $idd = DB::table('clientesinteraccion')->insertGetId(
                 ['customerid'=> $request->input('customerid3'),
                  'id_tipoInteraccion' => $request->input('tipoInte'),
@@ -262,9 +301,19 @@ class crmcontroller extends Controller
                  ]);
 
        $dispcontroagenda = DB::table('dispositions')
-                                ->select('compromiso','id_dispositiontratamiento')
+                                ->select('compromiso','id_dispositionTratamiento')
                                 ->where('id','=',$request->input('dispositions'))
                                 ->first();
+
+
+      if ($dispcontroagenda->id_dispositionTratamiento == '1' || $dispcontroagenda->id_dispositionTratamiento == '2') {
+          $cambio = 1;
+
+          DB::table('controlcompromisos')
+                      ->where('id_clientes', '=', $customer)
+                      ->update(['hecho' => $cambio]);
+      }
+
 
 
 
@@ -285,11 +334,11 @@ class crmcontroller extends Controller
 
                   DB::table('clientesdetail')
                   ->where('id', '=', 1)
-                  ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+                  ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
        }else {
          DB::table('clientesdetail')
          ->where('id', '=', 1)
-         ->update(['ultimocodigo' => $dispcontroagenda->id_dispositiontratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
+         ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
        }
 
     return  redirect('/Marcacion');
@@ -405,15 +454,27 @@ return(response()->json($prueba));
 
       $compromisos = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
+                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
+                               ->where('controlcompromisos.hecho','=',0)
                                ->orderBy('controlcompromisos.fechaFin','desc')
                                ->get();
 
+       $tipoint = DB::table('tipointeraccion')
+                            ->select('*')
+                            ->orderby('id')
+                            ->get();
+
+      $dispositions = DB::table('dispositions')
+                           ->select('*')
+                           ->orderby('id')
+                           ->get();
+
+
 //return(dd($compromisos));
-    return View('CRM/controlCompromisosCrm',compact('datauser','menuIzquierda','submenuIzquierda','compromisos') );
+    return View('CRM/controlCompromisosCrm',compact('datauser','menuIzquierda','submenuIzquierda','compromisos','tipoint','dispositions') );
 
     }
 
@@ -432,6 +493,36 @@ return(response()->json($prueba));
         else {
           $cambio = 1;
         }
+
+        DB::table('controlcompromisos')
+                    ->where('id', $id)
+                    ->update(['hecho' => $cambio]);
+
+
+//return(dd($compromisos));
+    return(response()->json($cambio));
+
+    }
+
+    public function compromisoscambiostatus2($id,$dispotition)
+    {
+        //
+        $hecho = DB::table('controlcompromisos')
+                           ->select('hecho')
+                           ->where('id','=',$id)
+                           ->first();
+
+        $terminacion = DB::table('dispositions')
+                           ->select('id_dispositionTratamiento')
+                           ->where('id','=',$dispotition)
+                           ->first();
+
+        if ($terminacion->id_dispositionTratamiento == '1' || $terminacion->id_dispositionTratamiento == '2') {
+            $cambio = 1;
+        }else{
+            $cambio = 0;
+        }
+
 
         DB::table('controlcompromisos')
                     ->where('id', $id)
@@ -501,19 +592,19 @@ return(response()->json($prueba));
 
     // obligatorios en cualquier vista para el menu
 
-      $dispositiontratamientos = DB::table('dispositiontratamiento')
+      $dispositionTratamientos = DB::table('dispositionTratamiento')
                                     ->select('*')
                                     ->get();
 
       $dispositions = DB::table('dispositions')
-                                    ->join('dispositiontratamiento','dispositions.id_dispositiontratamiento','=','dispositiontratamiento.id')
-                                    ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
+                                    ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
+                                    ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
                                     ->where('id_compania','=',$companiaid)
                                     ->get();
 
 
-//return(dd($companiaid));
-  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositiontratamientos','dispositions') );
+//return(dd($compromisos));
+  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos','dispositions') );
 
 
     }
@@ -573,7 +664,7 @@ return(response()->json($prueba));
        'contacto' => $contacto,
        'rpc' => $rpc,
        'exito' => $exito,
-       'id_dispositiontratamiento' => $request->input('dispositionTratamiento'),
+       'id_dispositionTratamiento' => $request->input('dispositionTratamiento'),
        'id_compania' =>  $companiaid,
        'compromiso' => $compromiso,
        'bloqueo' => $bloqueo,
@@ -596,8 +687,8 @@ return(response()->json($prueba));
      $today = Carbon::now(-5);
 
      $dispositions = DB::table('dispositions')
-                                   ->join('dispositiontratamiento','dispositions.id_dispositiontratamiento','=','dispositiontratamiento.id')
-                                   ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
+                                   ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
+                                   ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
                                    ->where('id_compania','=',$companiaid)
                                    ->where('dispositions.id','=',$id)
                                    ->first();
@@ -617,11 +708,11 @@ return(response()->json($prueba));
 
      $today = Carbon::now(-5);
 
-     $dispositiontratamiento = DB::table('dispositiontratamiento')
-                                   ->select('dispositiontratamiento.id','dispositiontratamiento.nombre as tratamiento')
+     $dispositionTratamiento = DB::table('dispositionTratamiento')
+                                   ->select('dispositionTratamiento.id','dispositionTratamiento.nombre as tratamiento')
                                    ->get();
 
-     return(response()->json($dispositiontratamiento));
+     return(response()->json($dispositionTratamiento));
    }
 
 
@@ -683,7 +774,7 @@ return(response()->json($prueba));
                        'contacto' => $contacto,
                        'rpc' => $rpc,
                        'exito' => $exito,
-                       'id_dispositiontratamiento' => $request->input('modaldispositionTratamiento'),
+                       'id_dispositionTratamiento' => $request->input('modaldispositionTratamiento'),
                        'id_compania' =>  $companiaid,
                        'compromiso' => $compromiso,
                        'bloqueo' => $bloqueo,
@@ -757,8 +848,8 @@ return(response()->json($prueba));
       // obligatorios en cualquier vista para el menu
 
         $dispositions = DB::table('dispositions')
-                                      ->join('dispositiontratamiento','dispositions.id_dispositiontratamiento','=','dispositiontratamiento.id')
-                                      ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
+                                      ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
+                                      ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
                                       ->where('id_compania','=',$companiaid)
                                       ->get();
 
@@ -769,7 +860,7 @@ return(response()->json($prueba));
 
 
   //return(dd($compromisos));
-    return View('CRM/catalogocodigos',compact('datauser','menuIzquierda','submenuIzquierda','dispositiontratamientos','dispositions','dispositionplans') );
+    return View('CRM/catalogocodigos',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos','dispositions','dispositionplans') );
 
 
       }
