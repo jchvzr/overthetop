@@ -11,7 +11,6 @@
 |
 */
 
-
 //bienvenida al iniciar sesion
 //Route::get('/', 'BienvenidaController@show');
 
@@ -35,7 +34,6 @@ Route::group( ['middleware' => 'auth'],
       Route::post('/guardarimagenperfil', 'AdministradosController@imageUserStore');
       Route::get('/buscaclienteinteraccionresumen','BienvenidaController@grafico1');
 
-
       //layouts
       Route::get('/alertascompromisos', 'alertasarriba@index');
 
@@ -44,7 +42,6 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/editprofileuser','hrmcontroller@showprofileuser');
       Route::get('/muestraperfildeusuario/{id}','hrmcontroller@showprofileuserid');
       Route::get('/guardaperfildeusuario','hrmcontroller@guardaprofileuser');
-
 
       // CRM
       Route::get('/crmindex','crmcontroller@index');
@@ -57,7 +54,6 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/compromisoscambiostatus/{id}', 'crmcontroller@compromisoscambiostatus');
       Route::get('/buscatelefono/{telefono}','crmcontroller@buscatelefono');
       Route::get('/buscacatalogocampaña/{id}','crmcontroller@buscacatalogocampaña');
-
 
        // pertenecen a /newcode
           Route::get('/newcode', 'crmcontroller@newcode');
@@ -73,7 +69,6 @@ Route::group( ['middleware' => 'auth'],
           Route::get('/newcatalogo/muestracatalogonombre/{id}','crmcontroller@newcatalogomuestracatalogonombre');
           Route::post('/newcatalogo/editacatalogo/{id}','crmcontroller@newcatalogoeditacatalogo');
 
-
       //Carga de clientes
       Route::get('/cargaclientes', 'CargaclientesController@index');
       Route::post('/subirclientes', 'CargaclientesController@subirclientes');
@@ -83,7 +78,6 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/newcampaign/muestracampaign/{id}', 'CargaclientesController@newcampaignmuestracampaign');
       Route::get('/newcampaign/muestracatalogos/', 'CargaclientesController@newcampaignmuestracatalogos');
       Route::post('/newcampaign/editacampana/', 'CargaclientesController@newcampaigneditcampaign');
-
 
       //Marcacion
       Route::get('/Marcacion', 'crmcontroller@Marcacionshow');
@@ -106,8 +100,6 @@ Route::group( ['middleware' => 'auth'],
       Route::post('/companyedit','admintoolcontroller@companyedit');
       Route::get('/newcompany/muestracompany/{id}','admintoolcontroller@newcompanymuestracompany');
 
-
-
       // Descarga de detalles
       Route::get('/descargacodigos','descargacontroller@descargacodigosindex');
       Route::post('/descargacodigosshow','descargacontroller@descargacodigosshow');
@@ -115,18 +107,15 @@ Route::group( ['middleware' => 'auth'],
       Route::post('/descargacompromisosshow','descargacontroller@descargacompromisosshow');
     });
 
-
 Route::get('admin/auth/login', [
 	'uses' => 'Auth\AuthController@getLogin',
 	'as'	=>	'admin.auth.login'
 ]);
 
-
 Route::post('admin/auth/login', [
 	'uses' => 'Auth\AuthController@postLogin',
 	'as'	=>	'admin.auth.login'
 ]);
-
 
 Route::get('admin/auth/logout', [
 	'uses' => 'Auth\AuthController@getLogout',

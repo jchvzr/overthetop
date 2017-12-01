@@ -4,15 +4,15 @@
         <ul class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element"> <span>
-                    <img alt="image" class="img-circle" src="" />
+                    <img alt="image" class="img-circle" src="/img/overthetop60.jpg" />
                      </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?=$datauser->nombre ?> <?=$datauser->apellidoPaterno ?> <?=$datauser->apellidoMaterno ?></strong>
                     </span> <span class="text-muted text-xs block"><?=$datauser->puesto ?> <b class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="profile.html">Perfil</a></li>
-                        <li><a href="contacts.html">Contactos</a></li>
-                        <li><a href="mailbox.html">Correo</a></li>
+                  <!--      <li><a href="contacts.html">Contactos</a></li>
+                        <li><a href="mailbox.html">Correo</a></li> -->
                         <li class="divider"></li>
                         <li><a href="/bienvenida">Volver a inicio</a></li>
                         <li><a href="{{ Route('admin.auth.logout') }}">Salir</a></li>

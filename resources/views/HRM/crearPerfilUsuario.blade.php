@@ -12,6 +12,19 @@
 <script src="js/plugins/validate/jquery.validate.min.js"></script>
 
 
+<style>
+.thumb {
+height: 300px;
+border: 1px solid #000;
+margin: 10px 5px 0 0;
+}
+</style>
+
+    <!-- DROPZONE -->
+        <link href="css/plugins/dropzone/basic.css" rel="stylesheet">
+    <script src="js/plugins/dropzone/dropzone.js"></script>
+
+
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox">
@@ -153,10 +166,13 @@
                         </div>
                     </fieldset>
 
-                    <h1>Imagen</h1>
+                    <h1>Foto de perfil</h1>
                     <fieldset>
                         <div class="text-center" style="margin-top: 120px">
-                            <h2>Area de carga de imagen</h2>
+                            <h2>Carga la foto de perfil</h2>
+                          <center><input type="file" id="fotoperfil" name="fotoperfil" class="form-control" accept="image/png, .jpeg, .jpg, image/gif"/> </center>
+                          <br />
+                          <output id="list"></output>
                         </div>
                       </fieldset>
 
@@ -164,6 +180,7 @@
                       <fieldset>
                         <div class="text-center" style="margin-top: 120px">
                             <h2>Area de carga de documentos</h2>
+                            <div class="dropzone-previews"></div>
                         </div>
                       </fieldset>
 
@@ -323,9 +340,61 @@
               $('#fechaIngreso').val(res.fechaIngreso);
 
 
-
                });
        });
+
+
+       Dropzone.options.myAwesomeDropzone = {
+
+                  autoProcessQueue: false,
+                  uploadMultiple: true,
+                  parallelUploads: 100,
+                  maxFiles: 100,
+
+                  // Dropzone settings
+                  init: function() {
+                      var myDropzone = this;
+
+                      this.element.querySelector("").addEventListener("click", function(e) {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          myDropzone.processQueue();
+                      });
+                      this.on("sendingmultiple", function() {
+                      });
+                      this.on("successmultiple", function(files, response) {
+                      });
+                      this.on("errormultiple", function(files, response) {
+                      });
+                  }
+
+              }
+
+
+      function archivo(evt) {
+            var fotoperfil = evt.target.files; // FileList object
+
+            // Obtenemos la imagen del campo "file".
+            for (var i = 0, f; f = fotoperfil[i]; i++) {
+              //Solo admitimos imágenes.
+              if (!f.type.match('image.*')) {
+                  continue;
+              }
+
+              var reader = new FileReader();
+
+              reader.onload = (function(theFile) {
+                  return function(e) {
+                    // Insertamos la imagen
+                   document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                  };
+              })(f);
+
+              reader.readAsDataURL(f);
+            }
+        }
+
+        document.getElementById('fotoperfil').addEventListener('change', archivo, false);
 
 
    });
