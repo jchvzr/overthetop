@@ -30,6 +30,8 @@ Route::group( ['middleware' => 'auth'],
     function(){
       //Entradas
 			Route::get('bienvenida/', 'BienvenidaController@show');
+      Route::get('/graficoiniciodata2', 'BienvenidaController@graficoiniciodata2');
+      Route::get('/graficoiniciodata3', 'BienvenidaController@graficoiniciodata3');
       Route::get('/perfil','AdministradosController@index');
       Route::post('/guardarimagenperfil', 'AdministradosController@imageUserStore');
       Route::get('/buscaclienteinteraccionresumen','BienvenidaController@grafico1');
@@ -109,6 +111,12 @@ Route::group( ['middleware' => 'auth'],
       Route::post('/descargacodigosshow','descargacontroller@descargacodigosshow');
       Route::get('/descargacompromisos','descargacontroller@descargacompromisosindex');
       Route::post('/descargacompromisosshow','descargacontroller@descargacompromisosshow');
+
+
+      // Dashboard
+      Route::get('/resultados','dashboard@index');
+
+
     });
 
 Route::get('admin/auth/login', [

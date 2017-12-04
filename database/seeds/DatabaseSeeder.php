@@ -228,6 +228,13 @@ class DatabaseSeeder extends Seeder
                           'consubmenu'     => '1',
                         ));
 
+                db::table('menuIzquierda')->insert(array(
+                         'opcion'     => 'Dashboard',
+                         'icono'     => 'fa fa-tachometer',
+                         'route'     => '#',
+                         'consubmenu'     => '1',
+                       ));
+
 
                 }
               }
@@ -337,6 +344,12 @@ class DatabaseSeeder extends Seeder
                                 'route'     => '/descargacompromisos',
                                 'id_menuIzquierda' => 4
                           ));
+
+                      db::table('submenuIzquierda')->insert(array(
+                               'opcion'     => 'Ver resultados',
+                               'route'     => '/resultados',
+                               'id_menuIzquierda' => 5
+                         ));
 
                   }
                 }
