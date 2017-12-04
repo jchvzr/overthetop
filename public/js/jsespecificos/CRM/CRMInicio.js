@@ -184,7 +184,7 @@ else
                           opacity: 0.8
                       }]
                   }
-              } 
+              }
           },
           xaxis: {
               mode: "categories",

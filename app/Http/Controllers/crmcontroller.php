@@ -113,6 +113,30 @@ class crmcontroller extends Controller
 
     }
 
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function buscacatalogocampaña($id)
+    {
+      $user = Auth::user();
+
+      $codigos = DB::table('campanas')
+                               ->join('dispositionplan','campanas.id_dispositionPlan','=','dispositionplan.id')
+                               ->join('dispositionplandetail','dispositionplan.id','=','dispositionplandetail.id_dispositionPlan')
+                               ->join('dispositions','dispositionplandetail.id_disposition','=','dispositions.id')
+                               ->select('dispositions.id','dispositions.nombre')
+                               ->where('campanas.id','=',$id)
+                               ->get();
+
+//return(dd($detalleCliente));
+
+      return response()->json($codigos);
+    } 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -591,7 +615,7 @@ return(response()->json($prueba));
 
     // obligatorios en cualquier vista para el menu
 
-      $dispositionTratamientos = DB::table('dispositionTratamiento')
+      $dispositiontratamientos = DB::table('dispositionTratamiento')
                                     ->select('*')
                                     ->get();
 
@@ -603,7 +627,7 @@ return(response()->json($prueba));
 
 
 //return(dd($compromisos));
-  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositionTratamientos','dispositions') );
+  return View('CRM/codigonuevo',compact('datauser','menuIzquierda','submenuIzquierda','dispositiontratamientos','dispositions') );
 
 
     }
