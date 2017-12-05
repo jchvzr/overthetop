@@ -168,7 +168,7 @@ class hrmcontroller extends Controller
 
         $userid = $user->id;
 
-        $userdetail = DB::table('usuariosdetail')
+        $userdetail = DB::table('usuariosDetail')
                                 ->where('id_usuario','=',$id)
                                 ->first();
 

@@ -135,7 +135,7 @@ class crmcontroller extends Controller
 //return(dd($detalleCliente));
 
       return response()->json($codigos);
-    } 
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -615,13 +615,13 @@ return(response()->json($prueba));
 
     // obligatorios en cualquier vista para el menu
 
-      $dispositiontratamientos = DB::table('dispositionTratamiento')
+      $dispositiontratamientos = DB::table('dispositiontratamiento')
                                     ->select('*')
                                     ->get();
 
       $dispositions = DB::table('dispositions')
-                                    ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
-                                    ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                    ->join('dispositiontratamiento','dispositions.id_dispositionTratamiento','=','dispositiontratamiento.id')
+                                    ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
                                     ->where('id_compania','=',$companiaid)
                                     ->get();
 
@@ -710,8 +710,8 @@ return(response()->json($prueba));
      $today = Carbon::now(-5);
 
      $dispositions = DB::table('dispositions')
-                                   ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
-                                   ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                   ->join('dispositiontratamiento','dispositions.id_dispositionTratamiento','=','dispositiontratamiento.id')
+                                   ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
                                    ->where('id_compania','=',$companiaid)
                                    ->where('dispositions.id','=',$id)
                                    ->first();
@@ -731,8 +731,8 @@ return(response()->json($prueba));
 
      $today = Carbon::now(-5);
 
-     $dispositionTratamiento = DB::table('dispositionTratamiento')
-                                   ->select('dispositionTratamiento.id','dispositionTratamiento.nombre as tratamiento')
+     $dispositionTratamiento = DB::table('dispositiontratamiento')
+                                   ->select('dispositiontratamiento.id','dispositiontratamiento.nombre as tratamiento')
                                    ->get();
 
      return(response()->json($dispositionTratamiento));
@@ -871,8 +871,8 @@ return(response()->json($prueba));
       // obligatorios en cualquier vista para el menu
 
         $dispositions = DB::table('dispositions')
-                                      ->join('dispositionTratamiento','dispositions.id_dispositionTratamiento','=','dispositionTratamiento.id')
-                                      ->select('dispositions.*','dispositionTratamiento.nombre as tratamiento')
+                                      ->join('dispositiontratamiento','dispositions.id_dispositionTratamiento','=','dispositiontratamiento.id')
+                                      ->select('dispositions.*','dispositiontratamiento.nombre as tratamiento')
                                       ->where('id_compania','=',$companiaid)
                                       ->get();
 

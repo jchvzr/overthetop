@@ -80,7 +80,7 @@
 
        <div class="col-xs-6 date">
 
-<input id ='<?=$compromisodetalle->id?>' name ='<?=$compromisodetalle->id?>' type="checkbox" class="js-switch_3" value = "<?=$compromisodetalle->id?>"  onchange="cambio(<?=$compromisodetalle->id ?>,<?=$compromisodetalle->customerid ?>);"  <?php if ($compromisodetalle->hecho == 1) {echo("checked");}  ?>/>
+<input id ='<?=$compromisodetalle->id?>' name ='<?=$compromisodetalle->id?>' type="checkbox" class="js-switch_3" value = "<?=$compromisodetalle->id?>"  onchange="cambio(<?=$compromisodetalle->id ?>,'<?=$compromisodetalle->customerid ?>');"  <?php if ($compromisodetalle->hecho == 1) {echo("checked");}  ?>/>
            <?=$compromisodetalle->fechaFin ?>
            <br/>
        </div>
@@ -105,7 +105,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated flipInX">
             <input type="hidden" name="id_check" id="id_check">
-            <input type="" name="id_cliente" id="id_cliente">
+            <input type="hidden" name="id_cliente" id="id_cliente">
             <div class="modal-header">
                 <button type="button" class="close" onclick="cierramodal();"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Datos de cliente</h4>
