@@ -50,7 +50,7 @@ else {
 
 
 
-  var route = "/newcode/creacodigo/";
+  var route = "/newcode/creacodigo";
   var token = $("#token").val();
   var fd = new FormData(document.getElementById("creacodigo"));
   var progressBar = document.getElementById("progress");
@@ -60,7 +60,7 @@ else {
   $.ajax({
     url: route,
     headers: {'X-CSRF_TOKEN': token},
-    type: 'POST',
+    type: 'post',
     data: fd,
     processData: false,  // tell jQuery not to process the data
     contentType: false,

@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MAIL_DRIVER', 'mail'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.isolutionbusiness.com'),
+    'host' => env('MAIL_HOST', 'smtp.1and1.mx'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 25),
+    'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'password.recovery@isolutionbusiness.com', 'name' => 'isobpm'],
+    'from' => ['address' => 'crminforma@overthetop.com.mx', 'name' => 'crminforma'],
 
     /*
     |--------------------------------------------------------------------------
