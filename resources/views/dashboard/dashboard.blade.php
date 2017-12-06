@@ -10,6 +10,11 @@
 <script src="js/datetimepicker/bootstrap-datetimepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="css/datetimepicker/bootstrap-datetimepicker.css" />
 
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
 <!-- Flot -->
 <script src="js/plugins/flot/jquery.flot.js"></script>
 <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
@@ -33,32 +38,46 @@
 
 <div class="row">
 
-       <div class="col-sm-3">
+       <div class="col-sm-2">
 
            <h2>Resultados</h2>
 
        </div>
-       <div class="col-sm-3">
+  <form id="formfiltro" method="post" enctype="multipart/form-data">
+    
+       <div class="col-sm-4">
            <div class="form-group">
                <label>Campaña </label>
-               <select id="tipoInte" name="tipoInte" multiple="multiple" class="chosen-select form-control required">
-
+               <select id="campana" name="campana" multiple="multiple" class="chosen-select form-control required">
+                <?php foreach($campanas as $campana): ?>
+                  <option value="<?=$campana->id?>"><?=$campana->nombre?></option>
+                <?php endforeach ?>
                </select>
            </div>
        </div>
 
-   <div class="col-sm-3">
-       <div class="form-group col-sm-6" id="data_5">
-                                       <label class="font-noraml">Range select</label>
-                                       <div class="input-daterange input-group" id="datepicker">
-                                           <input type="text" class="input-sm form-control" name="start" value="05/14/2014"/>
-                                           <span class="input-group-addon">to</span>
-                                           <input type="text" class="input-sm form-control" name="end" value="05/22/2014" />
-                                       </div>
+     <div class="col-sm-6" id="sandbox-container">
+        <label>Rango de fechas </label>
+       <div class="input-daterange input-group" id="datepicker">
+           <input type="text" class="input-sm form-control" id="start"name="start" data-mask="<?=$inicio?>" value="<?=$inicio?>" />
+           <span class="input-group-addon">hasta</span>
+           <input type="text" class="input-sm form-control" id="end"name="end" data-mask="<?=$final?>"  value="<?=$final?>" />
        </div>
+   </div>
+ </form>
  </div>
+
+  <center>   <button name="buscacliente" type="button" class="btn btn-primary" id="buscaresultados" style="font-family: Arial;" onclick="buscaresultado();">Ver resultados</button> </center>
+
  </div>
- </div>
+
+ <div class="row">
+   <div class="progress" id="progress">
+     <div class="progress-bar progress-bar-striped active" role="progressbar"
+     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+
+     </div>
+   </div>
 
  <div class="col-lg-12">
      <div class="ibox float-e-margins">
@@ -68,8 +87,7 @@
 <div class="ibox-content">
  <div class="row">
 
- <br>
- <div class="col-lg-3">
+ <div class="col-lg-6">
      <ul class="stat-list">
          <li>
              <h2 class="no-margins"><?=$clientesinteraccion->codigos ?></h2>
@@ -98,9 +116,21 @@
          </ul>
      </div>
  </div>
+ <div class="row">
 
+ <div class="col-lg-12">
+   <div class="flot-chart">
+       <div class="flot-chart-content" id="flot-dashboard-chart" ></div>
+   </div>
+     <div class="flot-chart">
+         <div class="flot-chart-content" id="flot-dashboard-chart2" ></div>
+     </div>
+ </div>
+</div>
  </div>
  </div>
+
+
  </div>
 
 

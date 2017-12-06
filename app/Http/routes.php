@@ -31,7 +31,7 @@ Route::group( ['middleware' => 'auth'],
       //Entradas
 			Route::get('bienvenida/', 'BienvenidaController@show');
       Route::get('/graficoiniciodata2', 'BienvenidaController@graficoiniciodata2');
-      Route::get('/graficoiniciodata3', 'BienvenidaController@graficoiniciodata3');
+
       Route::get('/perfil','AdministradosController@index');
       Route::post('/guardarimagenperfil', 'AdministradosController@imageUserStore');
       Route::get('/buscaclienteinteraccionresumen','BienvenidaController@grafico1');
@@ -115,6 +115,8 @@ Route::group( ['middleware' => 'auth'],
 
       // Dashboard
       Route::get('/resultados','dashboard@index');
+      Route::post('/descargadashboard1','dashboard@descargadashboard1');
+
 
 
     });

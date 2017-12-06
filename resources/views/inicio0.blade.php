@@ -119,7 +119,7 @@
          </div>-->
      </div>
      </div>
-     <div class="row">
+                <div class="row">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
@@ -134,9 +134,7 @@
                                       <div class="flot-chart">
                                           <div class="flot-chart-content" id="flot-dashboard-chart" ></div>
                                       </div>
-                                        <div class="flot-chart">
-                                            <div class="flot-chart-content" id="flot-dashboard-chart2" ></div>
-                                        </div>
+
                                     </div>
                                     <br>
                                     <div class="col-lg-3">
@@ -182,7 +180,7 @@
 
 
   <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Resumen de compromisos para hoy</h5>
@@ -194,22 +192,25 @@
                     </div>
                 </div>
                 <div class="ibox-content">
+
                     <table class="table table-hover no-margins">
                         <thead>
                         <tr>
-                            <th>Revisado</th>
                             <th>Fecha y hora</th>
-                            <th>Comentario</th>
                             <th>Monto</th>
+                            <th>Cuenta </th>
+                            <th>Nombre</th>
+                            <th>Comentario</th>
                         </tr>
                         </thead>
                         <tbody>
                           <?php foreach($compromisos as $compromiso): ?>
                         <tr>
-                            <td><small><?=$compromiso->hecho ?></small></td>
                             <td><i class="fa fa-clock-o"></i> <?=$compromiso->fechaFin ?></td>
-                            <td><?=$compromiso->comentario ?></td>
-                            <td class="text-navy"> <i class="fa fa-usd"></i> <?=$compromiso->monto ?> </td>
+                            <td><i class="fa fa-usd"></i> <?=$compromiso->monto ?></td>
+                            <th><?=$compromiso->monto ?> </th>
+                            <th><?=$compromiso->nombreCliente ?></th>
+                            <td class="text-navy"> <?=$compromiso->comentario ?> </td>
                         </tr>
                         <?php endforeach ?>
 
@@ -218,11 +219,9 @@
                 </div>
             </div>
         </div>
-</div>
 
-<div class="row">
 
-  <div class="col-lg-12">
+  <div class="col-lg-6">
       <div class="ibox float-e-margins">
           <div class="ibox-title">
               <h5>Resumen de compromisos para los siguientes 7 dias</h5>
@@ -237,19 +236,21 @@
               <table class="table table-hover no-margins">
                   <thead>
                   <tr>
-                      <th>Revisado</th>
-                      <th>Fecha y hora</th>
-                      <th>Comentario</th>
-                      <th>Monto</th>
+                    <th>Fecha y hora</th>
+                    <th>Monto</th>
+                    <th>Cuenta </th>
+                    <th>Nombre</th>
+                    <th>Comentario</th>
                   </tr>
                   </thead>
                   <tbody>
                     <?php foreach($compromisosw as $compromiso): ?>
                   <tr>
-                      <td><small><?=$compromiso->hecho ?></small></td>
-                      <td><i class="fa fa-clock-o"></i> <?=$compromiso->fechaFin ?></td>
-                      <td><?=$compromiso->comentario ?></td>
-                      <td class="text-navy"> <i class="fa fa-usd"></i> <?=$compromiso->monto ?> </td>
+                    <td><i class="fa fa-clock-o"></i> <?=$compromiso->fechaFin ?></td>
+                    <td><i class="fa fa-usd"></i> <?=$compromiso->monto ?></td>
+                    <th><?=$compromiso->monto ?> </th>
+                    <th><?=$compromiso->nombreCliente ?></th>
+                    <td class="text-navy"> <?=$compromiso->comentario ?> </td>
                   </tr>
                   <?php endforeach ?>
 

@@ -27,6 +27,8 @@ class dashboard extends Controller
 
         $userid = $user->id;
 
+        $companiaid = $user->id_compania;
+
         // validando si el usuario esta donde debe de estar si no se regresa a inicio
         //return(dd( "/".$request->path()));
        $validapermiso = DB::table('users')
@@ -71,6 +73,10 @@ class dashboard extends Controller
                                   ->get();
     // obligatorios en cualquier vista para el menu
 
+         $campanas = DB::table('campanas')
+                               ->where('id_compania','=',$companiaid )
+                               ->orderby('id')
+                               ->get();
 
 
           $today = Carbon::now(-5);
@@ -155,11 +161,11 @@ class dashboard extends Controller
 
     //return(dd($clientesinteraccion));
 
-          $inicio = $start->subDays(7)->todatestring();
-          $final = $end->todatestring();
+          $inicio = $start->startofMonth()->todatestring();
+          $final = $end->endofMonth()->todatestring();
 
 
-          return View('/dashboard/dashboard',compact('datauser','menuIzquierda','submenuIzquierda','compromisos','countcompro','sum','compromisosw','countcomprow','sumw','clientesinteraccion','inicio','final') );
+          return View('/dashboard/dashboard',compact('datauser','menuIzquierda','submenuIzquierda','campanas','compromisos','countcompro','sum','compromisosw','countcomprow','sumw','clientesinteraccion','inicio','final') );
 
 
 
@@ -170,9 +176,12 @@ class dashboard extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function descargadashboard1(request $request)
     {
         //
+    return(dd($request));
+
+
     }
 
     /**

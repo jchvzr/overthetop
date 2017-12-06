@@ -38,14 +38,14 @@ xhr: function () {
      //Upload Progress
      xhr.upload.addEventListener("progress", function (evt) {
         if (evt.lengthComputable) {
-       var percentComplete = (evt.loaded / evt.total) * 100; $('div.progress > div.progress-bar').css({ "width": percentComplete + "%" }); } }, false);
+       var percentComplete = (evt.loaded / evt.total) * 100; $('div.progress > div.progress-bar').css({ "width:" percentComplete + "%" }); } }, false);
 
 //Download progress
 xhr.addEventListener("progress", function (evt)
 {
 if (evt.lengthComputable)
  { var percentComplete = (evt.loaded / evt.total) *100;
-$("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
+$("div.progress > div.progress-bar").css({ "width:" percentComplete + "%" }); } },
 false);
 return xhr;
 },
@@ -91,7 +91,7 @@ alert(res.length);
          $("#tableInteraccion").append('<tr class="gradeX"><strong><td>'+res[i].fechaInteraccion+'</td><td>'+res[i].customerid+'</td><td>'+res[i].usuario+
          '</td><td>'+res[i].tipoInteraccion+'</td><td>'+res[i].nombre+'</td><td>'+res[i].comentario+'</td><td>'+res[i].idcampana+'</td></strong></tr>');
          var percenttabla = (i / res.length) *100;
-         $("div.progress > div.progress-bar").css({ "width": percenttabla + "%" });
+         $("div.progress > div.progress-bar").css({ "width:" percenttabla + "%" });
          }
 
 

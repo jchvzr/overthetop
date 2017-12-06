@@ -232,7 +232,7 @@ class admintoolcontroller extends Controller
            'updated_at' => $today,
            ]);
 
-  $idd2 = DB::table('usuariosdetail')->insertGetId(
+  $idd2 = DB::table('usuariosDetail')->insertGetId(
           ['nombre'=> $request->input('usuario'),
            'apellidoPaterno'=> '',
            'apellidoMaterno'=> '',
@@ -776,7 +776,7 @@ $idd =         DB::table('users')->insertGetId(
                  'updated_at' => $today,
                  ]);
 
-                DB::table('usuariosdetail')->insert(
+                DB::table('usuariosDetail')->insert(
                          ['nombre'=> $request->input('nombre'),
                           'apellidoPaterno'=> '',
                           'apellidoMaterno'=> '',

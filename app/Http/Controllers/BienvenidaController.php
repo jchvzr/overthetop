@@ -232,7 +232,7 @@ class BienvenidaController extends Controller
 $compromisos = DB::table('controlcompromisos')
                          ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
                          ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                        ->select(DB::raw('year(controlcompromisos.fechaFin) as year,month(controlcompromisos.fechaFin) as month,day(controlcompromisos.fechaFin) as day,count(*) as compromisos'))
+                        ->select(DB::raw('year(controlcompromisos.fechaFin) as year,month(controlcompromisos.fechaFin) as month,day(controlcompromisos.fechaFin) as day,count(*) as compromisos,sum(controlcompromisos.monto) as monto '))
                          //->select(DB::raw('convert(controlcompromisos.fechaFin,date) as fecha,count(*) as compromisos'))
                          ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                          ->where('controlcompromisos.id_users','=',$userid)
@@ -244,88 +244,11 @@ $compromisos = DB::table('controlcompromisos')
                          ->orderBy('month','asc')
                          ->orderBy('day','asc')
                          ->get();
-/*
-$compromisos = DB::table('controlcompromisos')
-                         ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                         ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                          //->select(DB::raw('year(controlcompromisos.fechaFin) as year,month(controlcompromisos.fechaFin) as month,day(controlcompromisos.fechaFin) as day,count(*) as compromisos'))
-                         ->select(DB::raw('convert(controlcompromisos.fechaFin,date) as fecha,count(*) as compromisos'))
-                         ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-                         ->where('controlcompromisos.id_users','=',$userid)
-                         //->where('controlcompromisos.hecho','=',0)
-                         ->groupBy('year')
-                         ->groupBy('month')
-                         ->groupBy('day')
-                         ->orderBy('year','asc')
-                         ->orderBy('month','asc')
-                         ->orderBy('day','asc')
-                         ->orderby(DB::raw('convert(controlcompromisos.fechaFin,date)'),'asc')
-                         ->groupby(DB::raw('convert(controlcompromisos.fechaFin,date)'),'asc')
-                         ->get();
-*/
-/*
-  $prueba[]= [];
 
-
-//[gd(2017, 11, 29), 5]
-  foreach($compromisos as $x => $x_value) {
-  //$prueba = $prueba.'['.$x_value->nombre.','.(int)$x_value->cuantos.'],';
-  $prueba[$x] =["año:".$x_value->year.",mes:".$x_value->month.",dia:".$x_value->day.",cantidad:(".(int)$x_value->compromisos.")"] ;
-  }
-*/
   return(response()->json($compromisos));
 
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function graficoiniciodata3()
-    {
-        //
-
-        $today = Carbon::now(-5);
-
-        $start = Carbon::parse($today)->startOfDay()->subDays(7);
-        $end = Carbon::parse($today)->endOfDay()->addDays(7);;
-
-        $user = Auth::user();
-
-        $userid = $user->id;
-//->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-
-$compromisos = DB::table('controlcompromisos')
-                         ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                         ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                          ->select(DB::raw('year(controlcompromisos.fechaFin) as year,month(controlcompromisos.fechaFin) as month,day(controlcompromisos.fechaFin) as day,sum(controlcompromisos.monto) as compromisos'))
-                         //->select('controlcompromisos.fechaFin','controlcompromisos.monto')
-                         ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-                         ->where('controlcompromisos.id_users','=',$userid)
-                         //->where('controlcompromisos.hecho','=',0)
-                         ->groupBy('year')
-                         ->groupBy('month')
-                         ->groupBy('day')
-                         ->orderBy('year','asc')
-                         ->orderBy('month','asc')
-                         ->orderBy('day','asc')
-                         ->get();
-/*
-
-  $prueba[]= [];
-
-
-//[gd(2017, 11, 29), 5]
-  foreach($compromisos as $x => $x_value) {
-  $prueba[$x] =["año:".$x_value->year.",mes:".$x_value->month.",dia:".$x_value->day.",monto:".(int)$x_value->compromisos.")"];
-  }
-*/
-  return(response($compromisos));
-
-    }
 
 
 
