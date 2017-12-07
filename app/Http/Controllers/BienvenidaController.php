@@ -126,7 +126,7 @@ class BienvenidaController extends Controller
 
       $compromisos = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                                 ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
@@ -138,7 +138,7 @@ class BienvenidaController extends Controller
 
       $sum = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
@@ -166,7 +166,7 @@ class BienvenidaController extends Controller
 
       $compromisosw = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
@@ -178,7 +178,7 @@ class BienvenidaController extends Controller
 
       $sumw = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)

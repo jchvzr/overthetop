@@ -236,11 +236,11 @@ class crmcontroller extends Controller
                    ]);
 
                    DB::table('clientesdetail')
-                   ->where('id', '=', 1)
+                   ->where('id', '=', $request->input('customerid3'))
                    ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
         }else {
           DB::table('clientesdetail')
-          ->where('id', '=', 1)
+          ->where('id', '=', $request->input('customerid3'))
           ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
         }
 
@@ -291,11 +291,11 @@ class crmcontroller extends Controller
                    ]);
 
                    DB::table('clientesdetail')
-                   ->where('id', '=', 1)
+                   ->where('id', '=', $request->input('customerid3'))
                    ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '']);
         }else {
           DB::table('clientesdetail')
-          ->where('id', '=', 1)
+          ->where('id', '=', $request->input('customerid3'))
           ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
         }
 
@@ -356,11 +356,11 @@ class crmcontroller extends Controller
                   ]);
 
                   DB::table('clientesdetail')
-                  ->where('id', '=', 1)
+                  ->where('id', '=', $customer)
                   ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $request->input('fechapp'), 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
        }else {
          DB::table('clientesdetail')
-         ->where('id', '=', 1)
+         ->where('id', '=', $customer)
          ->update(['ultimocodigo' => $dispcontroagenda->id_dispositionTratamiento, 'fecha' => $today, 'usuariocodigo' => $userid, 'enuso' => 0, 'usuarioenuso' => '' ]);
        }
 
@@ -477,7 +477,7 @@ return(response()->json($prueba));
 
       $compromisos = DB::table('controlcompromisos')
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                               ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
                                ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
@@ -1045,8 +1045,6 @@ return(response()->json($prueba));
                      ]);
 
             }
-
-
 
 
           }

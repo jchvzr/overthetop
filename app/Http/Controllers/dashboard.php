@@ -81,91 +81,13 @@ class dashboard extends Controller
 
           $today = Carbon::now(-5);
 
-          $start = Carbon::parse($today)->startOfDay();
-          $end = Carbon::parse($today)->endOfDay();
-
-          $compromisos = DB::table('controlcompromisos')
-                                   ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                                   ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                                   ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
-                                   ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-                                   ->where('controlcompromisos.id_users','=',$userid)
-                                   //->where('controlcompromisos.hecho','=',0)
-                                   ->orderBy('controlcompromisos.fechaFin','asc')
-                                   ->get();
-
-          $countcompro = count($compromisos);
-
-          $sum = DB::table('controlcompromisos')
-                                   ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                                   ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                                   ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
-                                   ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-                                   ->where('controlcompromisos.id_users','=',$userid)
-                                   //->where('controlcompromisos.hecho','=',0)
-                                   ->sum('monto');
 
 
+          $inicio = $today->startofMonth()->todatestring();
+          $final = $today->endofMonth()->todatestring();
 
 
-    /*
-           $tophm = DB::table('controlcompromisos')
-                                    ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                                    ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                                    ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
-                                    ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-                                    ->where('controlcompromisos.id_users','=',$userid)
-                                    ->where('controlcompromisos.hecho','=',0)
-                                    ->sum('monto');
-    */
-
-
-
-          $end = $end->addDays(7);
-
-
-          $compromisosw = DB::table('controlcompromisos')
-                                   ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                                   ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                                   ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
-                                   ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-                                   ->where('controlcompromisos.id_users','=',$userid)
-                                   //->where('controlcompromisos.hecho','=',0)
-                                   ->orderBy('controlcompromisos.fechaFin','asc')
-                                   ->get();
-
-          $countcomprow = count($compromisosw);
-
-          $sumw = DB::table('controlcompromisos')
-                                   ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
-                                   ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
-                                   ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
-                                   ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
-                                   ->where('controlcompromisos.id_users','=',$userid)
-                                   //->where('controlcompromisos.hecho','=',0)
-                                   ->sum('monto');
-
-
-           $end = $end->subDays(7);
-
-
-           $clientesinteraccion = DB::table('clientes')
-                                    ->join('clientesinteraccion','clientes.customerid','=','clientesinteraccion.customerid')
-                                    ->join('dispositions','clientesinteraccion.id_disposition','=','dispositions.id')
-                                    ->join('tipointeraccion','clientesinteraccion.id_tipoInteraccion','=','tipointeraccion.id')
-                                    ->join('users','clientesinteraccion.id_users','=','users.id')
-                                    ->select(DB::raw('count(*) as codigos, sum(contacto) as contacto, sum(rpc) as rpc, sum(exito) as exito'))
-                                    ->wherebetween('clientesinteraccion.fechaInteraccion',[$start,$end])
-                                    ->where('clientesinteraccion.id_users','=',$userid)
-                                    ->first();
-
-    //return(dd($clientesinteraccion));
-
-          $inicio = $start->startofMonth()->todatestring();
-          $final = $end->endofMonth()->todatestring();
-
-
-          return View('/dashboard/dashboard',compact('datauser','menuIzquierda','submenuIzquierda','campanas','compromisos','countcompro','sum','compromisosw','countcomprow','sumw','clientesinteraccion','inicio','final') );
+          return View('/dashboard/dashboard',compact('datauser','menuIzquierda','submenuIzquierda','campanas','inicio','final') );
 
 
 
@@ -179,8 +101,24 @@ class dashboard extends Controller
     public function descargadashboard1(request $request)
     {
         //
-    return(dd($request));
 
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $companiaid = $user->id_compania;
+
+        $clientesinteraccion = DB::table('clientes')
+                                 ->join('clientesinteraccion','clientes.customerid','=','clientesinteraccion.customerid')
+                                 ->join('dispositions','clientesinteraccion.id_disposition','=','dispositions.id')
+                                 ->join('tipointeraccion','clientesinteraccion.id_tipoInteraccion','=','tipointeraccion.id')
+                                 ->join('users','clientesinteraccion.id_users','=','users.id')
+                                 ->select(DB::raw('count(*) as codigos, sum(contacto) as contacto, sum(rpc) as rpc, sum(exito) as exito'))
+                                 ->wherebetween('clientesinteraccion.fechaInteraccion',[$request->start,$request->end])
+                                 ->where('clientes.idcampana','=',$request->campana)
+                                 ->first();
+
+        return(response()->json($clientesinteraccion));
 
     }
 
@@ -190,9 +128,27 @@ class dashboard extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function descargadashboardpenetracion(Request $request)
     {
         //
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $companiaid = $user->id_compania;
+
+        $clientesinteraccion = DB::table('clientes')
+                                 ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
+                                 ->select(DB::raw('count(*) as registros, sum(case when()) as contacto'))
+                                 ->wherebetween('clientesinteraccion.fechaInteraccion',[$request->start,$request->end])
+                                 ->where('clientes.idcampana','=',$request->campana)
+                                 ->first();
+
+        return(response()->json($clientesinteraccion));
+
+
+
+
     }
 
     /**
