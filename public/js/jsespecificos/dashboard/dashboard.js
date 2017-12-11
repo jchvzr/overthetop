@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
+$('#todo').hide();
+
 chosechido();
 WinMove();
-
-
 
 $('#sandbox-container .input-daterange').datepicker({
     maxViewMode: 2,
@@ -15,46 +15,13 @@ $('#sandbox-container .input-daterange').datepicker({
 
 });
 
-
-
 // Randomly Generated Data
 
-
-
-var data = [{
-    label: "Sin trabajar",
-    data: 48,
-    color: "#d3d3d3",
-},  {
-    label: "Trabajados",
-    data: 52,
-    color: "#1ab394",
-}];
-
-var plotObj = $.plot($("#flot-pie-chart"), data, {
-    series: {
-        pie: {
-          innerRadius: 0.5,
-            show: true
-        }
-    },
-    grid: {
-        hoverable: true
-    },
-    tooltip: true,
-    tooltipOpts: {
-        content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-        shifts: {
-            x: 20,
-            y: 0
-        },
-        defaultTheme: false
-    }
 });
 
 
 
-});
+
 
 
 function chosechido()
@@ -65,7 +32,9 @@ function chosechido()
 
 function buscaresultado()
 {
+jsShowWindowLoad('Se realiza una operación');
 
+$('#todo').show();
 
 var validainicio = isValidDate($("#start").val());
 
@@ -107,11 +76,17 @@ else{
       buscarendimiento();
       $('div.progress > div.progress-bar').css({ 'width':'0%' });
       buscapenetracion();
-      $('div.progress > div.progress-bar').css({ 'width':'0%' });
+      $('div.progress > div.progress-bar').css({ "width":"0%" });
+      buscapromesas();
+      var percentComplete = 0;
+      $('div.progress > div.progress-bar').css({ "width": percentComplete + "%" });
+      $('div.progress > div.progress-bar').attr('style', "width: 0%");
+
       }
 
   }
 
+jsRemoveWindowLoad();
 
 }
 
@@ -138,7 +113,7 @@ function buscarendimiento() {
           timeout:20000,
           processData: false,  // tell jQuery not to process the data
           contentType: false,
-          async: true,
+          async: true,/*
          xhr: function () {
               var xhr = new window.XMLHttpRequest();
               //Upload Progress
@@ -154,9 +129,10 @@ function buscarendimiento() {
          $("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
          false);
          return xhr;
-       },
+       },*/
           error: function(){
   // si da error
+           $('#todo').hide();
             setTimeout(function() {
                     toastr.options = {
                         closeButton: true,
@@ -253,7 +229,7 @@ function buscapenetracion() {
             timeout:20000,
             processData: false,  // tell jQuery not to process the data
             contentType: false,
-            async: true,
+            async: true,/*
            xhr: function () {
                 var xhr = new window.XMLHttpRequest();
                 //Upload Progress
@@ -269,7 +245,7 @@ function buscapenetracion() {
            $("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
            false);
            return xhr;
-         },
+         },*/
             error: function(){
     // si da error
               setTimeout(function() {
@@ -288,7 +264,6 @@ function buscapenetracion() {
      // si no encuentra nada
                if(res.length == 0){
 
-
                  setTimeout(function() {
                          toastr.options = {
                              closeButton: true,
@@ -305,47 +280,281 @@ function buscapenetracion() {
                else {
 
     // si tiene resultados
-                     $("#codigos").empty();
-                     $("#codigos").append(res.codigos);
-                     $("#contactos").empty();
-                     $("#contactos").append(res.contacto);
-                     $("#contactospct").empty();
-                     if (res.codigos == 0 ) {
-                       var contactospc = "0%";
-                     } else
-                     {
-                        var contactospc = ((( res.contacto / res.codigos).toFixed(2))*100)+"%";
-                     }
-                     $("#contactospct").append('Contacto / codigos: '+contactospc);
-                     $("#contactospctbar").width(contactospc);
-                     $("#rpc").empty();
-                     $("#rpc").append(res.rpc);
-                     $("#rpcpct").empty();
-                     if (res.contacto == 0) {
-                       var rpcpc = "0%";
-                     } else
-                     { var rpcpc = ((( res.rpc / res.contacto)*100).toFixed(2))+"%";
-                     }
-                     $("#rpcpct").append('Rpc / contacto: '+rpcpc);
-                     $("#rpcpctbar").width(rpcpc);
-                     $("#exito").empty();
-                     $("#exito").append(res.exito);
-                     $("#exitopct").empty();
-                     if (res.rpc == 0) {
-                       var exitopc = "0%";
-                     } else
-                     { var exitopc = ((( res.exito / res.rpc)*100).toFixed(2))+"%";
+                     $("#cargados").empty();
+                     $("#cargados").append('Registros cargados: '+res.registros);
+                     $("#trabajados").empty();
+                     $("#trabajados").append('Registros trabajados: '+res.trabajados);
 
-                     }
-                     $("#exitopct").append('Exito / rpc: '+exitopc);
-                     $("#exitopctbar").width(exitopc);
+                     var data = [{
+                         label: "Sin trabajar",
+                         data: ((( (res.registros-res.trabajados)/res.registros)*100).toFixed(2)),
+                         color: "#d3d3d3",
+                     },  {
+                         label: "Trabajados",
+                         data: ((( res.trabajados/res.registros)*100).toFixed(2)),
+                         color: "#1ab394",
+                     }];
 
-
-
-
+                     var plotObj = $.plot($("#flot-pie-chart"), data, {
+                         series: {
+                             pie: {
+                               innerRadius: 0.5,
+                                 show: true
+                             }
+                         },
+                         grid: {
+                             hoverable: true
+                         },
+                         tooltip: true,
+                         tooltipOpts: {
+                             content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                             shifts: {
+                                 x: 20,
+                                 y: 0
+                             },
+                             defaultTheme: false
+                         }
+                  });
                }
 
                     }
                   });
+
+}
+
+function buscapromesas() {
+
+  var route = "/descargadashboardpromesas";
+  var fd = new FormData(document.getElementById("formfiltro"));
+  var progressBar = 0;
+
+  $.ajax({
+   url: route,
+   headers: {'X-CSRF-Token': $('meta[name="_token"]').attr('content')},
+   type: 'post',
+   data: fd,
+   dataType:"json",
+   cache:false,
+   timeout:20000,
+   processData: false,  // tell jQuery not to process the data
+   contentType: false,
+   async: true,/*
+  xhr: function () {
+       var xhr = new window.XMLHttpRequest();
+       //Upload Progress
+       xhr.upload.addEventListener("progress", function (evt) {
+          if (evt.lengthComputable) {
+         var percentComplete = (evt.loaded / evt.total) * 100; $('div.progress > div.progress-bar').css({ "width": percentComplete + "%" }); } }, false);
+
+  //Download progress
+  xhr.addEventListener("progress", function (evt)
+  {
+  if (evt.lengthComputable)
+   { var percentComplete = (evt.loaded / evt.total) *100;
+  $("div.progress > div.progress-bar").css({ "width": percentComplete + "%" }); } },
+  false);
+  return xhr;
+},*/
+   error: function(){
+// si da error
+     setTimeout(function() {
+             toastr.options = {
+                 closeButton: true,
+                 progressBar: true,
+                 showMethod: 'slideDown',
+                 timeOut: 4000
+             };
+             toastr.error('Error en pagina, consulta con el administrador', 'Error');
+
+         }, 0);
+
+   },
+   success: function(data2){
+// si no encuentra nada
+      if(data2.length == 0){
+
+        setTimeout(function() {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.warning('No se encontraron promesas de pago con los parametros establecidos', 'Sin promesas de pago');
+
+            }, 0);
+
+        hide();
+      }
+      else {
+
+// si tiene resultados
+
+var datos2 = [];
+  for (var i = 0; i < data2.length; i++) {
+datos2[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].compromisos];
+}
+
+
+var datos3 = [];
+  for (var i = 0; i < data2.length; i++) {
+datos3[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].monto];
+}
+
+
+      var dataset = //[];
+    [  {
+          label: "Monto",
+          data: datos3,
+          color: "#1ab394",
+          bars: {
+              show: true,
+              align: "center",
+              barWidth: 24 * 60 * 60 * 600,
+              lineWidth:0
+          }
+
+      }, {
+          label: "Cantidad de compromisos",
+          data: datos2,
+          yaxis: 2,
+          color: "#464f88",
+          lines: {
+              lineWidth:1,
+                  show: true,
+                  fill: true,
+              fillColor: {
+                  colors: [{
+                      opacity: 0.2
+                  }, {
+                      opacity: 0.2
+                  }]
+              }
+          },
+          splines: {
+              show: false,
+              tension: 0.6,
+              lineWidth: 1,
+              fill: 0.1
+          },
+      }
+    ];
+
+
+
+      var options = {
+      xaxis: {
+          mode: "time",
+          tickSize: [1, "day"],
+          tickLength: 0,
+          axisLabel: "Date",
+          axisLabelUseCanvas: true,
+          axisLabelFontSizePixels: 12,
+          axisLabelFontFamily: 'Arial',
+          axisLabelPadding: 10,
+          color: "#d5d5d5"
+      },
+      yaxes: [{
+          position: "left",
+          max: 1070,
+          color: "#d5d5d5",
+          axisLabelUseCanvas: true,
+          axisLabelFontSizePixels: 12,
+          axisLabelFontFamily: 'Arial',
+          axisLabelPadding: 3
+      }, {
+          position: "right",
+          clolor: "#d5d5d5",
+          axisLabelUseCanvas: true,
+          axisLabelFontSizePixels: 12,
+          axisLabelFontFamily: ' Arial',
+          axisLabelPadding: 67
+      }
+      ],
+      legend: {
+          noColumns: 1,
+          labelBoxBorderColor: "#000000",
+          position: "nw"
+      },
+      grid: {
+          hoverable: true,
+          borderWidth: 0
+      },
+      tooltip: true,
+      tooltipOpts: {
+          content: "x: %x, y: %y"
+      }
+      };
+
+
+              var previousPoint = null, previousLabel = null;
+
+              $.plot($("#flot-dashboard-chart"), dataset, options);
+
+      }
+
+           }
+         });
+
+
+
+}
+
+
+function gd(year, month, day) {
+    return new Date(year, month - 1, day).getTime();
+}
+
+function jsRemoveWindowLoad() {
+    // eliminamos el div que bloquea pantalla
+    $("#WindowLoad").remove();
+
+}
+
+function jsShowWindowLoad(mensaje) {
+    //eliminamos si existe un div ya bloqueando
+    jsRemoveWindowLoad();
+
+    //si no enviamos mensaje se pondra este por defecto
+    if (mensaje === undefined) mensaje = "Procesando la información<br>Espere por favor";
+
+    //centrar imagen gif
+    height = 20;//El div del titulo, para que se vea mas arriba (H)
+    var ancho = 0;
+    var alto = 0;
+
+    //obtenemos el ancho y alto de la ventana de nuestro navegador, compatible con todos los navegadores
+    if (window.innerWidth == undefined) ancho = window.screen.width;
+    else ancho = window.innerWidth;
+    if (window.innerHeight == undefined) alto = window.screen.height;
+    else alto = window.innerHeight;
+
+    //operación necesaria para centrar el div que muestra el mensaje
+    var heightdivsito = alto/9 - parseInt(height)/9;//Se utiliza en el margen superior, para centrar
+
+   //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
+    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + mensaje + "</div><img  src='img/load.gif'></div>";
+
+        //creamos el div que bloquea grande------------------------------------------
+        div = document.createElement("div");
+        div.id = "WindowLoad"
+        div.style.width = ancho + "px";
+        div.style.height = alto + "px";
+        $("body").append(div);
+
+        //creamos un input text para que el foco se plasme en este y el usuario no pueda escribir en nada de atras
+        input = document.createElement("input");
+        input.id = "focusInput";
+        input.type = "text"
+
+        //asignamos el div que bloquea
+        $("#WindowLoad").append(input);
+
+        //asignamos el foco y ocultamos el input text
+        $("#focusInput").focus();
+        $("#focusInput").hide();
+
+        //centramos el div del texto
+        $("#WindowLoad").html(imgCentro);
 
 }

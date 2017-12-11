@@ -52,78 +52,96 @@
 <div id="pruebasjquery"></div>
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="row">
-<div class="col-lg-4">
+<div class="col-lg-12">
 
-    <form  action="/descargacodigosshow" id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-      <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-          <label class="col-lg-2 control-label">Fecha inicial:</label>
-          <input class="form-control" id="fechainicio" type="date" placeholder="Fecha inicio" name="fechainicio" value="<?=$iniciostr?>" >
-          <label class="col-lg-2 control-label">Fecha final:</label>
-          <input class="form-control" id="fechafinal" type="date" placeholder="Fecha final" name="fechafinal" value="<?=$finalstr?>" >
-          <!--<button name="buscadetalle" type="button" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" onclick="buscadetalleint();">Buscar detalle</button>-->
-          <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Buscar detalle</button>
-
-      </form>
+  <h3>Descarga detalles</h3>
 </div>
 </div>
+
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-lg-6">
+      <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5>Descarga detalle de codigos</h5>
+          </div>
+          <div class="ibox-content">
+
+      <form  action="/descargacodigosshow" id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+        <div class="col-sm-9" id="sandbox-container">
+           <label>Rango de fechas </label>
+          <div class="input-daterange input-group" id="datepicker">
+              <input type="text" class="input-sm form-control" id="fechainicio"name="fechainicio" data-mask="<?=$iniciostr?>" value="<?=$iniciostr?>" />
+              <span class="input-group-addon">hasta</span>
+              <input type="text" class="input-sm form-control" id="fechafinal" name="fechafinal" value="<?=$finalstr?>" data-mask="<?=$finalstr?>"   />
+          </div>
+        </div>
+        <br>
+        <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
+        </form>
+         </div>
+    </div>
+
+</div>
+
+<div class="col-lg-6">
+  <div class="ibox float-e-margins">
+      <div class="ibox-title">
+          <h5>Descarga detalle de compromisos</h5>
+      </div>
+      <div class="ibox-content">
+
+        <form action="/descargacompromisosshow" id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+          <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+          <div class="col-sm-9" id="sandbox-container">
+             <label>Rango de fechas </label>
+            <div class="input-daterange input-group" id="datepicker">
+                <input type="text" class="input-sm form-control" id="fechainicio"name="fechainicio" data-mask="<?=$iniciostr?>" value="<?=$iniciostr?>" />
+                <span class="input-group-addon">hasta</span>
+                <input type="text" class="input-sm form-control" id="fechafinal" name="fechafinal" value="<?=$finalstr?>" data-mask="<?=$finalstr?>"   />
+            </div>
+          </div>
+          <br>    <!--<button name="buscadetalle" type="button" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" onclick="buscadetalleint();">Buscar detalle</button>-->
+              <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
+          </form>
+     </div>
+</div>
+
+</div>
+
 
 </div>
 
 <div class="row">
-    <div class="col-lg-12">
-        <div class="panel blank-panel">
-            <div class="panel-heading">
-              <center>  <div class="panel-title m-b-md"><h3>Detalle de codigos</h3> </center></div>
-              <center> <button name="mandaexcel" type="button" class="btn btn-primary" id="mandaexcel" style="font-family: Arial;" onclick="mandaraexcel();">Exportar a excel <i class="fa fa-file-excel-o" aria-hidden="true"></i></button> </center>
-              </div>
+    <div class="col-lg-6">
+      <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5>Descarga detalle de campaña</h5>
+          </div>
+          <div class="ibox-content">
 
-            <div class="panel-body">
-
-
-                      <div id="detalleencontrado">
-                        <div class="row">
-                          <div class="progress" id="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar"
-                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
-
-                            </div>
-                          </div>
-
-
-                        <table class="table table-striped table-bordered table-hover dataTables-example"  id="interactiontable">
-                                            <thead>
-                                            <tr>
-
-                                              <th>Fecha</th>
-                                              <th>Cliente / cuenta</th>
-                                              <th>Usuario</th>
-                                              <th>Tipo de interaccion</th>
-                                              <th>Codigo</th>
-                                              <th>Comentario</th>
-                                              <th>Campaña</th>
-
-
-
-                                            </tr>
-                                            </thead>
-                                            <tbody id="tableInteraccion">
-
-
-                                            </tbody>
-
-                                            </table>
-
-                      </div>
-                    </div>
-
-            </div>
-
+      <form  action="/descargacodigosshow" id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+        <div class="col-sm-9" id="sandbox-container">
+           <label>Rango de fechas </label>
+          <div class="input-daterange input-group" id="datepicker">
+              <input type="text" class="input-sm form-control" id="fechainicio"name="fechainicio" data-mask="<?=$iniciostr?>" value="<?=$iniciostr?>" />
+              <span class="input-group-addon">hasta</span>
+              <input type="text" class="input-sm form-control" id="fechafinal" name="fechafinal" value="<?=$finalstr?>" data-mask="<?=$finalstr?>"   />
+          </div>
         </div>
+        <br>
+        <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
+        </form>
+         </div>
     </div>
+
 </div>
-
-
-
+</div>
 
 
 <style>

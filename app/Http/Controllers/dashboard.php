@@ -139,15 +139,13 @@ class dashboard extends Controller
 
         $clientesinteraccion = DB::table('clientes')
                                  ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
-                                 ->select(DB::raw('count(*) as registros, sum(case when()) as contacto'))
-                                 ->wherebetween('clientesinteraccion.fechaInteraccion',[$request->start,$request->end])
+                                 ->join('campanas','clientes.idcampana','=','campanas.id')
+                                 ->select(DB::raw('count(*) as registros, sum(case when fecha is null then 0 else 1 end)  as trabajados'))
                                  ->where('clientes.idcampana','=',$request->campana)
+                                 ->where('campanas.id_compania','=',$companiaid)
                                  ->first();
 
         return(response()->json($clientesinteraccion));
-
-
-
 
     }
 
@@ -157,9 +155,36 @@ class dashboard extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function descargadashboardpromesas(Request $request)
     {
         //
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $companiaid = $user->id_compania;
+
+        $compromisos = DB::table('controlcompromisos')
+                                 ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
+                                 ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.id')
+                                 ->join('clientes','clientes.customerid','=','clientesdetail.customerid')
+                                 ->select(DB::raw('year(controlcompromisos.fechaFin) as year,month(controlcompromisos.fechaFin) as month,day(controlcompromisos.fechaFin) as day,count(*) as compromisos,sum(controlcompromisos.monto) as monto '))
+                                 //->select(DB::raw('convert(controlcompromisos.fechaFin,date) as fecha,count(*) as compromisos'))
+                                 ->wherebetween('controlcompromisos.fechaFin',[$request->start,$request->end])
+                                 ->where('clientes.id_compania','=',$companiaid)
+                                 ->where('clientes.idcampana','=',$request->campana)
+                                 //->where('controlcompromisos.hecho','=',0)
+                                 ->groupBy('year')
+                                 ->groupBy('month')
+                                 ->groupBy('day')
+                                 ->orderBy('year','asc')
+                                 ->orderBy('month','asc')
+                                 ->orderBy('day','asc')
+                                 ->get();
+
+        return(response()->json($compromisos));
+
+
     }
 
     /**

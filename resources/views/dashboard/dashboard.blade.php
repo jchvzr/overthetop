@@ -64,22 +64,20 @@
            <input type="text" class="input-sm form-control" id="end"name="end" data-mask="<?=$final?>"  value="<?=$final?>" />
        </div>
    </div>
-     <button type="submit" class="btn btn-primary" id="guarda" name="guarda" value="">Pruebasubmint</button>
+  <!--   <button type="submit" class="btn btn-primary" id="guarda" name="guarda" value="">Pruebasubmint</button>-->
  </form>
  </div>
 
   <center>  <button name="buscacliente" type="button" class="btn btn-primary" id="buscaresultados" style="font-family: Arial;" onclick="buscaresultado();">Ver resultados</button> </center>
 
  </div>
-
+<div id="todo">
  <div class="row">
    <div class="progress" id="progress">
-     <div class="progress-bar progress-bar-striped active" role="progressbar"
-     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
-
+     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
      </div>
    </div>
-
+ </div>
 
  <div class="row">
  <div class="col-lg-6">
@@ -127,33 +125,46 @@
              <h5>Penetracion de la base: </h5>
          </div>
          <div class="ibox-content">
-           <div class="col-lg-6">
-            <br>
-           <h5>Registros cargados: </h5>
-           <h5>Registros trabajados: </h5>
-           </div>
-            <div class="col-lg-6">
+           <h5 id="cargados"></h5>
+           <h5 id="trabajados"></h5>
              <div class="flot-chart">
                  <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
              </div>
             </div>
          </div>
      </div>
- </div>
 </div>
 
 
  <div class="row">
-
  <div class="col-lg-12">
+
+       <div class="ibox float-e-margins">
+           <div class="ibox-title">
+               <h5>Levantamiento de promesas por dia: </h5>
+           </div>
+           <div class="ibox-content">
    <div class="flot-chart">
        <div class="flot-chart-content" id="flot-dashboard-chart" ></div>
    </div>
-     <div class="flot-chart">
-         <div class="flot-chart-content" id="flot-dashboard-chart2" ></div>
-     </div>
  </div>
  </div>
 
+ </div>
+ </div>
+</div>
+ <style>
+ #WindowLoad
+ {
+     position:fixed;
+     top:0px;
+     left:0px;
+     z-index:3200;
+     filter:alpha(opacity=65);
+    -moz-opacity:65;
+     opacity:0.65;
+     background:#999;
+ }
+ </style>
 
 @endsection
