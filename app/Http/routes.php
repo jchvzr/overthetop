@@ -111,6 +111,7 @@ Route::group( ['middleware' => 'auth'],
       Route::post('/descargacodigosshow','descargacontroller@descargacodigosshow');
       Route::get('/descargacompromisos','descargacontroller@descargacompromisosindex');
       Route::post('/descargacompromisosshow','descargacontroller@descargacompromisosshow');
+      Route::post('/descargaclientes','descargacontroller@descargaclientesshow');
 
 
       // Dashboard

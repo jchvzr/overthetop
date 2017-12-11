@@ -29,6 +29,7 @@ class descargacontroller extends Controller
 
         $userid = $user->id;
 
+        $companiaid = $user->id_compania;
         // validando si el usuario esta donde debe de estar si no se regresa a inicio
         //return(dd( "/".$request->path()));
        $validapermiso = DB::table('users')
@@ -76,8 +77,14 @@ class descargacontroller extends Controller
     $iniciostr =  Carbon::now(-5)->startOfMonth()->todatestring();
     $finalstr = Carbon::now(-5)->endOfMonth()->todatestring();
 
+    $campanas = DB::table('campanas')
+                             ->select('campanas.*')
+                             ->where('campanas.id_compania','=',$companiaid)
+                             ->orderBy('campanas.id')
+                             ->get();
 
-return View('descargadetalle/descargadetallecodigos',compact('datauser','menuIzquierda','submenuIzquierda','usuarios','iniciostr','finalstr') );
+
+return View('descargadetalle/descargadetallecodigos',compact('datauser','menuIzquierda','submenuIzquierda','usuarios','iniciostr','finalstr','campanas') );
 
     }
 
@@ -287,9 +294,42 @@ $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function descargaclientesshow(Request $request)
     {
         //
+
+
+    $clientes      = DB::table('clientes')
+                             ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
+                             ->join('campanas','clientes.idcampana','=','campanas.id')
+                             ->lefjoin('dispositions','dispositions.id','=','clientesdetail.usuariocodigo')
+                          //   ->select('users.usuario','dispositions.nombre as codigo','controlcompromisos.comentario','controlcompromisos.fechaInicio as fecha','controlcompromisos.fechaFin as fechacompromiso','controlcompromisos.hecho as revisado','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')
+                             ->select('clientesdetail.customerid','clientesdetail.nombreCliente','clientesdetail.calleCasa','clientesdetail.coloniaCasa','clientesdetail.ciudadCasa','clientesdetail.cpCasa','clientesdetail.calleTrabajo','clientesdetail.coloniaTrabajo','clientesdetail.ciudadTrabajo','clientesdetail.cpTrabajo','clientesdetail.telefono1','clientesdetail.telefono2',
+                                      'clientesdetail.telefono3','clientesdetail.telefono4','clientesdetail.custom1','clientesdetail.custom2','clientesdetail.custom3',
+                                      'clientesdetail.custom4','clientesdetail.custom5','clientesdetail.custom6','clientesdetail.custom7','clientesdetail.custom8','clientesdetail.custom9','clientesdetail.custom10','clientesdetail.ultimocodigo as tratamiento','clientesdetail.fecha','dispositions.nombre')
+                             ->where('clientes.idcampana','=',$request->campana)
+                             ->get();
+
+
+
+
+                             $clientes = json_decode( json_encode($clientes), true);
+
+
+                                                   \Excel::create('clientesdetail', function($excel) use($clientes)  {
+
+                                                                 $excel->sheet('Detalleclientes', function($sheet) use($clientes) {
+
+                                                                 $sheet->fromArray($clientes);
+
+                                                             });
+                                                         })->export('xlsx');
+                                                         //  })->export('xlsx', storage_path('excel/exports'),true);
+
+
+
+                             return response()->json($clientes);
+
     }
 
     /**

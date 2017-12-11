@@ -80,8 +80,8 @@
               <input type="text" class="input-sm form-control" id="fechafinal" name="fechafinal" value="<?=$finalstr?>" data-mask="<?=$finalstr?>"   />
           </div>
         </div>
-        <br>
-        <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
+
+        <button onclick="descargainteracciones();" name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
         </form>
          </div>
     </div>
@@ -95,7 +95,7 @@
       </div>
       <div class="ibox-content">
 
-        <form action="/descargacompromisosshow" id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+        <form action="/descargacompromisosshow" id="buscadetallecompromisos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
           <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <div class="col-sm-9" id="sandbox-container">
              <label>Rango de fechas </label>
@@ -105,8 +105,8 @@
                 <input type="text" class="input-sm form-control" id="fechafinal" name="fechafinal" value="<?=$finalstr?>" data-mask="<?=$finalstr?>"   />
             </div>
           </div>
-          <br>    <!--<button name="buscadetalle" type="button" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" onclick="buscadetalleint();">Buscar detalle</button>-->
-              <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
+              <!--<button name="buscadetalle" type="button" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" onclick="buscadetalleint();">Buscar detalle</button>-->
+              <button onclick="descargacompromisos();"  name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
           </form>
      </div>
 </div>
@@ -124,18 +124,17 @@
           </div>
           <div class="ibox-content">
 
-      <form  action="/descargacodigosshow" id="buscadetallecodigos" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+      <form  action="/descargaclientes" id="buscadetallecampaña" name="buscadetallecodigos"class="form-inline" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-        <div class="col-sm-9" id="sandbox-container">
-           <label>Rango de fechas </label>
-          <div class="input-daterange input-group" id="datepicker">
-              <input type="text" class="input-sm form-control" id="fechainicio"name="fechainicio" data-mask="<?=$iniciostr?>" value="<?=$iniciostr?>" />
-              <span class="input-group-addon">hasta</span>
-              <input type="text" class="input-sm form-control" id="fechafinal" name="fechafinal" value="<?=$finalstr?>" data-mask="<?=$finalstr?>"   />
-          </div>
-        </div>
-        <br>
-        <button name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
+        <div class="col-sm-9">
+            <label >Campaña </label>
+            <select id="campana" name="campana" class="chosen-select required">
+             <?php foreach($campanas as $campana): ?>
+               <option value="<?=$campana->id?>"><?=$campana->nombre?></option>
+             <?php endforeach ?>
+            </select>
+              </div>
+              <button onclick="descargacampaña();" name="buscadetalle" type="submit" class="btn btn-primary" id="buscadetalle" style="font-family: Arial;" >Bajar detalle</button>
         </form>
          </div>
     </div>
