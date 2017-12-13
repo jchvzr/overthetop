@@ -26,15 +26,22 @@ $('#sandbox-container .input-daterange').datepicker({
 
 function chosechido()
 {
-
       $(".chosen-select").chosen({width: "100%"});
 }
 
 function buscaresultado()
 {
-jsShowWindowLoad('Se realiza una operación');
+
 
 $('#todo').show();
+$('#rendimientocamp').hide();
+$('#penetracioncamp').hide();
+$('#promesascamp').hide();
+$('#rendimientocampcargando').show();
+$('#penetracioncampcargando').show();
+$('#promesascampcargando').show();
+
+
 
 var validainicio = isValidDate($("#start").val());
 
@@ -86,7 +93,7 @@ else{
 
   }
 
-jsRemoveWindowLoad();
+
 
 }
 
@@ -98,10 +105,8 @@ function isValidDate(dateString) {
 
 function buscarendimiento() {
 
-
           var route = "/descargadashboard1";
           var fd = new FormData(document.getElementById("formfiltro"));
-          var progressBar = 0;
 
          $.ajax({
           url: route,
@@ -110,7 +115,7 @@ function buscarendimiento() {
           data: fd,
           dataType:"json",
           cache:false,
-          timeout:20000,
+          timeout:40000,
           processData: false,  // tell jQuery not to process the data
           contentType: false,
           async: true,/*
@@ -161,7 +166,6 @@ function buscarendimiento() {
 
                    }, 0);
 
-               hide();
              }
              else {
 
@@ -201,10 +205,10 @@ function buscarendimiento() {
                    $("#exitopct").append('Exito / rpc: '+exitopc);
                    $("#exitopctbar").width(exitopc);
 
-
-
-
              }
+             $('#rendimientocamp').show();
+             $('#rendimientocampcargando').hide();
+
 
                   }
                 });
@@ -215,21 +219,21 @@ function buscarendimiento() {
 function buscapenetracion() {
 
 
-            var route = "/descargadashboardpenetracion";
+            var route = "/descargadashboard2";
             var fd = new FormData(document.getElementById("formfiltro"));
             var progressBar = 0;
 
            $.ajax({
-            url: route,
-            headers: {'X-CSRF-Token': $('meta[name="_token"]').attr('content')},
-            type: 'post',
-            data: fd,
-            dataType:"json",
-            cache:false,
-            timeout:20000,
-            processData: false,  // tell jQuery not to process the data
-            contentType: false,
-            async: true,/*
+             url: route,
+             headers: {'X-CSRF-Token': $('meta[name="_token"]').attr('content')},
+             type: 'post',
+             data: fd,
+             dataType:"json",
+             cache:false,
+             timeout:40000,
+             processData: false,  // tell jQuery not to process the data
+             contentType: false,
+             async: true,/*
            xhr: function () {
                 var xhr = new window.XMLHttpRequest();
                 //Upload Progress
@@ -248,6 +252,7 @@ function buscapenetracion() {
          },*/
             error: function(){
     // si da error
+     $('#todo').hide();
               setTimeout(function() {
                       toastr.options = {
                           closeButton: true,
@@ -275,7 +280,6 @@ function buscapenetracion() {
 
                      }, 0);
 
-                 hide();
                }
                else {
 
@@ -315,6 +319,10 @@ function buscapenetracion() {
                              defaultTheme: false
                          }
                   });
+
+                  $('#penetracioncamp').show();
+                  $('#penetracioncampcargando').hide();
+
                }
 
                     }
@@ -335,7 +343,7 @@ function buscapromesas() {
    data: fd,
    dataType:"json",
    cache:false,
-   timeout:20000,
+   timeout:40000,
    processData: false,  // tell jQuery not to process the data
    contentType: false,
    async: true,/*
@@ -357,6 +365,7 @@ function buscapromesas() {
 },*/
    error: function(){
 // si da error
+ $('#todo').hide();
      setTimeout(function() {
              toastr.options = {
                  closeButton: true,
@@ -384,10 +393,10 @@ function buscapromesas() {
 
             }, 0);
 
-        hide();
+
       }
       else {
-
+//$('#promesascamp').show();
 // si tiene resultados
 
 var datos2 = [];
@@ -395,10 +404,18 @@ var datos2 = [];
 datos2[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].compromisos];
 }
 
+ var max = 0;
 
 var datos3 = [];
   for (var i = 0; i < data2.length; i++) {
 datos3[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].monto];
+
+if (data2[i].monto > max )
+{
+  max = data2[i].monto;
+}
+
+
 }
 
 
@@ -456,7 +473,7 @@ datos3[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].monto];
       },
       yaxes: [{
           position: "left",
-          max: 1070,
+          max: max,
           color: "#d5d5d5",
           axisLabelUseCanvas: true,
           axisLabelFontSizePixels: 12,
@@ -485,14 +502,12 @@ datos3[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].monto];
           content: "x: %x, y: %y"
       }
       };
-
-
               var previousPoint = null, previousLabel = null;
-
               $.plot($("#flot-dashboard-chart"), dataset, options);
-
       }
 
+      $('#promesascampcargando').hide();
+      $('#promesascamp').show();
            }
          });
 
@@ -533,7 +548,7 @@ function jsShowWindowLoad(mensaje) {
     var heightdivsito = alto/9 - parseInt(height)/9;//Se utiliza en el margen superior, para centrar
 
    //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
-    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + mensaje + "</div><img  src='img/load.gif'></div>";
+    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + mensaje + "</div><img  src='img/ajax-loader.gif'></div>";
 
         //creamos el div que bloquea grande------------------------------------------
         div = document.createElement("div");

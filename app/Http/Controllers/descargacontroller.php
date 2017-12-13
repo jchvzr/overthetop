@@ -127,7 +127,7 @@ $clientesinteraccion = json_decode( json_encode($clientesinteraccion), true);
                                     $sheet->fromArray($clientesinteraccion);
 
                                 });
-                            })->export('xlsx');
+                            })->export('csv');
                             //  })->export('xlsx', storage_path('excel/exports'),true);
 
 
@@ -271,7 +271,7 @@ $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($
                                                 $sheet->fromArray($clientesinteraccion);
 
                                             });
-                                        })->export('xlsx');
+                                        })->export('csv');
                                         //  })->export('xlsx', storage_path('excel/exports'),true);
 
 
@@ -298,11 +298,13 @@ $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($
     {
         //
 
+$camp = $request->campana;
 
+/*
     $clientes      = DB::table('clientes')
                              ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
                              ->join('campanas','clientes.idcampana','=','campanas.id')
-                             ->lefjoin('dispositions','dispositions.id','=','clientesdetail.usuariocodigo')
+                             ->leftjoin('dispositions','dispositions.id','=','clientesdetail.usuariocodigo')
                           //   ->select('users.usuario','dispositions.nombre as codigo','controlcompromisos.comentario','controlcompromisos.fechaInicio as fecha','controlcompromisos.fechaFin as fechacompromiso','controlcompromisos.hecho as revisado','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')
                              ->select('clientesdetail.customerid','clientesdetail.nombreCliente','clientesdetail.calleCasa','clientesdetail.coloniaCasa','clientesdetail.ciudadCasa','clientesdetail.cpCasa','clientesdetail.calleTrabajo','clientesdetail.coloniaTrabajo','clientesdetail.ciudadTrabajo','clientesdetail.cpTrabajo','clientesdetail.telefono1','clientesdetail.telefono2',
                                       'clientesdetail.telefono3','clientesdetail.telefono4','clientesdetail.custom1','clientesdetail.custom2','clientesdetail.custom3',
@@ -312,23 +314,49 @@ $final =   Carbon::createFromDate(substr ($request->fechafinal, 0,4 ), substr ($
 
 
 
-
                              $clientes = json_decode( json_encode($clientes), true);
 
 
-                                                   \Excel::create('clientesdetail', function($excel) use($clientes)  {
+                                                 \Excel::create('clientesdetail', function($excel) use($clientes)  {
 
                                                                  $excel->sheet('Detalleclientes', function($sheet) use($clientes) {
 
                                                                  $sheet->fromArray($clientes);
 
                                                              });
-                                                         })->export('xlsx');
-                                                         //  })->export('xlsx', storage_path('excel/exports'),true);
+                                                //         })->export('csv');
+                                              })->store('csv', storage_path('excel/exports'),true);
+
+*/
 
 
+  \Excel::create('clientesdetail', function($excel) use($camp)  {
 
-                             return response()->json($clientes);
+                $excel->sheet('Detalleclientes', function($sheet) use($camp) {
+
+
+                  DB::table('clientes')
+                                           ->join('clientesdetail','clientes.customerid','=','clientesdetail.customerid')
+                                           ->join('campanas','clientes.idcampana','=','campanas.id')
+                                           ->leftjoin('dispositions','dispositions.id','=','clientesdetail.usuariocodigo')
+                                        //   ->select('users.usuario','dispositions.nombre as codigo','controlcompromisos.comentario','controlcompromisos.fechaInicio as fecha','controlcompromisos.fechaFin as fechacompromiso','controlcompromisos.hecho as revisado','clientesdetail.nombreCliente','clientesdetail.customerid as cuenta','controlcompromisos.monto','clientes.idcampana')
+                                           ->select('clientesdetail.customerid','clientesdetail.nombreCliente','clientesdetail.calleCasa','clientesdetail.coloniaCasa','clientesdetail.ciudadCasa','clientesdetail.cpCasa','clientesdetail.calleTrabajo','clientesdetail.coloniaTrabajo','clientesdetail.ciudadTrabajo','clientesdetail.cpTrabajo','clientesdetail.telefono1','clientesdetail.telefono2',
+                                                    'clientesdetail.telefono3','clientesdetail.telefono4','clientesdetail.custom1','clientesdetail.custom2','clientesdetail.custom3',
+                                                    'clientesdetail.custom4','clientesdetail.custom5','clientesdetail.custom6','clientesdetail.custom7','clientesdetail.custom8','clientesdetail.custom9','clientesdetail.custom10','clientesdetail.ultimocodigo as tratamiento','clientesdetail.fecha','dispositions.nombre')
+                                           ->where('clientes.idcampana','=',$camp)
+                                           ->chunk(100, function ($clientes)  use($sheet) {
+                                               foreach ($clientes as $cliente) {
+
+                                                  $cliente500 = json_decode( json_encode($cliente), true);
+
+                                                 $sheet->appendRow($cliente500);
+                                               }
+                                           });
+
+            });
+           })->export('csv');
+
+  return response()->json($camp);
 
     }
 

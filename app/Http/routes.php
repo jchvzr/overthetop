@@ -117,7 +117,7 @@ Route::group( ['middleware' => 'auth'],
       // Dashboard
       Route::get('/resultados','dashboard@index');
       Route::post('/descargadashboard1','dashboard@descargadashboard1');
-      Route::post('/descargadashboardpenetracion','dashboard@descargadashboardpenetracion');
+      Route::post('/descargadashboard2','dashboard@descargadashboard2');
       Route::post('/descargadashboardpromesas','dashboard@descargadashboardpromesas');
 
 

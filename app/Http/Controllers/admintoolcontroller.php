@@ -41,6 +41,8 @@ class admintoolcontroller extends Controller
 
         $userid = $user->id;
 
+        $companiaid = $user->id_compania;
+
         // validando si el usuario esta donde debe de estar si no se regresa a inicio
         //return(dd( "/".$request->path()));
        $validapermiso = DB::table('users')
@@ -88,11 +90,13 @@ class admintoolcontroller extends Controller
 
     $perfilesSeguridad = DB::table('usuariosPerfil')
                         ->select('usuariosPerfil.id','usuariosPerfil.perfil')
+                        ->where('id_compania','=',$companiaid)
                         ->orderby('id','desc')
                         ->get();
 
     $usuariosPuesto = DB::table('usuariosPuesto')
                         ->select('usuariosPuesto.id','usuariosPuesto.puesto')
+                        ->where('id_compania','=',$companiaid)
                         ->orderby('id','desc')
                         ->get();
 
@@ -108,6 +112,9 @@ class admintoolcontroller extends Controller
 
         $userid = $user->id;
 
+
+
+
         // validando si el usuario esta donde debe de estar si no se regresa a inicio
         //return(dd( "/".$request->path()));
        $validapermiso = DB::table('users')
@@ -154,15 +161,17 @@ class admintoolcontroller extends Controller
     $perfilesSeguridad = DB::table('usuariosPerfil')
                         ->select('usuariosPerfil.id','usuariosPerfil.perfil')
                         ->orderby('id','desc')
+                        ->where('id_compania','=',$companiaid)
                         ->get();
 
     $usuariosPuesto = DB::table('usuariosPuesto')
                         ->select('usuariosPuesto.id','usuariosPuesto.puesto')
                         ->orderby('id','desc')
+                        ->where('id_compania','=',$companiaid)
                         ->get();
 
     $userview = DB::table('users')
-                        ->where('id_compania','=',$user->id_compania)
+                        ->where('id_compania','=',$companiaid)
                         ->get();
 
 
@@ -177,8 +186,11 @@ class admintoolcontroller extends Controller
 
         $userid = $user->id;
 
+        $companiaid = $user->id_compania;
+
         $userdetail = DB::table('users')
                                 ->where('id','=',$id)
+                                ->where('id_compania','=',$companiaid)
                                 ->first();
 
         return response()->json($userdetail);
@@ -266,8 +278,10 @@ class admintoolcontroller extends Controller
       $user = Auth::user();
 
      $userid = $user->id;
-     $edituser = User::findorfail($request->input('id_usuario'));
 
+     $idcompania =  $user->id_compania;
+
+     $edituser = User::findorfail($request->input('id_usuario'));
 
       $v = \Validator::make($request->all(), [
           'usuario'  => 'required',
@@ -306,22 +320,24 @@ class admintoolcontroller extends Controller
        */
       public function newPerfil(Request $request)
       {
-        //
+
         //
         $user = Auth::user();
 
         $userid = $user->id;
 
+        $idcompania =  $user->id_compania;
+
         // validando si el usuario esta donde debe de estar si no se regresa a inicio
         //return(dd( "/".$request->path()));
-       $validapermiso = DB::table('users')
+        $validapermiso = DB::table('users')
                                   ->join('permisosSubmenu','users.id_usuariosPerfil','=','permisosSubmenu.id_perfil')
                                   ->join('submenuIzquierda','submenuIzquierda.id','=','permisosSubmenu.id_submenuIzquierda')
                                   ->where('users.id','=',$userid)
                                   ->where('submenuIzquierda.route','=',"/".$request->path())
                                   ->count();
-       //return(dd($validapermiso));
-       if ($validapermiso == 0) {
+        //return(dd($validapermiso));
+        if ($validapermiso == 0) {
         // si no debe de estar aqui se regresa a la bienvenida
          return  redirect('/bienvenida');
        }
@@ -383,7 +399,7 @@ class admintoolcontroller extends Controller
   //    return(dd($request));
 
       $v = \Validator::make($request->all(), [
-          'perfil'    => 'required|unique:usuariosperfil',
+          'perfil'    => 'required',
       ]);
 
      if ($v->fails())
@@ -392,8 +408,15 @@ class admintoolcontroller extends Controller
       return redirect()->back()->withInput()->withErrors($v->errors());
       }
 
+      $user = Auth::user();
+
+      $userid = $user->id;
+
+     $idcompania =  $user->id_compania;
+
   $idperfil = DB::table('usuariosperfil')->insertGetId(
               ['perfil'=> $request->input('perfil'),
+               'id_compania'=> $idcompania,
                ]);
 
 //return(dd($request));
@@ -446,6 +469,8 @@ return redirect('/nuevoperfilseguridad');
         $user = Auth::user();
 
         $userid = $user->id;
+
+       $idcompania =  $user->id_compania;
 
         // validando si el usuario esta donde debe de estar si no se regresa a inicio
         //return(dd( "/".$request->path()));
@@ -501,17 +526,12 @@ return redirect('/nuevoperfilseguridad');
                                   ->orderby('submenuIzquierda.id')
                                   ->get();
 
-        $perfiles = DB::table('submenuIzquierda')
-                                  ->join('menuIzquierda','submenuIzquierda.id_menuIzquierda','=','menuIzquierda.id')
-                                  ->select('submenuIzquierda.*','menuIzquierda.opcion as opc')
-                                  ->orderby('submenuIzquierda.id')
-                                  ->get();
 
         $perfilesSeguridad = DB::table('usuariosPerfil')
                             ->select('usuariosPerfil.id','usuariosPerfil.perfil')
                             ->orderby('id','desc')
+                            ->where('id_compania','=',$idcompania)
                             ->get();
-
 
   return View('AdminTool/editPerfilSeguridad',compact('datauser','menuIzquierda','submenuIzquierda','menuIzquierdaTodo','submenuIzquierdaTodo','perfilesSeguridad') );
 
@@ -577,6 +597,10 @@ return redirect('/nuevoperfilseguridad');
         $userid = $user->id;
 
         $idperfil = $request->perfilSeguridad;
+
+        $idcompania =  $user->id_compania;
+
+
 
 
         DB::table('permisosMenu')->where('id_perfil','=',$idperfil)->delete();

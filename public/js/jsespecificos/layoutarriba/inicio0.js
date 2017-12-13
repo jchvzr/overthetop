@@ -32,10 +32,17 @@ var datos2 = [];
 datos2[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].compromisos];
 }
 
+ var max = 0;
 
 var datos3 = [];
   for (var i = 0; i < data2.length; i++) {
 datos3[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].monto];
+
+if (data2[i].monto > max )
+{
+  max = data2[i].monto;
+}
+
 }
 
 
@@ -93,7 +100,7 @@ datos3[i] = [gd(data2[i].year,data2[i].month,+data2[i].day),data2[i].monto];
       },
       yaxes: [{
           position: "left",
-          max: 1070,
+          max: max  ,
           color: "#d5d5d5",
           axisLabelUseCanvas: true,
           axisLabelFontSizePixels: 12,

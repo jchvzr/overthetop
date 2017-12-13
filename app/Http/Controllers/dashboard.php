@@ -128,7 +128,7 @@ class dashboard extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function descargadashboardpenetracion(Request $request)
+    public function descargadashboard2(Request $request)
     {
         //
         $user = Auth::user();

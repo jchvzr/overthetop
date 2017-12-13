@@ -43,7 +43,7 @@
            <h2>Resultados</h2>
 
        </div>
-  <form id="formfiltro" method="post" enctype="multipart/form-data" action="/descargadashboardpenetracion">
+  <form id="formfiltro" method="post" enctype="multipart/form-data" action="/descargadashboard2">
 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
        <div class="col-sm-4">
            <div class="form-group">
@@ -85,7 +85,20 @@
          <div class="ibox-title">
              <h5>Rendimiento en la campaña:</h5>
          </div>
-<div class="ibox-content">
+<div class="ibox-content" >
+
+
+  <div id="rendimientocampcargando" class="cargando">
+    <div>O</div>
+    <div>D</div>
+    <div>N</div>
+    <div>A</div>
+    <div>G</div>
+    <div>R</div>
+    <div>A</div>
+    <div>C</div>
+  </div>
+<div id="rendimientocamp">
      <ul class="stat-list">
          <li>
              <h2 class="no-margins" id="codigos"></h2>
@@ -114,6 +127,7 @@
                 </div>
             </li>
          </ul>
+</div>
  </div>
  </div>
  </div>
@@ -125,6 +139,19 @@
              <h5>Penetracion de la base: </h5>
          </div>
          <div class="ibox-content">
+           <div id="penetracioncampcargando" class="cargando">
+             <div>O</div>
+             <div>D</div>
+             <div>N</div>
+             <div>A</div>
+             <div>G</div>
+             <div>R</div>
+             <div>A</div>
+             <div>C</div>
+           </div>
+
+         <div id="penetracioncamp">
+
            <h5 id="cargados"></h5>
            <h5 id="trabajados"></h5>
              <div class="flot-chart">
@@ -134,7 +161,7 @@
          </div>
      </div>
 </div>
-
+</div>
 
  <div class="row">
  <div class="col-lg-12">
@@ -143,12 +170,23 @@
            <div class="ibox-title">
                <h5>Levantamiento de promesas por dia: </h5>
            </div>
-           <div class="ibox-content">
-   <div class="flot-chart">
-       <div class="flot-chart-content" id="flot-dashboard-chart" ></div>
-   </div>
- </div>
- </div>
+           <div class="ibox-content" id="promesascampcargando">
+             <div  class="cargando">
+               <div>O</div>
+               <div>D</div>
+               <div>N</div>
+               <div>A</div>
+               <div>G</div>
+               <div>R</div>
+               <div>A</div>
+               <div>C</div>
+             </div>
+            </div>
+           <div class="flot-chart" id="promesascamp" >
+             <div class="flot-chart-content" id="flot-dashboard-chart" ></div>
+           </div>
+
+      </div>
 
  </div>
  </div>
@@ -164,6 +202,85 @@
     -moz-opacity:65;
      opacity:0.65;
      background:#999;
+ }
+
+
+ .cargando {
+   position:absolute;
+   width:100%;
+   height:100%;
+   left:30%;
+   top:40%;
+   margin-left:-300px;
+   overflow:visible;
+   -webkit-user-select:none;
+   cursor:default;
+ }
+
+ .cargando div {
+   position:absolute;
+   width:30%;
+   height:30%;
+   opacity:0;
+   font-family:Helvetica, Arial, sans-serif;
+   -webkit-animation:move 3s linear infinite;
+   -webkit-transform:rotate(180deg);
+   color:#000000;
+ }
+
+ .cargando div:nth-child(2) {-webkit-animation-delay:0.1s;}
+ .cargando div:nth-child(3) {-webkit-animation-delay:0.2s;}
+ .cargando div:nth-child(4) {-webkit-animation-delay:0.3s;}
+ .cargando div:nth-child(5) {-webkit-animation-delay:0.4s;}
+ .cargando div:nth-child(6) {-webkit-animation-delay:0.5s;}
+ .cargando div:nth-child(7) {-webkit-animation-delay:0.6s;}
+ .cargando div:nth-child(8) {-webkit-animation-delay:0.7s;}
+
+ @keyframes move {
+   0% {
+     left:0;
+     opacity:0;
+   }
+     35% {
+         left: 41%;
+         -webkit-transform:rotate(0deg);
+         opacity:1;
+     }
+     65% {
+         left:59%;
+         -webkit-transform:rotate(0deg);
+         opacity:1;
+     }
+     100% {
+         left:100%;
+         -webkit-transform:rotate(-180deg);
+         opacity:0;
+     }
+ }
+
+ @-webkit-keyframes move {
+     0% {
+         left:0;
+         opacity:0;
+     }
+     35% {
+         left:41%;
+         -webkit-transform:rotate(0deg);
+         transform:rotate(0deg);
+         opacity:1;
+     }
+     65% {
+         left:59%;
+         -webkit-transform:rotate(0deg);
+         transform:rotate(0deg);
+         opacity:1;
+     }
+     100% {
+         left:100%;
+         -webkit-transform:rotate(-180deg);
+         transform:rotate(-180deg);
+         opacity:0;
+     }
  }
  </style>
 

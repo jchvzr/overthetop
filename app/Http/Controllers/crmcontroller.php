@@ -479,7 +479,7 @@ return(response()->json($prueba));
                                ->join('dispositions','controlcompromisos.id_disposition','=','dispositions.id')
                                ->join('clientesdetail','controlcompromisos.id_clientes','=','clientesdetail.customerid')
                                ->select('controlcompromisos.id','dispositions.nombre','controlcompromisos.comentario','controlcompromisos.fechaFin','controlcompromisos.hecho','clientesdetail.nombreCliente','clientesdetail.customerid','controlcompromisos.monto')
-                               ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
+                              // ->wherebetween('controlcompromisos.fechaFin',[$start,$end])
                                ->where('controlcompromisos.id_users','=',$userid)
                                ->where('controlcompromisos.hecho','=',0)
                                ->orderBy('controlcompromisos.fechaFin','desc')
@@ -496,7 +496,6 @@ return(response()->json($prueba));
                            ->get();
 
 
-//return(dd($compromisos));
     return View('CRM/controlCompromisosCrm',compact('datauser','menuIzquierda','submenuIzquierda','compromisos','tipoint','dispositions') );
 
     }
