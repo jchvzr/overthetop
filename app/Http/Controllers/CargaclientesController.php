@@ -252,7 +252,7 @@ class CargaclientesController extends Controller
        * Wherever your Select may come from
        **/
 
-        DB::insert('insert into clientes (customerid,idcampana,id_compania) select customerid,idcampana,id_compania from clientestmps
+        DB::insert('insert into clientes (customerid,idcampana,id_compania) select distinct customerid,idcampana,id_compania from clientestmps
         where clientestmps.id_compania = '. $usercampana.'
         and clientestmps.idcampana = '.$campana);
 

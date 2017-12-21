@@ -46,7 +46,6 @@ elem_3.forEach(function(html) {
         $("#divmonto").show();
         $('#monto').removeAttr('disabled');
 
-
       }
       else
       {
@@ -55,9 +54,7 @@ elem_3.forEach(function(html) {
 
       }
 
-
         });
-
 
     });
 
@@ -151,6 +148,8 @@ function encontrarcliente(){
  // manda datos a seguna vista
   $("#customeridmodal").val(res.customerid);
   $("#nombreClienteModal").val(res.nombreCliente);
+  // manda idcampaña para poder llenar los dispositions asociados a esa cuenta
+ $("#id_compania").val(res.id_compania);
 
  // valida si la busqueda no tuvo resultados se manda alerta
   if($("#customerid").val() == "")
@@ -253,7 +252,22 @@ function encontrarcliente(){
 
      });
 
-    }
+
+     var route3 = "/buscacatalogocampaña/"+$("#id_compania").val();
+     $.get(route3, function(res){
+
+     $('#dispositions').empty();
+
+     for (var i = 0; i < res.length; i++) {
+     $("#dispositions").append('<option value="'+res[i].id+'">'+res[i].nombre+'</option>');
+     }
+
+$("#dispositions").trigger("chosen:updated");
+     //chosechido()
+
+     });
+
+     }
  // Termina validacion de resultado
 
  //         $("#pruebasjquery").html(res);

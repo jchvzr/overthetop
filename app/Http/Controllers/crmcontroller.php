@@ -739,7 +739,7 @@ return(response()->json($prueba));
 
 
 
-      public function newcodeeditacodigo($id,Request $request)
+      public function newcodeeditacodigo(Request $request)
       {
 
         $user = Auth::user();
@@ -790,7 +790,7 @@ return(response()->json($prueba));
 
 
         DB::table('dispositions')
-                    ->where('id', $id)
+                    ->where('id', $request->hdnid)
                     ->update([
                       'nombre'=> $request->input('codigomodal'),
                        'contacto' => $contacto,

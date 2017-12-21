@@ -39,7 +39,7 @@
 @endif </br>
 
 <div id="pruebasjquery"></div>
-<div class="row  border-bottom white-bg dashboard-header">
+<div class="row border-bottom white-bg dashboard-header">
 <div class="row">
 <h2>Crear un nuevo c&oacute;digo<small> Aqu&iacute; se crean los c&oacute;digos de resultado de las interacciones.</h2>
 
@@ -158,9 +158,11 @@
             </div>
             <div class="modal-body">
 
-              <form id="editacodigomodal" name="editacodigomodal" class="" method="post" accept-charset="UTF-8" enctype="multipart/form-data" action="">
+              <form id="editacodigomodal" name="editacodigomodal" method="PUT"  accept-charset="UTF-8" enctype="multipart/form-data" action="/newcode/editacodigo/">
                 <input type="hidden" name="hdnid" value="" id="hdnid">
-
+                <input type="hidden" name="_method" value="post" id="_method">
+                {{ method_field('PUT') }}
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
               <div class="row">
 
               <div class="checkbox col-lg-3"></div>
@@ -191,7 +193,7 @@
                 </div>
               </div>
               </div>
-              <!--<button type="submit" class="btn btn-primary" id="guarda" name="guarda">Guardar interaccion submit</button> -->
+            <!--  <button type="submit" class="btn btn-primary" id="guarda" name="guarda">Guardar interaccion submit</button> -->
               </form>
 
             </div>
@@ -236,6 +238,102 @@
         margin-right: 5px;
 
     }
+
+    #WindowLoad
+    {
+        position:fixed;
+        top:0px;
+        left:0px;
+        z-index:3200;
+        filter:alpha(opacity=65);
+       -moz-opacity:65;
+        opacity:0.65;
+        background:#999;
+    }
+
+
+     .cargando {
+       position:absolute;
+       width:100%;
+       height:100%;
+       left:30%;
+       top:40%;
+       margin-left:-400px;
+       overflow:visible;
+       -webkit-user-select:none;
+       cursor:default;
+     }
+
+     .cargando div {
+       position:absolute;
+       width:30%;
+       height:30%;
+       opacity:0;
+       font-family:Helvetica, Arial, sans-serif;
+       -webkit-animation:move 3s linear infinite;
+       -webkit-transform:rotate(180deg);
+       color:#000000;
+     }
+
+     .cargando div:nth-child(2) {-webkit-animation-delay:0.1s;}
+     .cargando div:nth-child(3) {-webkit-animation-delay:0.2s;}
+     .cargando div:nth-child(4) {-webkit-animation-delay:0.3s;}
+     .cargando div:nth-child(5) {-webkit-animation-delay:0.4s;}
+     .cargando div:nth-child(6) {-webkit-animation-delay:0.5s;}
+     .cargando div:nth-child(7) {-webkit-animation-delay:0.6s;}
+     .cargando div:nth-child(8) {-webkit-animation-delay:0.7s;}
+     .cargando div:nth-child(9) {-webkit-animation-delay:0.8s;}
+
+     @keyframes move {
+       0% {
+         left:0;
+         opacity:0;
+       }
+         35% {
+             left: 41%;
+             -webkit-transform:rotate(0deg);
+             opacity:1;
+         }
+         65% {
+             left:59%;
+             -webkit-transform:rotate(0deg);
+             opacity:1;
+         }
+         100% {
+             left:100%;
+             -webkit-transform:rotate(-180deg);
+             opacity:0;
+         }
+     }
+
+     @-webkit-keyframes move {
+         0% {
+             left:0;
+             opacity:0;
+         }
+         35% {
+             left:41%;
+             -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+             opacity:1;
+         }
+         65% {
+             left:59%;
+             -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+             opacity:1;
+         }
+         100% {
+             left:100%;
+             -webkit-transform:rotate(-180deg);
+             transform:rotate(-180deg);
+             opacity:0;
+         }
+     }
+
+
+
+
 </style>
 
 

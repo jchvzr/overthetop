@@ -393,6 +393,7 @@
             <div class="modal-body">
             <form id="formagregainteraccion" action="/crm/guardainteraccion2" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
              <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+             <input type="hidden" name="id_compania" id="id_compania">
              <input id="customerid3" name="customerid3" type="hidden" class="form-control">
 
               <div class="row">
@@ -428,9 +429,7 @@
                       <label>Codigo *</label>
                       <select id="dispositions" name="dispositions" class="chosen-select form-control required" tabindex="2">
                         <option value="" ></option>
-                      <?php foreach($dispositions as $disp): ?>
-                        <option value=<?=$disp->id?> ><?=$disp->nombre?></option>
-                      <?php     endforeach ?>
+
                       </select>
                   </div>
               </div>
