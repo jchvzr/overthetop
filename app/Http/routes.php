@@ -14,6 +14,15 @@
 //bienvenida al iniciar sesion
 //Route::get('/', 'BienvenidaController@show');
 
+
+
+// para encuesta codigo temporal
+
+
+Route::resource('arrenda_mas', 'encuesta');
+
+
+
 //ruta para Dashboard
 Route::get('/', 'LoginController@index');
 //Rutas para vistas del usuario

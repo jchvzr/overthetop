@@ -1,5 +1,5 @@
 @extends('layouts.BaseLogin')
- 
+
 @section('content')
   {!! Form::open(['route' => 'admin.auth.login', 'method' => 'POST' ])  !!}
     @if(Session::has('mensaje_error'))
@@ -18,7 +18,7 @@
     </div>
   {!! Form::close() !!}
   <div class="form-group">
-    <a href= "/password/email"  id="contacto">Olvidaste tu contraseña?</a>
+    <a href= "/password/email"  id="contacto" style="col">Olvidaste tu contraseña?</a>
   </div>
 <!--  <div class="form-group">
     <a href= "/contacto"  id="contacto">Contactanos</a>

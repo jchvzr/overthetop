@@ -21,6 +21,8 @@ return array(
     'DispositionTratamiento' => $baseDir . '/database/migrations/2017_10_11_083521_dispositionTratamiento.php',
     'Dispositions' => $baseDir . '/database/migrations/2017_09_05_184453_dispositions.php',
     'DispositionsPlan' => $baseDir . '/database/migrations/2017_09_05_184508_dispositionsPlan.php',
+    'EncuestaDesatisfaccion' => $baseDir . '/database/migrations/2018_04_17_025234_encuesta_desatisfaccion.php',
+    'EncuestaDesatisfaccions' => $baseDir . '/database/migrations/2018_04_17_025313_encuesta_desatisfaccions.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',

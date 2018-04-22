@@ -97,7 +97,8 @@ showdiv()
  $("#customeridmodal").val(res.customerid);
  $("#nombreClienteModal").val(res.nombreCliente);
 
-
+// para encuesta arrenda mas
+ $("#irencuestaarrenda").attr('href','/arrenda_mas/'+(res.customerid));
 
  var route3 = "/buscacatalogocampaña/"+res.idcampana;
  $.get(route3, function(res){
@@ -288,6 +289,8 @@ $("#buscatelefonobtn").click(function(){
     $("#clientetablebody").append('<tr class="gradeX" onclick="iracliente(\''+res[i].customerid+'\');"><strong><td>'+res[i].customerid+'</td><td>'+res[i].nombreCliente+'</td></strong></tr>');
 
     }
+
+
 
     setTimeout(function() {
                 toastr.options = {

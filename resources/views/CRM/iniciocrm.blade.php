@@ -39,6 +39,12 @@
 <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
 
 
+@if (session('mensaje'))
+  <div class="alert alert-warning" role="alert">
+        <div>{{ session('mensaje') }}</div>
+  </div>
+@endif
+
 @if($errors->has())
     <div class="alert alert-warning" role="alert">
       @foreach ($errors->all() as $error)
@@ -65,6 +71,7 @@
 </div>
 
 <div class="row">
+
     <div class="col-lg-12">
         <div class="panel blank-panel">
             <div class="panel-heading">
@@ -257,7 +264,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-
+                                    <a id="irencuestaarrenda" href=""><button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;">Ir a encuesta ARRENDA +</button></a>
                                     <button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;" data-toggle="modal" data-target="#agregaIntModal" onclick="chosechido()">Agregar Interaccion</button>
                                 </div>
                             </div>
