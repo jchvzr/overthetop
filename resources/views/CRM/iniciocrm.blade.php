@@ -62,8 +62,8 @@
       <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <input onkeypress="return pulsar(event)" type="text" placeholder="N&uacute;mero de cuenta..." class="form-control required" name="buscaclientetxt" id="buscaclientetxt">
           <button name="buscacliente" type="button" class="btn btn-primary" id="buscacliente" style="font-family: Arial;">Buscar cliente</button>
-          <input onkeypress="return pulsar(event)" type="number" min="0000000000" max="9999999999" placeholder="T&eacute;lefono a 10 digitos..." class="form-control required" name="buscatelinput" id="buscatelinput">
-          <button name="buscatelefonobtn" type="button" class="btn btn-primary" id="buscatelefonobtn" style="font-family: Arial;">Buscar telefono</button>
+          <input onkeypress="return pulsar(event)" type="number" min="0000000000" max="9999999999" placeholder="Tel&eacute;fono a 10 digitos..." class="form-control required" name="buscatelinput" id="buscatelinput">
+          <button name="buscatelefonobtn" type="button" class="btn btn-primary" id="buscatelefonobtn" style="font-family: Arial;">Buscar tel&eacute;fono</button>
     </form>
 </div>
 </div>
@@ -264,8 +264,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <a id="irencuestaarrenda" href=""><button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;">Ir a encuesta ARRENDA +</button></a>
-                                    <button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;" data-toggle="modal" data-target="#agregaIntModal" onclick="chosechido()">Agregar Interaccion</button>
+                                    {{-- <a id="irencuestaarrenda" href=""><button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;">Ir a encuesta ARRENDA +</button></a> --}}
+                                    <button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;" data-toggle="modal" data-target="#agregaIntModal" onclick="chosechido()">Agregar Interacción</button>
                                 </div>
                             </div>
                         </center>
@@ -277,9 +277,9 @@
                                             <tr>
 
                                               <th>Fecha</th>
-                                              <th>Tipo de interaccion</th>
+                                              <th>Tipo de interacci&oacute;n</th>
                                               <th>Usuario</th>
-                                              <th>Codigo</th>
+                                              <th>C&oacute;digo</th>
                                               <th>Comentario</th>
 
 
@@ -294,8 +294,8 @@
                                             <tr>
                                               <th>Fecha</th>
                                               <th>Usuario</th>
-                                              <th>Tipo de interaccion</th>
-                                              <th>Codigo</th>
+                                              <th>Tipo de interacci&oacute;n</th>
+                                              <th>C&oacute;digo</th>
                                               <th>Comentario</th>
 
                                             </tr>
@@ -311,7 +311,7 @@
                     <div id="tab-3" class="tab-pane">
                       <div class="row">
                        <div id="graficocodificaciones">
-                        <center> <h2>Resumen de codigos ultimo mes</h2> </center>
+                        <center> <h2>Resumen de codigos &uacute;ltimo mes</h2> </center>
                         <div class="flot-chart">
                             <div class="flot-chart-content" id="flot-bar-chart" height=500px></div>
                         </div>
@@ -337,7 +337,7 @@
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Agrega los resultados de la interaccion</h4>
+                <h4 class="modal-title">Agrega los resultados de la interacci&oacute;n</h4>
             </div>
             <div class="modal-body">
             <form id="formagregainteraccion" action="/crm/guardainteraccion" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -362,7 +362,7 @@
 
               <div class="col-lg-6">
                   <div class="form-group">
-                      <label>Tipo de interaccion *</label>
+                      <label>Tipo de interacci&oacute;n *</label>
                       <select id="tipoInte" name="tipoInte" class="chosen-select form-control required">
                         <option value="" ></option>
                       <?php foreach($tipoint as $tipoi): ?>
@@ -374,7 +374,7 @@
 
               <div class="col-lg-6">
                   <div class="form-group">
-                      <label>Codigo *</label>
+                      <label>C&oacute;digo *</label>
                       <select id="dispositions" name="dispositions" class="chosen-select form-control required" tabindex="2">
                         <option value="" ></option>
 
@@ -419,7 +419,7 @@
     </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal" id="closeguarda" name="closeguarda" >Close</button>
-                <button type="submit" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interaccion</button>
+                <button type="submit" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interacci&oacute;n</button>
                 <!--<button type="button" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interaccion</button>-->
             </div>
             </form>
@@ -446,7 +446,7 @@
                                   <thead>
                                   <tr>
 
-                                    <th>Cuenta/numero cliente</th>
+                                    <th>Cuenta/n&uacute;mero cliente</th>
                                     <th>Nombre cliente</th>
 
                                   </tr>
@@ -459,7 +459,7 @@
                                   <tfoot>
                                   <tr>
 
-                                    <th>Cuenta/numero cliente</th>
+                                    <th>Cuenta/n&uacute;mero cliente</th>
                                     <th>Nombre cliente</th>
 
                                   </tr>

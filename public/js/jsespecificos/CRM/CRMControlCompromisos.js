@@ -150,6 +150,7 @@ function encontrarcliente(){
   $("#nombreClienteModal").val(res.nombreCliente);
   // manda idcampaña para poder llenar los dispositions asociados a esa cuenta
  $("#id_compania").val(res.id_compania);
+ $('#id_campaña').val(res.idcampana);
 
  // valida si la busqueda no tuvo resultados se manda alerta
   if($("#customerid").val() == "")
@@ -253,7 +254,7 @@ function encontrarcliente(){
      });
 
 
-     var route3 = "/buscacatalogocampaña/"+$("#id_compania").val();
+     var route3 = "/buscacatalogocampaña/"+$("#id_campaña").val();
      $.get(route3, function(res){
 
      $('#dispositions').empty();

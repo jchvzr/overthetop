@@ -319,9 +319,9 @@
                                                           <tr>
 
                                                             <th>Fecha</th>
-                                                            <th>Tipo de interaccion</th>
+                                                            <th>Tipo de interacci&oacute;n</th>
                                                             <th>Usuario</th>
-                                                            <th>Codigo</th>
+                                                            <th>C&oacute;digo</th>
                                                             <th>Comentario</th>
 
 
@@ -336,8 +336,8 @@
                                                           <tr>
                                                             <th>Fecha</th>
                                                             <th>Usuario</th>
-                                                            <th>Tipo de interaccion</th>
-                                                            <th>Codigo</th>
+                                                            <th>Tipo de interacci&oacute;n</th>
+                                                            <th>C&oacute;digo</th>
                                                             <th>Comentario</th>
 
                                                           </tr>
@@ -353,7 +353,7 @@
                                   <div id="tab-3" class="tab-pane">
                                     <div class="row">
                                      <div id="graficocodificaciones">
-                                      <center> <h2>Resumen de codigos ultimo mes</h2> </center>
+                                      <center> <h2>Resumen de c&oacute;digos &uacute;ltimo mes</h2> </center>
                                       <div class="flot-chart">
                                           <div class="flot-chart-content" id="flot-bar-chart" height=500px></div>
                                       </div>
@@ -388,12 +388,13 @@
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Agrega los resultados de la interaccion</h4>
+                <h4 class="modal-title">Agrega los resultados de la interacci&oacute;n</h4>
             </div>
             <div class="modal-body">
             <form id="formagregainteraccion" action="/crm/guardainteraccion2" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
              <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
              <input type="hidden" name="id_compania" id="id_compania">
+             <input type="hidden" name="id_campaña" id="id_campaña">
              <input id="customerid3" name="customerid3" type="hidden" class="form-control">
 
               <div class="row">
@@ -426,7 +427,7 @@
 
               <div class="col-lg-6">
                   <div class="form-group">
-                      <label>Codigo *</label>
+                      <label>C&oacute;digo *</label>
                       <select id="dispositions" name="dispositions" class="chosen-select form-control required" tabindex="2">
                         <option value="" ></option>
 
@@ -471,7 +472,7 @@
     </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal" id="closeguarda" name="closeguarda" >Close</button>
-                <button type="submit" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interaccion</button>
+                <button type="submit" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interacci&oacute;n</button>
                 <!--<button type="button" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interaccion</button>-->
             </div>
             </form>

@@ -69,7 +69,6 @@ Route::group( ['middleware' => 'auth'],
       Route::get('/compromisoscambiostatus/{id}/{dispotition}', 'crmcontroller@compromisoscambiostatus2');
       Route::get('/buscatelefono/{telefono}','crmcontroller@buscatelefono');
       Route::get('/buscacatalogocampaña/{id}','crmcontroller@buscacatalogocampaña');
-      Route::get('documentostmps{id}','crmcontroller@buscacatalogocampaña');
 
        // pertenecen a /newcode
           Route::get('/newcode', 'crmcontroller@newcode');

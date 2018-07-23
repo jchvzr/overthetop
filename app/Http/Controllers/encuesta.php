@@ -52,9 +52,11 @@ class encuesta extends Controller
 
        if ($contestado == 0)
        {
+
         $encuesta = new encuestadesatisfaccion;
         $encuesta->customer_id = $request->input('customer_id');
         $encuesta->p1 = $request->input('p1');
+        $encuesta->rol = $request->input('rol');
         $encuesta->p2 = $request->input('p2');
         $encuesta->p3 = $request->input('p3');
         $encuesta->p4 = $request->input('p4');
@@ -82,7 +84,9 @@ class encuesta extends Controller
         $encuesta->p16_arrendamiento_financiero = $request->input('p16_arrendamiento_financiero');
         $encuesta->p16_otro = $request->input('p16_otro');
         $encuesta->p16_cual = $request->input('p16_cual');
-
+        $encuesta->p16_no_cuento_con_productos = $request->input('p16_no_cuento_con_productos');
+        $encuesta->p16_por_que_no = $request->input('p16_por_que_no');
+        $encuesta->p16_por_que_no_razon = $request->input('p16_por_que_no_razon');
         $encuesta->p17 = $request->input('p17');
 
         $encuesta->save();

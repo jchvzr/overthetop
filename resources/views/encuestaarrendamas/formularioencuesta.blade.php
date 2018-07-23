@@ -33,7 +33,7 @@
         </div>
                     <div class="ibox-content">
 <div class="text-center">
-              <form role="form" method="post" action="/arrenda_mas">
+              <form role="form" method="post" action="/arrenda_mas" onKeypress="if (event.keyCode == 13) event.returnValue = false;">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <input type="hidden" name="customer_id" value="{{$customerid}}">
 
@@ -47,6 +47,18 @@
 
                 <br>
             <div class="hr-line-dashed"></div>
+
+            <div class="form-group"><label class="control-label">Por favor indique su puesto / rol en la empresa </label>
+             <br>
+              <br>
+                <div class="col-sm-12 text-center">
+                  <input type="text" class="form-control text-center" name="rol" id="rol" value="" placeholder="Rol de quíen contesta" maxlength="100" required>
+                  </div>
+            </div>
+
+            <br>
+        <div class="hr-line-dashed"></div>
+
 
                   <div class="form-group"><label class="control-label">¿Es usted la persona que llevo a cabo principalmente el proceso de contratación de los servicios de Arrenda+?  </label>
                    <br>
@@ -77,7 +89,7 @@
 <div class="form-group"><label class="control-label">Del 0 al 10 cómo califica su proceso de contratación de crédito/arrendamiento con Arrenda+ en las siguientes dimensiones. Califica cada una de las dimensiones moviendo el botón    </label>
               <div class="hr-line-dashed"></div>
 
-
+   <div class="row">
            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">Fue fácil contactar a un ejecutivo</label></div>
 
            <div id="p4slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
@@ -85,17 +97,20 @@
            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">No fue fácil contactar a un ejecutivo</label></div>
                 <input type="hidden" name="p4" id="p4" value="5">
           <br>
+   </div>
 
 
               {{-- <div class="form-group"><label class="control-label">¿La información inicial proporcionada fue buena?    </label> --}}
            <br>
             <br>
+     <div class="row">
            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">La información inicial proporcionada fue buena</label></div>
 
            <div id="p5slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 
            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">La información inicial proporcionada fue insuficiente</label></div>
                 <input type="hidden" name="p5" id="p5" value="5">
+      </div>
           <br>
 
 
@@ -103,12 +118,14 @@
           {{-- <div class="form-group"><label class="control-label">6.- ¿La atención por parte del ejecutivo fue buena?    </label> --}}
        <br>
         <br>
+        <div class="row">
        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">La atención por parte del ejecutivo fue buena</label></div>
 
        <div id="p6slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 
        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">La atención por parte del ejecutivo fue mala</label></div>
             <input type="hidden" name="p6" id="p6" value="5">
+      </div>
       <br>
 
 
@@ -116,12 +133,14 @@
       {{-- <div class="form-group"><label class="control-label">¿El tiempo que tardo en la cotización fue bueno?    </label> --}}
    <br>
     <br>
+   <div class="row">
    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El tiempo que tardo en recibir la cotización fue bueno</label></div>
 
    <div id="p7slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 
    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El tiempo que tardo en recibir la cotización fue demasiado</label></div>
         <input type="hidden" name="p7" id="p7" value="5">
+  </div>
   <br>
 
 
@@ -131,12 +150,14 @@
   {{-- <div class="form-group"><label class="control-label">¿El tramite fue sencillo de realizar?    </label> --}}
 <br>
 <br>
+<div class="row">
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El tramite fue sencillo de realizar</label></div>
 
 <div id="p8slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El tramite fue complicado de realizar</label></div>
     <input type="hidden" name="p8" id="p8" value="5">
+</div>
 <br>
 
 
@@ -144,12 +165,14 @@
 {{-- <div class="form-group"><label class="control-label">¿El proceso completo tomó el tiempo adecuado?   </label> --}}
 <br>
 <br>
+<div class="row">
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El proceso completo tomó el tiempo adecuado</label></div>
 
 <div id="p9slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El proceso completo tardó demasiado tiempo</label></div>
   <input type="hidden" name="p9" id="p9" value="5">
+</div>
 <br>
 <br>
 <br>
@@ -188,27 +211,33 @@
 <div class="form-group"><label class="control-label">Del 0 al 10 cómo califica las caracteristicas de su financiamiento con Arrenda+ en las siguientes dimensiones. Califica cada una de las dimensiones moviendo el botón    </label>
 <div class="hr-line-dashed"></div>
 
+<div class="row">
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El precio/costo fue bueno</label></div>
 <div id="p11slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El precio/costo fue malo</label></div>
   <input type="hidden" name="p11" id="p11" value="5">
+</div>
 <br>
 
 
 {{-- <div class="form-group"><label class="control-label">¿El precio o costo fue bueno?    </label> --}}
 <br><br>
+<div class="row">
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">Los plazos ofrecidos fueron adecuados</label></div>
 <div id="p12slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">Los plazos ofrecidos no fueron adecuados</label></div>
   <input type="hidden" name="p12" id="p12" value="5">
+</div>
 <br>
 
 {{-- <div class="form-group"><label class="control-label">¿El precio o costo fue bueno?    </label> --}}
 <br><br>
+<div class="row">
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El monto otorgado fue suficiente</label></div>
 <div id="p13slider" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><label class="control-label">El monto otorgado no cubrió mis necesidades</label></div>
   <input type="hidden" name="p13" id="p13" value="5">
+</div>
 <br>
 
 <br><br>
@@ -263,6 +292,7 @@
         <div class="checkbox-inline i-checks"><label> <input type="checkbox" name="p16_credito_de_capital_de_trabajo" id="p16_credito_de_capital_de_trabajo" value="1"> Crédito de capital de trabajo </label></div>
         <div class="checkbox-inline i-checks"><label> <input type="checkbox" name="p16_credito_puente" id="p16_credito_puente" value="1"> Crédito puente </label></div>
         <div class="checkbox-inline i-checks"><label> <input type="checkbox" name="p16_arrendamiento_financiero" id="p16_arrendamiento_financiero" value="1"> Arrendamiento financiero </label></div>
+        <div class="checkbox-inline i-checks"><label> <input type="checkbox" name="p16_no_cuento_con_productos" id="p16_no_cuento_con_productos" value="1"> No cuento con productos de crédito actualmente </label></div>
         <div class="checkbox-inline i-checks"><label> <input type="checkbox" name="p16_otro" id="p16_otro" value="1"> Otro </label></div>
 </div>
 <br>
@@ -274,12 +304,39 @@
      <textarea name="p16_cual" id="p16_cual" rows="4" class="form-control text-center col-lg-12" maxlength="255" required></textarea>
     </div>
 </div>
+<br>
+<div class="form-group" id="p16combo"><br><label class="control-label"> ¿Por qué no?   </label>
+ <br>
+  <br>
+    <div class="form-group col-sm-12">
+     <div class="col-sm-12">
+         <div class="checkbox-inline i-checks"><label> <input type="radio" name="p16_por_que_no" id="p16_por_que_no" value="No lo solicito" checked=""> No lo solicitó </label>
+         <div class="checkbox-inline i-checks"><label> <input type="radio" name="p16_por_que_no" id="p16_por_que_no" value="No se lo ofrecieron"> No se lo ofrecieron </label></div>
+         <div class="checkbox-inline i-checks"><label> <input type="radio" name="p16_por_que_no" id="p16_por_que_no" value="No recibio buena atencion"> No recibió buena atención </label></div>
+         <div class="checkbox-inline i-checks"><label> <input type="radio" name="p16_por_que_no" id="p16_por_que_no" value="No se lo aprobaron"> No se lo aprobaron </label></div>
+         <div class="checkbox-inline i-checks"><label> <input type="radio" name="p16_por_que_no" id="p16_por_que_no" value="Otro"> Otro </label></div>
+
+     </div>
+    </div>
 </div>
+</div>
+
+<br>
+
+
+<div class="form-group" id="p16_por_que_no_razondiv"><br><label class="control-label"> ¿Que otra razón?   </label>
+ <br>
+  <br>
+    <div class="form-group col-sm-12">
+     <textarea name="p16_por_que_no_razon" id="p16_por_que_no_razon" rows="4" class="form-control text-center col-lg-12" maxlength="255" required></textarea>
+    </div>
+</div>
+<br>
 
 
 <div class="hr-line-dashed"></div>
 
-<div class="form-group"><label class="control-label">¿Qué tan satisfecho estas con Arrenda+? Califica del 0 al 10, en donde 0 es "Nada satisfecho" y 10 es "Muy satisfecho" </label>
+<div class="form-group"><label class="control-label">¿Qué tan probable es que recomiendes a Arrenda+ a un amigo o colega? Califica del 0 al 10, en donde 0 es “Nada probable” y 10 es “Muy probable”.</label>
  <br>
   <br>
     <div class="col-sm-12">
@@ -769,6 +826,11 @@
           $(document).ready(function () {
              $('#p15textarea').hide();
              $('#p16textarea').hide();
+             $('#p16combo').hide();
+             $('#p16_por_que_no_razondiv').hide();
+             $('#p16_por_que_no_razon').attr('disabled','disabled');
+
+
              $('#p15_cual').attr('disabled','disabled');
              $('#p16_cual').attr('disabled','disabled');
 
@@ -798,6 +860,42 @@
                     $('#p16textarea').hide();
                     $('#p16_cual').attr('disabled','disabled');
               });
+
+
+              $('input[name=p16_no_cuento_con_productos]').on('ifChecked', function(event){
+                    $('#p16combo').show();
+                    if($("input[name=p16_por_que_no]:checked").val() == "Otro"){
+                    $('#p16_por_que_no_razondiv').show();
+
+
+                    }
+
+
+              });
+
+              $('input[name=p16_no_cuento_con_productos]').on('ifUnchecked', function(event){
+                    $('#p16combo').hide();
+                    $('#p16_por_que_no_razondiv').hide();
+                    $('#p16_por_que_no_razon').attr('disabled','disabled');
+              });
+
+              $("input[name=p16_por_que_no][value=Otro]").on('ifChecked', function(event){
+                    $('#p16_por_que_no_razondiv').show();
+                    $('#p16_por_que_no_razon').removeAttr('disabled');
+              });
+
+              $("input[name=p16_por_que_no][value=Otro]").on('ifUnchecked', function(event){
+                    $('#p16_por_que_no_razondiv').hide();
+                    $('#p16_por_que_no_razon').attr('disabled','disabled');
+              });
+
+
+              // $('input[name=p16_por_que_no]').on('change', function(event){
+              //       alert($('input[name=p16_por_que_no]').val());
+              //
+              // });
+              //
+
 
 
 

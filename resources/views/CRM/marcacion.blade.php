@@ -128,7 +128,7 @@
           <button class="btn btn-danger" onclick=location="/bienvenida"  type="button" name="regresar"><i class="fa fa-arrow-left" aria-hidden="true"></i> regresar</button>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-          <h2>Marcacion</h2>
+          <h2>Marcaci&oacute;n</h2>
       </div>
     </div>
     </div>
@@ -140,7 +140,7 @@
 
          <div class="col-lg-12">
              <div class="form-group">
-                 <button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;" data-toggle="modal" data-target="#agregaIntModal" onclick="chosechido()">Agregar Interaccion</button>
+                 <button name="agregaInt" type="button" class="btn btn-primary" id="agregaInt" style="font-family: Arial;" data-toggle="modal" data-target="#agregaIntModal" onclick="chosechido()">Agregar Interacci&oacute;n</button>
              </div>
          </div>
 
@@ -302,7 +302,7 @@
             <div class="modal-content animated flipInY">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Agrega los resultados de la interaccion</h4>
+                    <h4 class="modal-title">Agrega los resultados de la interacci&oacute;n</h4>
                 </div>
                 <div class="modal-body">
                 <form id="formagregainteraccion" action="/crm/Marcacion" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -327,7 +327,7 @@
 
                   <div class="col-lg-6">
                       <div class="form-group">
-                          <label>Tipo de interaccion *</label>
+                          <label>Tipo de interacci&oacute;n *</label>
                           <select id="tipoInte" name="tipoInte" class="chosen-select form-control required">
                             <option value="" ></option>
                           <?php foreach($tipoint as $tipoi): ?>
@@ -338,7 +338,7 @@
                   </div>
                   <div class="col-lg-6">
                       <div class="form-group">
-                          <label>Codigo *</label>
+                          <label>C&oacute;digo *</label>
                           <select id="dispositions" name="dispositions" class="chosen-select form-control required" tabindex="2">
                             <option value="" ></option>
                           <?php foreach($dispositions as $disp): ?>
@@ -385,7 +385,7 @@
         </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal" id="closeguarda" name="closeguarda" >Close</button>
-                    <button type="submit" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interaccion</button>
+                    <button type="submit" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interacci&oacute;n</button>
                     <!--<button type="button" class="btn btn-primary" id="guarda" name="guarda" onclick="guardainteraccion()">Guardar interaccion</button>-->
                 </div>
                 </form>
