@@ -59,7 +59,7 @@ if($("#buscaclientetxt").val() == "")
  var idcliente = $("#buscaclientetxt").val();
  var route = "/buscacliente/"+idcliente;
 $.get(route, function(res){
-
+console.log(res);
 limpiamodalcarga()
 showdiv()
 
@@ -100,9 +100,13 @@ showdiv()
 // para encuesta arrenda mas
  $("#irencuestaarrenda").attr('href','/arrenda_mas/'+(res.customerid));
 
+
  var route3 = "/buscacatalogocampaña/"+res.idcampana;
+
+  console.log(route3);
  $.get(route3, function(res){
  $("#dispositions").empty();
+ console.log(res);
 
  for (var i = 0; i < res.length; i++) {
 

@@ -112,8 +112,7 @@ class admintoolcontroller extends Controller
 
         $userid = $user->id;
 
-
-
+        $companiaid = $user->id_compania;
 
         // validando si el usuario esta donde debe de estar si no se regresa a inicio
         //return(dd( "/".$request->path()));

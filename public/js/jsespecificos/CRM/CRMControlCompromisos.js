@@ -151,6 +151,7 @@ function encontrarcliente(){
   // manda idcampaña para poder llenar los dispositions asociados a esa cuenta
  $("#id_compania").val(res.id_compania);
  $('#id_campaña').val(res.idcampana);
+ $('#id_dispositionplan').val(res.idcampana);
 
  // valida si la busqueda no tuvo resultados se manda alerta
   if($("#customerid").val() == "")
@@ -256,14 +257,17 @@ function encontrarcliente(){
 
      var route3 = "/buscacatalogocampaña/"+$("#id_campaña").val();
      $.get(route3, function(res){
-
+       console.log(res);
+       console.log(route3);
+       console.log($('#dispositions'));
      $('#dispositions').empty();
 
      for (var i = 0; i < res.length; i++) {
      $("#dispositions").append('<option value="'+res[i].id+'">'+res[i].nombre+'</option>');
      }
-
+       console.log($('#dispositions'));
 $("#dispositions").trigger("chosen:updated");
+       console.log($('#dispositions'));
      //chosechido()
 
      });
